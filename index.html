@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance-Driven Agentic Coding · 一家 AI Native 公司的治理方式</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F9FA;        /* 纸 cool silver white */
+  --ink:#1C2735;          /* 墨 blue-black signing ink */
+  --ink-soft:#54616F;     /* 副文 slate */
+  --seal:#2D5480;         /* 青 ink blue, takes the stamp role */
+  --gilt:#8C6D24;         /* 金 antique gilt, label positions only */
+  --rule:#D9DEE4;         /* 银线 steel hairline */
+  --wash:#EEF1F4;         /* 银底 steel wash */
+  --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"IBM Plex Mono","SF Mono",Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+}
+.sheet{max-width:820px;margin:0 auto;padding:0 28px}
+
+/* ---------- cover ---------- */
+.cover{padding:96px 0 72px;border-bottom:2px solid var(--ink);position:relative}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  color:var(--gilt);text-transform:uppercase;margin-bottom:40px;
+}
+.eyebrow b{color:var(--seal);font-weight:500}
+.cover h1{
+  font-family:"IBM Plex Sans",var(--sans);font-weight:700;
+  font-size:clamp(34px,6.2vw,58px);
+  line-height:1.15;letter-spacing:-.01em;margin-bottom:16px;
+}
+.cover .zh-sub{
+  font-family:var(--serif);font-weight:700;font-size:clamp(19px,2.8vw,23px);
+  letter-spacing:.08em;color:var(--ink);margin-bottom:46px;
+}
+.cover .def{
+  font-size:17px;color:var(--ink-soft);max-width:600px;margin-bottom:28px;
+}
+.cover .thesis{
+  font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.7;
+  max-width:600px;border-left:3px solid var(--seal);padding-left:20px;margin-bottom:52px;
+}
+.functions{
+  display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+}
+.functions span{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;padding:12px 0;
+  flex:1 1 auto;text-align:center;color:var(--ink);white-space:nowrap;
+  border-right:1px solid var(--rule);min-width:100px;
+}
+.functions span:last-child{border-right:none}
+.functions i{font-style:normal;color:var(--gilt);margin-right:6px}
+.version{
+  font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+  letter-spacing:.08em;margin-top:24px;
+}
+/* ---------- sections ---------- */
+section{padding:64px 0 8px;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:none}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:30px}
+.sec-num{
+  font-family:var(--mono);font-size:13px;color:var(--gilt);
+  letter-spacing:.1em;white-space:nowrap;padding-top:4px;
+}
+h2{
+  font-family:var(--serif);font-weight:700;font-size:clamp(24px,3.6vw,30px);
+  line-height:1.4;letter-spacing:.02em;
+}
+h3{
+  font-family:var(--serif);font-weight:700;font-size:19px;
+  margin:40px 0 14px;letter-spacing:.02em;
+}
+p{margin-bottom:18px;color:var(--ink);max-width:680px}
+p.soft{color:var(--ink-soft)}
+strong{font-weight:700}
+em{font-style:normal;color:var(--seal)}
+
+/* 批注 callout */
+.note{
+  background:var(--wash);border-left:3px solid var(--seal);
+  padding:22px 26px;margin:26px 0 30px;max-width:680px;border-radius:2px;
+}
+.note .tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  color:var(--gilt);display:block;margin-bottom:8px;
+}
+.note p{margin:0;font-family:var(--serif);font-weight:700;font-size:17.5px;line-height:1.8}
+
+/* lists */
+ul.plain,ol.steps{margin:0 0 22px;padding-left:0;max-width:680px}
+ul.plain li{
+  list-style:none;padding:10px 0 10px 26px;position:relative;
+  border-bottom:1px dashed var(--rule);
+}
+ul.plain li:last-child{border-bottom:none}
+ul.plain li::before{
+  content:"";position:absolute;left:4px;top:1.35em;
+  width:7px;height:7px;background:var(--seal);border-radius:1px;transform:translateY(-50%) rotate(45deg);
+}
+ol.steps{counter-reset:step}
+ol.steps li{
+  list-style:none;counter-increment:step;
+  padding:10px 0 10px 44px;position:relative;border-bottom:1px dashed var(--rule);
+}
+ol.steps li:last-child{border-bottom:none}
+ol.steps li::before{
+  content:counter(step,decimal-leading-zero);
+  position:absolute;left:0;top:12px;
+  font-family:var(--mono);font-size:12.5px;color:var(--seal);letter-spacing:.05em;
+}
+li b{font-weight:700}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;margin:24px 0 34px;font-size:14.5px;line-height:1.7}
+.tbl th{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;font-weight:500;
+  text-align:left;color:var(--ink-soft);text-transform:uppercase;
+  padding:10px 16px 10px 0;border-bottom:1.5px solid var(--ink);white-space:nowrap;
+}
+.tbl td{
+  padding:13px 16px 13px 0;border-bottom:1px solid var(--rule);
+  vertical-align:top;color:var(--ink);
+}
+.tbl td:first-child{font-weight:700;white-space:nowrap}
+.tbl tr:last-child td{border-bottom:none}
+@media(max-width:640px){
+  .tbl td:first-child{white-space:normal}
+  .tbl th,.tbl td{padding-right:10px}
+}
+
+/* practice records */
+.record{
+  border:1px solid var(--rule);border-radius:2px;
+  padding:24px 26px;margin:0 0 18px;max-width:680px;background:#fff;
+}
+.record .rec-tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gilt);
+  display:block;margin-bottom:10px;
+}
+.record h4{font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:8px}
+.record p{margin:0;color:var(--ink-soft);font-size:15px}
+
+/* flows */
+.flow{margin:0 0 20px;max-width:680px}
+.flow .f-name{font-family:"IBM Plex Sans",var(--sans);font-weight:700;font-size:16px;margin-bottom:3px}
+.flow .f-path{
+  font-family:"IBM Plex Mono","Noto Sans SC","Noto Sans CJK SC",monospace;
+  font-size:13px;color:var(--ink-soft);
+  letter-spacing:.02em;margin-bottom:4px;line-height:1.9;
+}
+.flow .f-path i{font-style:normal;color:var(--seal)}
+.flow .f-q{color:var(--ink-soft);font-size:14.5px;margin-bottom:0}
+
+/* closing */
+.closing{padding:72px 0 40px}
+.closing .final{
+  font-family:var(--serif);font-weight:900;font-size:clamp(22px,3.4vw,28px);
+  line-height:1.75;max-width:680px;margin-bottom:36px;
+}
+.closing .final em{color:var(--seal);font-style:normal}
+.appendix{
+  font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);
+  border-top:1px solid var(--rule);padding-top:22px;line-height:2;letter-spacing:.03em;
+}
+footer{
+  padding:28px 0 64px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--ink-soft);
+}
+/* watermark */
+.wm{
+  position:fixed;right:14px;bottom:14px;z-index:9;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  color:var(--ink-soft);background:rgba(248,249,250,.85);
+  border:1px solid var(--rule);border-radius:2px;
+  padding:6px 10px;pointer-events:none;
+}
+.wm b{color:var(--seal);font-weight:500}
+@media print{
+  body{font-size:13px}
+  .cover{padding-top:40px}
+  section{page-break-inside:avoid}
+  .wm{position:fixed}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="eyebrow">WHITEPAPER · NO. 01</div>
+  <h1>Governance-Driven<br>Agentic Coding</h1>
+  <div class="zh-sub">一家 AI Native 公司的治理方式</div>
+  <p class="def">一种由 Owner 掌舵、由 Agent 执行，并通过授权、留痕、独立挑战、只读汇报与学习闭环进行治理的软件开发方法。</p>
+  <div class="thesis">不是让几个 AI 一起写代码，<br>而是把它们组织成一个可治理、可追溯、可替换的生产系统。</div>
+  <div class="functions">
+    <span><i>·</i>BUILD</span><span><i>·</i>REPORT</span><span><i>·</i>CHALLENGE</span><span><i>·</i>TEACH</span><span><i>·</i>EXTERNALIZE</span>
+  </div>
+  <div class="version">VERSION 1.2&nbsp;&nbsp;|&nbsp;&nbsp;2026-07-28&nbsp;&nbsp;|&nbsp;&nbsp;基于真实项目实践整理&nbsp;&nbsp;|&nbsp;&nbsp;小红书 @就很菜 · veggiedesu</div>
+</header>
+
+<!-- ================= 1 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 01 节</span><h2>执行摘要</h2></div>
+  <div class="note"><span class="tag">核心定义</span>
+    <p>治理驱动的 Agent 开发，是一种由 Owner 设定授权与风险边界，由 Managing Director Agent 负责交付，并通过独立挑战、组织记录、只读信息投影和人类最终问责来治理的软件开发方式。</p>
+  </div>
+  <p>它解决的不是「怎样让更多 Agent 一起工作」，而是一个更根本的委托问题：当人类无法亲自掌握全部技术细节时，如何扩大 AI 的自主执行能力，同时不失去目标、判断、风险控制和最终责任。</p>
+  <p>这套系统的长期价值不依赖某个特定模型。Codex、Claude 或 GPT 只是当前岗位承担者；真正需要保存的是岗位职责、权限边界、证据、决策记录、升级规则和验收制度。</p>
+  <p><strong>一句话概括：模型可以替换，岗位和制度必须延续。</strong></p>
+  <h3>五个核心职能</h3>
+  <ul class="plain">
+    <li><b>Build</b> — Managing Director 负责创造并交付项目价值。</li>
+    <li><b>Report</b> — Investor Office 负责把项目变化压缩成 Owner 可读的状态与汇报。</li>
+    <li><b>Challenge</b> — Strategic Board 负责重大方向与高风险决策的独立挑战。</li>
+    <li><b>Teach</b> — Academy 把真实项目内容转化成 Owner 的理解力与判断力。</li>
+    <li><b>Externalize</b> — GTM &amp; Narrative Office 把项目证据转化成可验证的外部表达。</li>
+  </ul>
+</section>
+
+<!-- ================= 2 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 02 节</span><h2>第一性原理：委托不能等于失控</h2></div>
+  <p><strong>AI Coding 真正危险的，不只是 AI 写错代码。更深的风险是：Owner 在把执行委托出去时，也把控制权、理解力和责任一起交了出去。</strong></p>
+  <p class="soft">因此，这套方法坚持三条底线：</p>
+  <ul class="plain">
+    <li>AI 的执行能力可以持续扩大，但 Owner 的最终判断权不能被转移。</li>
+    <li>人类不必参与每一个步骤，但必须理解关键假设、不可逆决定和剩余风险。</li>
+    <li>复杂工作可以被委托；对结果的责任不能被委托。</li>
+  </ul>
+  <div class="note"><span class="tag">HUMAN-IN-COMMAND</span>
+    <p>目标不是把人留在每一步，而是把人从低价值执行中移出，同时把人保留在高价值判断中。</p>
+  </div>
+</section>
+
+<!-- ================= 3 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 03 节</span><h2>Investor Mandate 与组织宪法</h2></div>
+  <h3>Investor Mandate：单个项目的最高授权</h3>
+  <p>Investor Mandate 不是普通 Brief，也不是技术规格。它定义了为什么投资、授权做什么、允许投入多少、哪些风险不能承担，以及什么结果才算成功。</p>
+  <table class="tbl">
+    <tr><th>组成</th><th>需要回答的问题</th></tr>
+    <tr><td>Vision</td><td>项目要创造什么现实价值</td></tr>
+    <tr><td>Scope / Non-scope</td><td>明确做什么，也明确不做什么</td></tr>
+    <tr><td>Capital</td><td>时间、Token、工具、外部服务与其他资源</td></tr>
+    <tr><td>Risk Appetite</td><td>可以接受的风险与绝对不能接受的风险</td></tr>
+    <tr><td>Success Criteria</td><td>用什么证据判断项目成功</td></tr>
+    <tr><td>Reserved Decisions</td><td>哪些决定必须由 Owner 拍板</td></tr>
+  </table>
+  <h3>Operating Constitution：跨项目不变的组织纪律</h3>
+  <ul class="plain">
+    <li>不得编造事实、进度、测试结果或业务影响。</li>
+    <li>事实、假设、风险和建议必须分开表达。</li>
+    <li>重大决定必须留下依据、替代方案与反对意见。</li>
+    <li>关键失败不能被摘要隐藏；不可逆操作必须升级。</li>
+    <li>任何 Agent 不能批准自己的最终交付。</li>
+    <li>重要知识不得只存在于聊天窗口；历史记录不能被覆盖。</li>
+    <li>不得未经授权扩大 Scope 或改变风险偏好。</li>
+  </ul>
+</section>
+
+<!-- ================= 4 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 04 节</span><h2>组织结构与权限模型</h2></div>
+  <p>组织分为两部分：能够影响 Product 的控制核心，以及只能读取事实、面向不同受众生成视图的只读派生层。</p>
+  <table class="tbl">
+    <tr><th>岗位</th><th>核心职责</th><th>权限边界</th><th>主要产出</th></tr>
+    <tr><td>Owner / Investor</td><td>Vision、Capital、Risk Appetite、Legal Risk、最终验收</td><td>保留最终决定权与责任</td><td>Investor Mandate、接受 / 暂停 / 终止决定</td></tr>
+    <tr><td>Managing Director</td><td>计划、架构、委托、质量、记录、交付</td><td>可自主处理授权范围内的普通工程决定</td><td>Product、Project Ledger、Decision Log</td></tr>
+    <tr><td>Strategic Board</td><td>重大方向、长期取舍与高风险决策挑战</td><td>只建议和挑战，不执行、不写代码</td><td>Board Package、独立意见</td></tr>
+    <tr><td>Investor Office</td><td>站在 Owner 一侧汇报项目真实状态</td><td>只读；不管理 MD、不修改 Product</td><td>Project State、Dashboard、Executive Brief</td></tr>
+    <tr><td>Academy</td><td>把项目事实转化为 Owner 的理解与判断力</td><td>只读；不得改变开发顺序</td><td>项目驱动教学、Capability Ledger</td></tr>
+    <tr><td>GTM &amp; Narrative</td><td>把已发生事实转化为对外叙事</td><td>只读；不得为了故事反向要求产品</td><td>Demo、Case Study、Narrative</td></tr>
+  </table>
+  <h3>临时执行角色</h3>
+  <p>Specialist Agents 与 Red-team Agents 由 MD 按任务动态生成。它们不是长期部门；任务结束即可退出。每个临时角色必须有明确的 mission、scope、inputs、output、completion criteria 和 escalation rule。</p>
+</section>
+
+<!-- ================= 5 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 05 节</span><h2>标准运行循环</h2></div>
+  <ol class="steps">
+    <li>Owner 发布 Investor Mandate，明确目标、非目标、资源、风险与验收。</li>
+    <li>MD 把授权转化为最短可验证闭环，并建立任务依赖、测试策略和升级点。</li>
+    <li>MD 动态创建 Specialist Agents，分别完成研究、实现、测试、文档或安全工作。</li>
+    <li>所有 Agent 沟通、决定、失败和修复强制留痕。</li>
+    <li>MD 完成第一轮自检；这属于质量控制，不等于独立审计。</li>
+    <li>根据风险等级触发专项红队或 Strategic Board。</li>
+    <li>普通问题由 MD 修复；超出授权或风险偏好的问题升级给 Owner。</li>
+    <li>Owner 按 Mandate 进行最终验收：接受、附条件接受、返工、暂停或终止。</li>
+    <li>项目结束后，沉淀组织记忆、Owner 能力与对外叙事资产。</li>
+  </ol>
+  <h3>按风险分级审查</h3>
+  <table class="tbl">
+    <tr><th>风险等级</th><th>典型触发</th><th>审查与决策</th></tr>
+    <tr><td>低风险 · 可逆</td><td>局部改动、容易回滚、影响边界清晰</td><td>MD 自检</td></tr>
+    <tr><td>中风险 · 跨模块</td><td>接口变化、数据处理、多模块依赖</td><td>1–2 个专项红队</td></tr>
+    <tr><td>高风险 · 不可逆</td><td>安全、法律、资本、重大架构、上线门槛</td><td>多红队 + Strategic Board</td></tr>
+    <tr><td>超出授权</td><td>改变目标、扩大 Scope、突破预算或风险偏好</td><td>Owner 决定</td></tr>
+  </table>
+  <p><strong>审查原则：</strong>红队数量本身没有价值；新的攻击角度、证据来源或专业能力才有价值。红队可以由 MD 按任务生成，但高风险审查必须包含至少一个不由 MD 创建、不共享 MD 上下文的独立视角（如 Strategic Board 或独立红队）——否则组织会落入自己定义的同源自审。</p>
+</section>
+
+<!-- ================= 6 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 06 节</span><h2>Organizational Memory：组织记忆</h2></div>
+  <div class="note"><span class="tag">关键差异</span>
+    <p>只读 Agent 读取的不是「MD 告诉我的」，而是「Codex 留下的组织记录」。</p>
+  </div>
+  <p>所有 Agent 内部沟通、决策与修复都必须留下日志；留痕是制度要求，不依赖任何岗位的自觉。关键 Decision Log 采用 append-only 纪律：不能覆盖历史；如需修订，也必须完整保留版本、时间和原因。</p>
+  <table class="tbl">
+    <tr><th>记录层</th><th>核心问题</th><th>主要内容</th></tr>
+    <tr><td>Project Ledger</td><td>项目现在在哪里</td><td>当前阶段、已完成 / 进行中、风险与阻塞、下一里程碑、关键证据</td></tr>
+    <tr><td>Decision Ledger</td><td>项目为什么走到这里</td><td>决定、背景、替代方案、证据、反对意见、理由、后续验证</td></tr>
+    <tr><td>Raw Logs</td><td>具体发生了什么</td><td>Agent 沟通、命令、测试、失败、修复与时间顺序</td></tr>
+    <tr><td>Executive Summary</td><td>Owner 现在需要知道什么</td><td>变化、健康度、风险、阻塞、需拍板事项</td></tr>
+  </table>
+  <p>原始日志用于追溯；摘要用于恢复工作与降低认知负担。摘要可以被重写，但不能替代或删除原始记录。</p>
+  <p><strong>组织记忆的价值：</strong>以后能够回答「为什么当时选 A，而不是 B」，而不是依赖某个模型模糊地回忆。</p>
+</section>
+
+<!-- ================= 7 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 07 节</span><h2>四条信息流</h2></div>
+  <p>这套组织不是简单的上下级关系。它同时运行四条方向不同、权限不同的信息流。</p>
+  <div class="flow">
+    <div class="f-name">Delivery Flow</div>
+    <div class="f-path">Investor Mandate <i>→</i> MD + Specialists <i>→</i> Product</div>
+    <p class="f-q">回答：项目怎样完成。</p>
+  </div>
+  <div class="flow">
+    <div class="f-name">Reporting Flow</div>
+    <div class="f-path">Material change <i>→</i> Mandatory log <i>→</i> Investor Office <i>→</i> Project State / Dashboard <i>→</i> Owner</div>
+    <p class="f-q">回答：项目现在怎样。</p>
+  </div>
+  <div class="flow">
+    <div class="f-name">Learning Flow</div>
+    <div class="f-path">Project Facts <i>→</i> Academy <i>→</i> Owner Capability</div>
+    <p class="f-q">回答：Owner 因项目学会了什么。</p>
+  </div>
+  <div class="flow">
+    <div class="f-name">Market Flow</div>
+    <div class="f-path">Project Evidence <i>→</i> GTM Office <i>→</i> Demo / Case / Narrative <i>→</i> External Audience</div>
+    <p class="f-q">回答：外部为什么应该理解和相信。</p>
+  </div>
+  <p class="soft" style="margin-top:26px"><strong style="color:var(--ink)">共同事实层：</strong>Project Ledger + append-only Decision Log。</p>
+</section>
+
+<!-- ================= 8 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 08 节</span><h2>三个只读办公室</h2></div>
+  <h3>Investor Office：Owner 的项目秘书与汇报办公室</h3>
+  <p>Investor Office 直属 Owner，不是 MD 的秘书，也不负责管理项目。当主线里程碑、计划、风险、阻塞或重要决定发生实质变化时，MD 主动通知它。它读取 Project Ledger 与 Decision Log 的变化，生成 Owner 每天会看的管理信息。</p>
+  <ul class="plain">
+    <li><b>Project State</b> — 项目当前阶段、健康度、下一里程碑与阻塞。</li>
+    <li><b>Dashboard</b> — 面向 Owner 的高密度管理视图。</li>
+    <li><b>Executive Brief</b> — 重要变化、重大决定、风险与建议。</li>
+    <li><b>Owner Decisions Required</b> — 只有 Owner 才能决定的事项及截止时间。</li>
+  </ul>
+  <h3>Academy：项目驱动的 Owner 学习系统</h3>
+  <p>Academy 只读取项目真实发生的内容。它不脱离项目讲抽象课程，也不能为了教学要求 MD 改变开发顺序。它回答：今天发生了什么、为什么这样做、背后的机制是什么、以后 Owner 可以如何独立判断。</p>
+  <div class="note"><span class="tag">学习目标</span>
+    <p>普通 AI Coding 优化 how to finish the project；Academy 进一步优化 how the human becomes more capable after every project。</p>
+  </div>
+  <h3>GTM &amp; Narrative Office：事实驱动的外部表达</h3>
+  <p>GTM Office 根据项目证据生成 Demo、Case Study、面试叙事与传播材料。它不能把计划写成已实现，不能隐藏失败，也不能为了故事好听反向要求 Product 改变。</p>
+  <p><strong>最高纪律：</strong><em>Narrative follows evidence.</em>&nbsp;叙事必须跟随事实。</p>
+</section>
+
+<!-- ================= 9 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 09 节</span><h2>一个项目留下五类复利资产</h2></div>
+  <p>在这套方法下，代码只是一个结果。同一次投入会同时生成五类可复用资产。</p>
+  <ul class="plain">
+    <li><b>Product</b> — 可以运行、测试、演示或继续迭代的项目交付物。</li>
+    <li><b>Organizational Memory</b> — 强制留痕、完整保留的 Decision Log、错误集与制度演化记录。</li>
+    <li><b>Project State + Dashboard</b> — Investor Office 为 Owner 生成的可持续管理信息。</li>
+    <li><b>Owner Capability</b> — Academy 沉淀的概念理解、风险判断和独立决策能力。</li>
+    <li><b>Demo / Case / Narrative</b> — GTM Office 生成的外部表达、职业与商业资产。</li>
+  </ul>
+  <div class="note"><span class="tag">复利逻辑</span>
+    <p>项目在推进，组织在积累记忆，Owner 在积累判断力，成果也在积累外部可见性。</p>
+  </div>
+</section>
+
+<!-- ================= 10 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 10 节</span><h2>Lean 纪律、失效模式与衡量</h2></div>
+  <p><strong>组织复杂度不能超过项目复杂度。新增岗位必须解决一个已经出现的问题，而不是预防一个想象中的问题；保留岗位必须持续证明其价值高于协调成本。</strong></p>
+  <h3>新增岗位的成立条件</h3>
+  <ul class="plain">
+    <li>带来新的信息来源。</li>
+    <li>带来新的专业能力。</li>
+    <li>带来新的独立视角。</li>
+    <li>带来新的监督机制。</li>
+  </ul>
+  <h3>常见失效模式</h3>
+  <table class="tbl">
+    <tr><th>失效模式</th><th>表现</th></tr>
+    <tr><td>Prompt cosplay</td><td>只有 CEO、Reviewer 等称号，没有权限、输入输出和升级规则。</td></tr>
+    <tr><td>同源自审</td><td>同一个模型生成方案，再让几个相同上下文的角色轻微反对。</td></tr>
+    <tr><td>Owner 放弃责任</td><td>以「不懂技术」为由，不定义验收和风险边界。</td></tr>
+    <tr><td>口头汇报替代记录</td><td>Investor Office 只听 MD 总结，不读取原始组织记录。</td></tr>
+    <tr><td>Narrative capture</td><td>为了故事或 Demo 反向影响产品事实和优先级。</td></tr>
+    <tr><td>岗位永久化</td><td>岗位建立后不再验证价值，组织不断膨胀。</td></tr>
+  </table>
+  <h3>建议衡量的组织 KPI</h3>
+  <ul class="plain">
+    <li>Owner 读取原始日志的时间是否下降。</li>
+    <li>重大风险是否更早被发现和升级。</li>
+    <li>红队发现的有效问题比例与误报比例。</li>
+    <li>Decision 被推翻或返工的原因是否可追溯。</li>
+    <li>Project State 与实际交付是否一致。</li>
+    <li>Academy 是否提高 Owner 的独立判断能力。</li>
+    <li>GTM 是否让外部受众更准确地理解项目价值。</li>
+  </ul>
+</section>
+
+<!-- ================= 11 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 11 节</span><h2>实践记录：三次治理干预</h2></div>
+  <p><strong>制度的有效性不体现在流程图，而体现在它实际拦截了什么。</strong>以下三条来自本方法当前运行的真实项目；表述已做脱敏。</p>
+  <div class="record">
+    <span class="rec-tag">记录 · 壹</span>
+    <h4>测量中途变更，整批作废</h4>
+    <p>在一轮由 Owner 亲自执行的验收评审中，MD 中途修改了部分评审材料的表述。独立红队判定：评审进行中变更评审对象，污染的是整批结果，而不只是被改动的部分。该轮评审被整体标记为无效并按冻结版本重做；原始记录、改动内容与作废理由完整保留，不删除。</p>
+  </div>
+  <div class="record">
+    <span class="rec-tag">记录 · 贰</span>
+    <h4>审核人拒绝凭摘要出具通过</h4>
+    <p>一次里程碑复核中，Strategic Board 拒绝仅凭一段实现摘要出具通过结论，理由是：如果审核环节接受口头摘要作为凭证，控制链顶端反而成为全链最弱的一环。该轮结论被明确降级为「仅对所述设计的判断」，与经独立核实的结论严格区分。</p>
+  </div>
+  <div class="record">
+    <span class="rec-tag">记录 · 叁</span>
+    <h4>证据顺序从被相信变为可证明</h4>
+    <p>红队要求：关键评审材料在交付评审人之前，必须先形成版本快照（如一次 Git commit）；评审产出必须位于其后的快照中。材料与结论的先后顺序从此是可验证的事实，而不是流程声明。</p>
+  </div>
+  <p style="margin-top:24px"><strong>共同点：</strong>三次干预拦下的都不是模型的能力缺陷，而是流程在压力下想省事的那个瞬间。</p>
+</section>
+
+<!-- ================= 12 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 12 节</span><h2>最低可行实施清单</h2></div>
+  <p>最低可行版本不需要十几个 Agent。先建立一个有写权限的生产核心、一个战略挑战角色、三个只读视图和五类基本记录。</p>
+  <ol class="steps">
+    <li>写出一页 Investor Mandate。</li>
+    <li>明确 Owner、MD 与 Strategic Board 的权限边界。</li>
+    <li>让 MD 持续维护 Project Ledger 与 append-only Decision Log。</li>
+    <li>规定哪些项目变化会主动触发 Investor Office。</li>
+    <li>建立低、中、高三级风险审查协议。</li>
+    <li>确保 Academy 与 GTM 只读，不反向修改 Product。</li>
+    <li>定义最终 Acceptance Gate 和可接受的剩余风险。</li>
+    <li>每个里程碑结束后更新组织规则与 Capability Ledger。</li>
+  </ol>
+  <h3>Acceptance Gate</h3>
+  <table class="tbl">
+    <tr><th>验收层</th><th>判断内容</th></tr>
+    <tr><td>Functional</td><td>交付物是否能够工作，关键测试是否通过</td></tr>
+    <tr><td>Assurance</td><td>证据、红队、风险记录与失败处理是否完整</td></tr>
+    <tr><td>Investor</td><td>结果是否仍符合 Investor Mandate 与风险偏好</td></tr>
+  </table>
+  <p>最终状态可以是 <strong>Accepted、Accepted with residual risks、Conditional acceptance、Rework required、Paused 或 Terminated</strong>，而不应只有「完成」。</p>
+</section>
+
+<!-- ================= closing ================= -->
+<section class="closing">
+  <p><strong>这套方法不是为了让 AI 看起来像一家公司。它要解决的是：如何把概率性的、不完全可靠的模型，组织成一个可替换、可追溯、可审查、可学习的生产系统。</strong></p>
+  <div class="final">你不是在雇佣某个模型。<br>你在建立一套<em>模型可替换、事实可追溯、风险可升级、Owner 始终掌舵</em>的制度。</div>
+  <div class="appendix">附则 — 本文总结的是一套正在真实项目中实践和迭代的方法，不将其表述为已经完成行业验证的标准。</div>
+</section>
+
+<footer>
+  <span>GOVERNANCE-DRIVEN AGENTIC CODING</span>
+  <span>小红书 @就很菜 · veggiedesu</span>
+  <span>WHITEPAPER NO. 01 · V1.2</span>
+</footer>
+
+</div>
+<div class="wm">小红书 <b>@就很菜</b> · veggiedesu</div>
+</body>
+</html>

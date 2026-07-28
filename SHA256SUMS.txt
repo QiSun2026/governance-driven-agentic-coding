@@ -1,0 +1,2 @@
+f5ede6ff0cdf3d204f05ef5b90703427264ea61a4307229468f117ba497e4375  index.html
+c1c05e2edb0a3ca5695269f709deebd8f737a7644907f6722f1d37b8a406016c  Governance-Driven-Agentic-Coding-v1.2.pdf
