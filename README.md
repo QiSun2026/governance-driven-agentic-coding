@@ -12,15 +12,20 @@
 ## 阅读
 
 - [在线阅读中文版 v1.2](https://qisun2026.github.io/governance-driven-agentic-coding/)
-- [下载 PDF 版 v1.2](./Governance-Driven-Agentic-Coding-v1.2.pdf)
+- [下载中文版 PDF v1.2](./Governance-Driven-Agentic-Coding-v1.2.pdf)
+- [Read the English edition v1.3 online](https://qisun2026.github.io/governance-driven-agentic-coding/en.html)
+- [Download the English PDF v1.3](./Governance-Driven-Agentic-Coding-EN-v1.3.pdf)
 
 ## 当前版本
 
 - 中文版：v1.2，2026-07-28
-- 英文版：计划中，尚未发布
+- 英文版：v1.3，2026-07-28
 
 原始临时 PDF 文件名包含 `v1.3`，但 PDF 封面、末页与 HTML 均明确
 标识为 `VERSION 1.2`，因此公开仓库按文档内部版本号发布为 v1.2。
+
+英文版 HTML 与 PDF 均明确标识为 `VERSION 1.3`，因此按英文文档内部
+版本号发布为 v1.3。两个语言版本分别保留各自的真实版本号。
 
 ## 内容
 
