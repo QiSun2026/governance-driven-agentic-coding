@@ -87,6 +87,7 @@ p{margin-bottom:18px;color:var(--ink);max-width:680px}
 p.soft{color:var(--ink-soft)}
 strong{font-weight:700}
 em{font-style:normal;color:var(--seal)}
+code{font-family:var(--mono);font-size:.9em;background:var(--wash);padding:1px 4px;border-radius:2px}
 
 /* 批注 callout */
 .note{
@@ -188,10 +189,16 @@ footer{
   padding:6px 10px;pointer-events:none;
 }
 .wm b{color:var(--seal);font-weight:500}
+@page{size:A4;margin:16mm 15mm 18mm}
 @media print{
   body{font-size:13px}
   .cover{padding-top:40px}
-  section{page-break-inside:avoid}
+  section{page-break-inside:auto}
+  .sec-head,h2,h3,.note,.record{break-inside:avoid;page-break-inside:avoid}
+  .sec-head,h2,h3{break-after:avoid-page;page-break-after:avoid}
+  .tbl tr,li{break-inside:avoid;page-break-inside:avoid}
+  .closing{padding:40px 0 12px}
+  footer{padding:10px 0 20px;break-inside:avoid;page-break-inside:avoid}
   .wm{position:fixed}
 }
 </style>
@@ -210,7 +217,7 @@ footer{
   <div class="functions">
     <span><i>·</i>BUILD</span><span><i>·</i>REPORT</span><span><i>·</i>CHALLENGE</span><span><i>·</i>TEACH</span><span><i>·</i>EXTERNALIZE</span>
   </div>
-  <div class="version">VERSION 1.2&nbsp;&nbsp;|&nbsp;&nbsp;2026-07-28&nbsp;&nbsp;|&nbsp;&nbsp;基于真实项目实践整理&nbsp;&nbsp;|&nbsp;&nbsp;小红书 @就很菜 · veggiedesu</div>
+  <div class="version">VERSION 1.4&nbsp;&nbsp;|&nbsp;&nbsp;2026-07-30&nbsp;&nbsp;|&nbsp;&nbsp;基于跨项目实践持续迭代&nbsp;&nbsp;|&nbsp;&nbsp;小红书 @就很菜 · veggiedesu</div>
 </header>
 
 <!-- ================= 1 ================= -->
@@ -281,11 +288,13 @@ footer{
     <tr><th>岗位</th><th>核心职责</th><th>权限边界</th><th>主要产出</th></tr>
     <tr><td>Owner / Investor</td><td>Vision、Capital、Risk Appetite、Legal Risk、最终验收</td><td>保留最终决定权与责任</td><td>Investor Mandate、接受 / 暂停 / 终止决定</td></tr>
     <tr><td>Managing Director</td><td>计划、架构、委托、质量、记录、交付</td><td>可自主处理授权范围内的普通工程决定</td><td>Product、Project Ledger、Decision Log</td></tr>
-    <tr><td>Strategic Board</td><td>重大方向、长期取舍与高风险决策挑战</td><td>只建议和挑战，不执行、不写代码</td><td>Board Package、独立意见</td></tr>
+    <tr><td>Strategic Board</td><td>按 mandate 对重大方向、长期取舍与高风险决策独立挑战</td><td>只建议和二审；不管理、不决策、不执行</td><td>Board Package、独立意见、MD disposition</td></tr>
     <tr><td>Investor Office</td><td>站在 Owner 一侧汇报项目真实状态</td><td>只读；不管理 MD、不修改 Product</td><td>Project State、Dashboard、Executive Brief</td></tr>
     <tr><td>Academy</td><td>把项目事实转化为 Owner 的理解与判断力</td><td>只读；不得改变开发顺序</td><td>项目驱动教学、Capability Ledger</td></tr>
     <tr><td>GTM &amp; Narrative</td><td>把已发生事实转化为对外叙事</td><td>只读；不得为了故事反向要求产品</td><td>Demo、Case Study、Narrative</td></tr>
   </table>
+  <h3>联邦式 Strategic Board</h3>
+  <p>每个项目与组合办公室分别保留自己的战略挑战语境和可见记录。当前可以由 Claude 在 Owner-visible Chrome 对话中承担建议与二审，但 Claude 只是岗位的当前承担者，不拥有管理、决策或实施权。一个 mandate 的建议不会自动成为另一个 mandate 的要求；Advice、MD disposition、Owner decision、implementation 与 publication status 必须分别记录。</p>
   <h3>临时执行角色</h3>
   <p>Specialist Agents 与 Red-team Agents 由 MD 按任务动态生成。它们不是长期部门；任务结束即可退出。每个临时角色必须有明确的 mission、scope、inputs、output、completion criteria 和 escalation rule。</p>
 </section>
@@ -454,7 +463,58 @@ footer{
 
 <!-- ================= 12 ================= -->
 <section>
-  <div class="sec-head"><span class="sec-num">第 12 节</span><h2>最低可行实施清单</h2></div>
+  <div class="sec-head"><span class="sec-num">第 12 节</span><h2>Practice → Evidence：可审计的治理学习闭环</h2></div>
+  <div class="note"><span class="tag">版本化学习</span>
+    <p>应用项目提供事实与经验，但不能自行改写共同方法；未经验证的 hypothesis 不得提前成为 canonical method。</p>
+  </div>
+  <table class="tbl">
+    <tr><th>阶段</th><th>必须留下的记录</th><th>控制边界</th></tr>
+    <tr><td>Practice</td><td>原始 observation、friction、失败或 near miss</td><td>描述发生了什么，不先抽象成规则</td></tr>
+    <tr><td>Evidence</td><td>可复现步骤、版本快照、反例、适用边界</td><td>区分事实、来源证明与尚未验证项</td></tr>
+    <tr><td>Proposed Change</td><td>规则提案、迁移影响、回滚方案、版本候选</td><td>提案不等于方法已改变</td></tr>
+    <tr><td>Decision</td><td>接受、修改、拒绝或继续验证及其理由</td><td>内部 patch/minor 可由组合治理办公室批准；重大原则与公开发布归 Owner</td></tr>
+    <tr><td>Versioned Method</td><td>版本号、Change Log、证据引用、迁移说明</td><td>只有获批变更进入正式版本</td></tr>
+    <tr><td>Re-test</td><td>来源场景与迁移场景的复测结果</td><td>被反证时回滚、缩小边界或降级为 hypothesis</td></tr>
+  </table>
+  <h3>何时启动治理复盘</h3>
+  <ul class="plain">
+    <li>同一摩擦在两个项目重复出现。</li>
+    <li>单个项目出现重大控制缺口或 near miss。</li>
+    <li>角色或授权边界不清导致返工。</li>
+    <li>实践反证既有方法声明。</li>
+    <li>出现可复现、可迁移的新治理机制。</li>
+    <li>Agentic automation 暴露新的监督或回滚需要。</li>
+    <li>重大里程碑提供足够的新证据。</li>
+  </ul>
+  <h3>版本边界</h3>
+  <table class="tbl">
+    <tr><th>级别</th><th>典型变化</th><th>批准边界</th></tr>
+    <tr><td>Patch</td><td>错字、澄清、引用或非实质性证据补充</td><td>不改变权限、控制门或行为要求</td></tr>
+    <tr><td>Minor</td><td>向后兼容的新机制、触发器、记录类型或低风险控制</td><td>不改变核心决策权、风险偏好或人类决定边界</td></tr>
+    <tr><td>Major</td><td>核心原则、权责、强制控制或 human decision boundary 改变</td><td>Owner 决定</td></tr>
+  </table>
+</section>
+
+<!-- ================= 13 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 13 节</span><h2>能力声明、结论来源与派生完整性</h2></div>
+  <p>跨项目实践表明，治理不仅要保存证据，还要约束证据能够支持什么结论。以下三条规则是 domain-neutral 的；应用实现可以不同，但不能越过同一事实边界。</p>
+  <h3>1. Capability Claim Attestation</h3>
+  <p><code>Agent-executed</code>、<code>AI-executed</code>、自动化或模型评估等能力声明，必须绑定实际 runtime、provider、execution event 与相关配置或产出证据。接口、fixture、mock、provider adapter 或 <code>agent-ready</code> 结构只证明准备状态，不能证明 Agent 已执行该案例。</p>
+  <h3>2. Conclusion Provenance</h3>
+  <p><code>human-only</code>、human-approved 或 reviewer-approved 不能靠标签自声明。结论必须能从 exception 状态与 human review chain 验证或重算，至少能够回答：谁看了什么证据、作出什么决定、是否仍有未解决例外。</p>
+  <h3>3. Derivation Integrity</h3>
+  <p>输入或 raw hash 只证明该对象的身份与未变性，不能证明 downstream draft、建议或结论由它派生。关键链路必须通过可重放转换、canonical equality、可测试的等价规则或 derivation manifest 连接 <code>raw → draft → conclusion</code>。</p>
+  <div class="note"><span class="tag">组合应用线</span>
+    <p>RiskFirewall AI — Product Risk Review（Complex Instruments · Second Line）与 RiskFirewall AI — Risk Control Assurance（Transactions, Processes &amp; AI Actions · Third Line）为本方法的两条应用线。</p>
+  </div>
+  <p><strong>命名边界：</strong><code>RiskFirewall AI</code> 是组合品牌，不是第四个仓库，也不证明 live AI execution、自动决策、生产 firewall、已部署控制系统或两个应用具有相同实现。</p>
+  <p><strong>已保留限制：</strong>provider interface 不等于 live execution；source authenticity 与 semantic sufficiency 仍可能需要人类复核；hash 不等于语义派生；应用项目的证据成熟度必须分别陈述。</p>
+</section>
+
+<!-- ================= 14 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">第 14 节</span><h2>最低可行实施清单</h2></div>
   <p>最低可行版本不需要十几个 Agent。先建立一个有写权限的生产核心、一个战略挑战角色、三个只读视图和五类基本记录。</p>
   <ol class="steps">
     <li>写出一页 Investor Mandate。</li>
@@ -464,7 +524,9 @@ footer{
     <li>建立低、中、高三级风险审查协议。</li>
     <li>确保 Academy 与 GTM 只读，不反向修改 Product。</li>
     <li>定义最终 Acceptance Gate 和可接受的剩余风险。</li>
-    <li>每个里程碑结束后更新组织规则与 Capability Ledger。</li>
+    <li>建立 Practice → Evidence → Proposed Change → Decision → Versioned Method → Re-test 记录。</li>
+    <li>审查 capability claim、human conclusion provenance 与关键派生链。</li>
+    <li>每个里程碑结束后更新组织规则、Change Log 与 Capability Ledger。</li>
   </ol>
   <h3>Acceptance Gate</h3>
   <table class="tbl">
@@ -480,13 +542,13 @@ footer{
 <section class="closing">
   <p><strong>这套方法不是为了让 AI 看起来像一家公司。它要解决的是：如何把概率性的、不完全可靠的模型，组织成一个可替换、可追溯、可审查、可学习的生产系统。</strong></p>
   <div class="final">你不是在雇佣某个模型。<br>你在建立一套<em>模型可替换、事实可追溯、风险可升级、Owner 始终掌舵</em>的制度。</div>
-  <div class="appendix">附则 — 本文总结的是一套正在真实项目中实践和迭代的方法，不将其表述为已经完成行业验证的标准。</div>
+  <div class="appendix">附则 — 本文总结的是一套正在两个应用项目中实践、反证与迭代的方法，不将其表述为已经完成行业验证的标准，也不把未发布候选、私有实现或接口准备状态描述为公开能力。</div>
 </section>
 
 <footer>
   <span>GOVERNANCE-DRIVEN AGENTIC CODING</span>
   <span>小红书 @就很菜 · veggiedesu</span>
-  <span>WHITEPAPER NO. 01 · V1.2</span>
+  <span>WHITEPAPER NO. 01 · V1.4</span>
 </footer>
 
 </div>

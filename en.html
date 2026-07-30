@@ -86,6 +86,7 @@ p{margin-bottom:16px;color:var(--ink);max-width:690px}
 p.soft{color:var(--ink-soft)}
 strong{font-weight:700}
 em{font-style:normal;color:var(--seal)}
+code{font-family:var(--mono);font-size:.9em;background:var(--wash);padding:1px 4px;border-radius:2px}
 
 .note{
   background:var(--wash);border-left:3px solid var(--seal);
@@ -179,7 +180,14 @@ footer{
 @media print{
   body{font-size:13px}
   .cover{padding-top:40px}
-  section{page-break-inside:avoid}
+  section{page-break-inside:auto}
+  .sec-head,h2,h3,.note,.record{break-inside:avoid;page-break-inside:avoid}
+  .sec-head,h2,h3{break-after:avoid-page;page-break-after:avoid}
+  .tbl tr,li{break-inside:avoid;page-break-inside:avoid}
+  section.closing{break-before:page;page-break-before:always;padding:50px 0 4px}
+  .closing .final{font-size:20px;margin-bottom:14px}
+  .appendix{padding-top:10px;line-height:1.55}
+  footer{padding:4px 0 8px;break-inside:avoid;page-break-inside:avoid}
 }
 </style>
 </head>
@@ -197,7 +205,7 @@ footer{
   <div class="functions">
     <span><i>·</i>BUILD</span><span><i>·</i>REPORT</span><span><i>·</i>CHALLENGE</span><span><i>·</i>TEACH</span><span><i>·</i>EXTERNALIZE</span>
   </div>
-  <div class="version">VERSION 1.3&nbsp;&nbsp;|&nbsp;&nbsp;2026-07-28&nbsp;&nbsp;|&nbsp;&nbsp;COMPILED FROM LIVE PROJECT PRACTICE&nbsp;&nbsp;|&nbsp;&nbsp;XIAOHONGSHU @就很菜 · VEGGIEDESU</div>
+  <div class="version">VERSION 1.4&nbsp;&nbsp;|&nbsp;&nbsp;2026-07-30&nbsp;&nbsp;|&nbsp;&nbsp;ITERATED FROM CROSS-PROJECT PRACTICE&nbsp;&nbsp;|&nbsp;&nbsp;XIAOHONGSHU @就很菜 · VEGGIEDESU</div>
 </header>
 
 <!-- ================= 1 ================= -->
@@ -268,11 +276,13 @@ footer{
     <tr><th>Role</th><th>Core responsibility</th><th>Authority boundary</th><th>Primary output</th></tr>
     <tr><td>Owner / Investor</td><td>Vision, capital, risk appetite, legal risk, final acceptance</td><td>Retains final decision rights and responsibility</td><td>Investor Mandate; accept / pause / terminate</td></tr>
     <tr><td>Managing Director</td><td>Planning, architecture, delegation, quality, records, delivery</td><td>May autonomously handle ordinary engineering decisions within the mandate</td><td>Product, Project Ledger, Decision Log</td></tr>
-    <tr><td>Strategic Board</td><td>Challenge on major direction, long-term trade-offs, high-risk decisions</td><td>Advises and challenges only; does not execute or write code</td><td>Board package, independent opinion</td></tr>
+    <tr><td>Strategic Board</td><td>Independent challenge, by mandate, on major direction, long-term trade-offs, and high-risk decisions</td><td>Advice and second review only; no management, decision, or implementation authority</td><td>Board package, independent opinion, MD disposition</td></tr>
     <tr><td>Investor Office</td><td>Reports the true project state from the Owner's side</td><td>Read-only; does not manage the MD or modify the Product</td><td>Project State, Dashboard, Executive Brief</td></tr>
     <tr><td>Academy</td><td>Converts project facts into the Owner's understanding and judgment</td><td>Read-only; may not alter development sequencing</td><td>Project-driven teaching, Capability Ledger</td></tr>
     <tr><td>GTM &amp; Narrative</td><td>Converts what has already happened into external narrative</td><td>Read-only; may not reverse-engineer the product to fit a story</td><td>Demo, case study, narrative</td></tr>
   </table>
+  <h3>Federated Strategic Board</h3>
+  <p>Each project and the portfolio office preserve their own challenge context and visible record. Claude may currently occupy the advisory and second-review role through an Owner-visible Chrome conversation, but Claude is only the current role-holder and has no management, decision, or implementation authority. Advice from one mandate does not automatically become a requirement for another. Advice, MD disposition, Owner decision, implementation, and publication status must be recorded separately.</p>
   <h3>Temporary execution roles</h3>
   <p>Specialist Agents and red-team Agents are generated dynamically by the MD per task. They are not standing departments; they may exit as soon as the task ends. Every temporary role must carry an explicit mission, scope, inputs, output, completion criteria, and escalation rule.</p>
 </section>
@@ -441,7 +451,58 @@ footer{
 
 <!-- ================= 12 ================= -->
 <section>
-  <div class="sec-head"><span class="sec-num">SEC. 12</span><h2>Minimum Viable Implementation</h2></div>
+  <div class="sec-head"><span class="sec-num">SEC. 12</span><h2>Practice → Evidence: an Auditable Governance-Learning Loop</h2></div>
+  <div class="note"><span class="tag">Versioned learning</span>
+    <p>Application projects provide facts and experience, but they may not rewrite the shared method. An unverified hypothesis may not enter the canonical method early.</p>
+  </div>
+  <table class="tbl">
+    <tr><th>Stage</th><th>Required record</th><th>Control boundary</th></tr>
+    <tr><td>Practice</td><td>Raw observation, friction, failure, or near miss</td><td>Describe what happened before abstracting a rule</td></tr>
+    <tr><td>Evidence</td><td>Reproduction steps, version snapshots, counterexamples, applicability boundary</td><td>Separate facts, source attestation, and unknowns</td></tr>
+    <tr><td>Proposed Change</td><td>Rule proposal, migration impact, rollback, version candidate</td><td>A proposal does not mean the method has changed</td></tr>
+    <tr><td>Decision</td><td>Accept, modify, reject, or continue testing, with rationale</td><td>Internal patch/minor changes may be approved by the portfolio governance office; major principles and publication remain Owner decisions</td></tr>
+    <tr><td>Versioned Method</td><td>Version, Change Log, evidence references, migration note</td><td>Only approved changes enter a formal version</td></tr>
+    <tr><td>Re-test</td><td>Results in the source context and a transfer context</td><td>When contradicted, roll back, narrow the boundary, or return to hypothesis</td></tr>
+  </table>
+  <h3>When governance review starts</h3>
+  <ul class="plain">
+    <li>The same friction appears in two projects.</li>
+    <li>One project exposes a material control gap or near miss.</li>
+    <li>Unclear role or authority boundaries cause rework.</li>
+    <li>Practice contradicts an existing method statement.</li>
+    <li>A reproducible, transferable governance mechanism appears.</li>
+    <li>Agentic automation exposes a new supervision or rollback need.</li>
+    <li>A major milestone provides sufficient new evidence.</li>
+  </ul>
+  <h3>Version boundaries</h3>
+  <table class="tbl">
+    <tr><th>Level</th><th>Typical change</th><th>Approval boundary</th></tr>
+    <tr><td>Patch</td><td>Typo, clarification, citation, or non-substantive evidence addition</td><td>No change to authority, control gates, or behavior requirements</td></tr>
+    <tr><td>Minor</td><td>Backward-compatible mechanism, trigger, record type, or low-risk control</td><td>No change to core decision rights, risk appetite, or human decision boundary</td></tr>
+    <tr><td>Major</td><td>Change to a core principle, authority, mandatory control, or human decision boundary</td><td>Owner decides</td></tr>
+  </table>
+</section>
+
+<!-- ================= 13 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 13</span><h2>Capability Claims, Conclusion Provenance, and Derivation Integrity</h2></div>
+  <p>Cross-project practice shows that governance must preserve evidence and constrain what the evidence can support. The three rules below are domain-neutral. Implementations may differ, but they may not cross the same fact boundary.</p>
+  <h3>1. Capability Claim Attestation</h3>
+  <p>An <code>Agent-executed</code>, <code>AI-executed</code>, automated, or model-evaluated capability claim must be bound to evidence of the actual runtime, provider, execution event, and material configuration or output. An interface, fixture, mock, provider adapter, or <code>agent-ready</code> structure proves readiness, not that an Agent executed the reviewed case.</p>
+  <h3>2. Conclusion Provenance</h3>
+  <p>A <code>human-only</code>, human-approved, or reviewer-approved conclusion cannot be established by a label alone. It must be verifiable or recomputable from exception state and a human-review chain that answers who reviewed what evidence, what decision was made, and whether unresolved exceptions remained.</p>
+  <h3>3. Derivation Integrity</h3>
+  <p>An input or raw hash proves identity and immutability of that object. It does not prove that a downstream draft, recommendation, or conclusion was derived from it. Decision-critical chains must connect <code>raw → draft → conclusion</code> through replayable transformation, canonical equality, a testable equivalence rule, or a derivation manifest.</p>
+  <div class="note"><span class="tag">Application portfolio</span>
+    <p>RiskFirewall AI — Product Risk Review (Complex Instruments · Second Line) and RiskFirewall AI — Risk Control Assurance (Transactions, Processes &amp; AI Actions · Third Line) are the two application lines practicing this method.</p>
+  </div>
+  <p><strong>Naming boundary:</strong> <code>RiskFirewall AI</code> is a portfolio brand, not a fourth repository. It does not prove live AI execution, automated decision-making, a production firewall, a deployed control system, or identical implementation between the applications.</p>
+  <p><strong>Limits retained:</strong> a provider interface is not live execution; source authenticity and semantic sufficiency may still require human review; a hash is not semantic derivation; and evidence maturity must be stated separately for each application.</p>
+</section>
+
+<!-- ================= 14 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 14</span><h2>Minimum Viable Implementation</h2></div>
   <p>A minimum viable version does not need a dozen Agents. Start with one production core that holds write access, one strategic challenge role, three read-only views, and five basic record types.</p>
   <ol class="steps">
     <li>Write a one-page Investor Mandate.</li>
@@ -451,7 +512,9 @@ footer{
     <li>Establish a three-tier review protocol for low, medium, and high risk.</li>
     <li>Ensure the Academy and GTM stay read-only and never modify the Product in reverse.</li>
     <li>Define the final Acceptance Gate and the residual risk that is acceptable.</li>
-    <li>Update the organizational rules and the Capability Ledger at the end of every milestone.</li>
+    <li>Establish the Practice → Evidence → Proposed Change → Decision → Versioned Method → Re-test record.</li>
+    <li>Audit capability claims, human-conclusion provenance, and decision-critical derivation chains.</li>
+    <li>Update organizational rules, the Change Log, and the Capability Ledger at the end of every milestone.</li>
   </ol>
   <h3>Acceptance Gate</h3>
   <table class="tbl">
@@ -467,13 +530,13 @@ footer{
 <section class="closing">
   <p><strong>This method is not about making AI look like a company. What it sets out to solve is this: how to organize probabilistic, not-fully-reliable models into a production system that is replaceable, traceable, auditable, and capable of learning.</strong></p>
   <div class="final">You are not hiring a model.<br>You are building an institution in which <em>models are replaceable, facts are traceable, risk is escalable, and the Owner always steers</em>.</div>
-  <div class="appendix">NOTE — This document summarizes a method currently being practiced and iterated on a live project. It is not presented as a standard that has completed industry validation.</div>
+  <div class="appendix">NOTE — This document summarizes a method currently practiced, challenged, and iterated across two application projects. It is not presented as an industry-validated standard, and it does not describe unpublished candidates, private implementations, or interface readiness as public capability.</div>
 </section>
 
 <footer>
   <span>GOVERNANCE-DRIVEN AGENTIC CODING</span>
   <span>XIAOHONGSHU @就很菜 · VEGGIEDESU</span>
-  <span>WHITEPAPER NO. 01 · V1.3</span>
+  <span>WHITEPAPER NO. 01 · V1.4</span>
 </footer>
 
 </div>

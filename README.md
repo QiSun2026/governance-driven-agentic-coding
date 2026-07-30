@@ -3,7 +3,7 @@
 ## 一家 AI Native 公司的治理方式
 
 一种由 Owner 掌舵、由 Agent 执行，并通过授权、留痕、独立挑战、
-只读汇报与学习闭环进行治理的软件开发方法。
+只读汇报与可审计学习闭环进行治理的软件开发方法。
 
 这套方法关注的不是让更多 AI 同时写代码，而是如何把概率性的、
 不完全可靠的模型组织成一个可替换、可追溯、可审查、可学习，
@@ -11,21 +11,25 @@
 
 ## 阅读
 
-- [在线阅读中文版 v1.2](https://qisun2026.github.io/governance-driven-agentic-coding/)
-- [下载中文版 PDF v1.2](./Governance-Driven-Agentic-Coding-v1.2.pdf)
-- [Read the English edition v1.3 online](https://qisun2026.github.io/governance-driven-agentic-coding/en.html)
-- [Download the English PDF v1.3](./Governance-Driven-Agentic-Coding-EN-v1.3.pdf)
+- [在线阅读中文版 v1.4](https://qisun2026.github.io/governance-driven-agentic-coding/)
+- [下载中文版 PDF v1.4](./Governance-Driven-Agentic-Coding-v1.4.pdf)
+- [Read the English edition v1.4 online](https://qisun2026.github.io/governance-driven-agentic-coding/en.html)
+- [Download the English PDF v1.4](./Governance-Driven-Agentic-Coding-EN-v1.4.pdf)
+- [查看 Change Log 与迁移说明](./CHANGELOG.md)
 
 ## 当前版本
 
-- 中文版：v1.2，2026-07-28
-- 英文版：v1.3，2026-07-28
+- 方法版本：v1.4，2026-07-30
+- 中文版：v1.4
+- 英文版：v1.4
 
-原始临时 PDF 文件名包含 `v1.3`，但 PDF 封面、末页与 HTML 均明确
-标识为 `VERSION 1.2`，因此公开仓库按文档内部版本号发布为 v1.2。
+从 v1.4 起，中英文使用同一个方法版本号。此前中文版 v1.2 与英文版
+v1.3 保留其历史版本与文件，不追溯改名。
 
-英文版 HTML 与 PDF 均明确标识为 `VERSION 1.3`，因此按英文文档内部
-版本号发布为 v1.3。两个语言版本分别保留各自的真实版本号。
+历史 PDF：
+
+- [中文版 v1.2](./Governance-Driven-Agentic-Coding-v1.2.pdf)
+- [English v1.3](./Governance-Driven-Agentic-Coding-EN-v1.3.pdf)
 
 ## 内容
 
@@ -40,12 +44,28 @@
 9. 一个项目留下五类复利资产
 10. Lean 纪律、失效模式与衡量
 11. 实践记录：三次治理干预
-12. 最低可行实施清单
+12. Practice → Evidence：可审计的治理学习闭环
+13. 能力声明、结论来源与派生完整性
+14. 最低可行实施清单
+
+## 应用组合
+
+该方法正在两条应用线上接受实践检验：
+
+- **RiskFirewall AI — Product Risk Review** — Complex Instruments · Second Line
+- **RiskFirewall AI — Risk Control Assurance** — Transactions, Processes & AI Actions · Third Line
+
+`RiskFirewall AI` 是组合品牌，不是第四个仓库，也不证明 live AI execution、
+自动决策、生产 firewall、已部署控制系统或两个应用具有相同实现状态。
 
 ## 边界
 
 本文总结的是一套正在真实项目中实践和迭代的方法，不将其表述为
 已经完成行业验证的标准。
+
+应用项目提供事实、摩擦与证据，但不能自行改写共同方法。未经验证的
+hypothesis 不进入 canonical method；未发布的候选不表述为公开版本。
+AI 或 Agent 不替 Owner 决定风险偏好、重大原则或不可逆事项。
 
 ## 作者标识
 
