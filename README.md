@@ -69,7 +69,7 @@ AI 或 Agent 不替 Owner 决定风险偏好、重大原则或不可逆事项。
 
 ## 作者标识
 
-小红书 `@就很菜` · `veggiedesu`
+Qi Sun · 小红书 `@就很菜` · `veggiedesu`
 
 ## 文件完整性
 
