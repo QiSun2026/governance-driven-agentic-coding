@@ -1,5 +1,6 @@
-# Optional GDAC practice template. It is not a new canonical method rule.
-schema_version: "0.1"
+# Optional GDAC practice template. Validate it before delegated work begins:
+# python practice-kit/tools/validate_contract.py path/to/contract.yaml
+schema_version: "1.0"
 contract_id: "replace-me"
 status: draft
 
@@ -52,7 +53,7 @@ stop_conditions:
 evidence_requirements:
   - claim_id: "criterion-1"
     required_types:
-      - deterministic_test
+      - deterministic_test  # deterministic_test | rule_check | model_grade | human_review | owner_decision | external_source
     insufficient_action: block  # block | owner-decision-required
 
 handoff:

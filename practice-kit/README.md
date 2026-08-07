@@ -3,8 +3,9 @@
 This directory contains small, copyable tools for applying
 **Governance-Driven Agentic Coding** in real work.
 
-It is a non-normative companion to public GDAC v1.4. It does not change the
-method version, create v1.5, or make every field mandatory for every task.
+It is a non-normative companion to public GDAC v1.4 and the unreleased v1.5
+candidate. It does not change the published method or make every field
+mandatory for every task.
 
 Except where otherwise noted, the kit is licensed with the rest of the
 repository under [CC BY 4.0](../NOTICE.md).
@@ -14,20 +15,27 @@ repository under [CC BY 4.0](../NOTICE.md).
 | File | Use it when |
 |---|---|
 | [`templates/outcome-contract.yaml`](templates/outcome-contract.yaml) | A material Agent task needs a measurable outcome, explicit authority, budgets, stop conditions, and evidence requirements before work begins. |
+| [`schemas/outcome-contract.schema.json`](schemas/outcome-contract.schema.json) | A machine-readable JSON Schema for Outcome Contract version 1.0. |
+| [`examples/outcome-contract.example.yaml`](examples/outcome-contract.example.yaml) | A filled contract for the schema and validator work in this repository. |
+| [`tools/validate_contract.py`](tools/validate_contract.py) | A small validator that accepts YAML or JSON and fails non-zero on invalid contracts. |
 | [`templates/project-closeout.md`](templates/project-closeout.md) | A project should stop, pause, or narrow without losing its evidence or turning sunk cost into a reason to continue. |
 | [`templates/method-change-retest.md`](templates/method-change-retest.md) | A project lesson may improve the shared method, but must be compared with the current baseline before promotion. |
 | [`cases/harness-closeout.md`](cases/harness-closeout.md) | You want a worked example of closing an engineered product hypothesis while retaining reusable governance practice. |
 
 ## Smallest useful workflow
 
-1. Copy the Outcome Contract only for a material or delegated task. Delete
-   fields that are genuinely inapplicable; do not fill them ceremonially.
-2. When the product or project no longer earns continued investment, complete
+1. Install the small validation dependencies with
+   `python -m pip install -r requirements-dev.txt`.
+2. Copy the Outcome Contract only for a material or delegated task. Delete
+   optional content that is genuinely inapplicable; do not fill it ceremonially.
+3. Freeze and validate it before work begins:
+   `python practice-kit/tools/validate_contract.py your-contract.yaml`.
+4. When the product or project no longer earns continued investment, complete
    the Project Closeout record before starting replacement work.
-3. If the project exposed a potentially reusable rule, preregister a Method
+5. If the project exposed a potentially reusable rule, preregister a Method
    Change Re-test. Compare the existing method and candidate using the same
    contemporaneous evidence.
-4. Promote nothing automatically. A passing test supports a decision; it does
+6. Promote nothing automatically. A passing test supports a decision; it does
    not make the decision or change the published method.
 
 ## Operating boundary

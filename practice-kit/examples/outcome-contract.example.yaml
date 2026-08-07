@@ -1,0 +1,69 @@
+schema_version: "1.0"
+contract_id: "gdac-v15-contract-validator"
+status: frozen
+
+outcome:
+  statement: "A reviewer can reject malformed Outcome Contracts before delegated work begins."
+  accepted_by: "Repository Owner"
+
+acceptance_criteria:
+  - criterion_id: "schema-valid"
+    description: "The filled example validates against the published JSON Schema."
+    grader: deterministic
+  - criterion_id: "negative-case"
+    description: "A contract missing Owner authority exits non-zero with a useful error."
+    grader: deterministic
+
+non_goals:
+  - "Proving that the contract improves real-world project outcomes."
+  - "Authorizing publication or changing the frozen v1.4 method."
+
+risk_tier: medium
+
+authority:
+  owner:
+    owner_id: "Qi Sun"
+    reserved_decisions:
+      - "Accept or reject the v1.5 candidate."
+      - "Authorize external publication."
+  roles:
+    - role_id: builder
+      can_write:
+        - "practice-kit/schemas"
+        - "practice-kit/tools"
+        - "tests"
+      forbidden_actions:
+        - "Modify frozen v1.4 artifacts."
+        - "Publish or expand its own authority."
+    - role_id: verifier
+      can_write: []
+      forbidden_actions:
+        - "Modify the contract or validator under review."
+        - "Convert a test pass into Owner acceptance."
+
+budget:
+  max_elapsed_minutes: 120
+  max_retries: 2
+  max_agent_depth: 1
+  token_budget: null
+
+stop_conditions:
+  - "A frozen v1.4 artifact changes."
+  - "The example passes only after weakening a required control."
+  - "A dependency or test result cannot be reproduced."
+
+evidence_requirements:
+  - claim_id: "schema-valid"
+    required_types:
+      - deterministic_test
+    insufficient_action: block
+  - claim_id: "negative-case"
+    required_types:
+      - deterministic_test
+    insufficient_action: block
+
+handoff:
+  required_outputs:
+    - "Changed artifact list."
+    - "Test commands and results."
+    - "Known limits and remaining Owner decisions."

@@ -3,6 +3,43 @@
 This repository records published versions of **Governance-Driven Agentic Coding**.
 Unpublished working changes and internal hypotheses are not public method versions.
 
+## v1.5 candidate - Owner review required
+
+### Status
+
+- Unreleased reduction-first candidate.
+- Frozen v1.4 HTML, PDF, and root checksum manifest remain unchanged.
+- No publication, adoption, production, compliance, or external-validation claim.
+
+### Removed from the normative method
+
+- GTM and narrative functions, including interview-narrative language.
+- Academy, Investor Office, Strategic Board, four-flow, and five-asset taxonomies.
+- RiskFirewall product branding and application positioning.
+- Uninstrumented KPI lists and claims of domain-neutral evidence.
+
+### Added or narrowed
+
+- Three load-bearing controls: bounded delegation, context-independent review,
+  and claim integrity.
+- A JSON Schema, filled YAML example, validator, and negative tests for the
+  Outcome Contract.
+- An explicit evidence-independence statement.
+- Related-work boundaries covering NIST AI RMF, the IIA Three Lines Model,
+  Federal Reserve SR 26-2, ADRs, in-toto, SLSA, and preregistration.
+- A git-verifiable freeze-before-review example that does not overclaim reviewer
+  party independence.
+- A one-page prospective Method-Change Re-test.
+- Two measurable metrics only when instrumented: tokens per accepted outcome and
+  evidence-driven reopen rate.
+
+### Evidence basis
+
+Repository tests demonstrate schema validation behavior on declared positive and
+negative cases. The method and conclusions remain author-produced and
+author-evaluated with AI assistance. No independent replication or organizational
+outcome improvement has been established.
+
 ## Repository supplement — 2026-08-07
 
 ### Status
