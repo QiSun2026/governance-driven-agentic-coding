@@ -24,7 +24,7 @@ def manifest_entries(manifest: Path) -> list[tuple[str, Path]]:
     "manifest",
     [
         ROOT / "SHA256SUMS.txt",
-        ROOT / "SHA256SUMS-v1.5-rc1.txt",
+        ROOT / "SHA256SUMS-v1.4.txt",
         ROOT / "practice-kit" / "SHA256SUMS.txt",
     ],
 )
@@ -49,8 +49,8 @@ class LinkCollector(HTMLParser):
             self.hrefs.append(values["href"] or "")
 
 
-@pytest.mark.parametrize("filename", ["candidate-v1.5.html", "candidate-v1.5-en.html"])
-def test_candidate_html_has_no_broken_local_links_or_ai_dash(filename: str) -> None:
+@pytest.mark.parametrize("filename", ["index.html", "en.html"])
+def test_current_html_has_no_broken_local_links_or_ai_dash(filename: str) -> None:
     page = ROOT / filename
     text = page.read_text(encoding="utf-8")
     assert "—" not in text
@@ -72,11 +72,11 @@ def test_candidate_html_has_no_broken_local_links_or_ai_dash(filename: str) -> N
 @pytest.mark.parametrize(
     "filename",
     [
-        "Governance-Driven-Agentic-Coding-v1.5-rc1.pdf",
-        "Governance-Driven-Agentic-Coding-EN-v1.5-rc1.pdf",
+        "Governance-Driven-Agentic-Coding-v1.5.pdf",
+        "Governance-Driven-Agentic-Coding-EN-v1.5.pdf",
     ],
 )
-def test_candidate_pdf_has_pdf_signature(filename: str) -> None:
+def test_current_pdf_has_pdf_signature(filename: str) -> None:
     path = ROOT / filename
     assert path.stat().st_size > 50_000
     assert path.read_bytes()[:5] == b"%PDF-"
@@ -92,3 +92,10 @@ def test_public_boundaries_cover_release_review_findings() -> None:
         assert required_reference in related_work
     assert "two author-run private projects" in related_work
     assert "No real defect was caught in this example" in review_result
+
+
+def test_current_entry_points_are_not_release_candidates() -> None:
+    for filename in ("README.md", "index.html", "en.html"):
+        text = (ROOT / filename).read_text(encoding="utf-8").lower()
+        assert "owner review candidate" not in text
+        assert "v1.5-rc1" not in text

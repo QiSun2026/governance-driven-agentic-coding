@@ -6,30 +6,35 @@ claim-level evidence, and an accountable Owner decision.
 
 ## Status
 
-- **Published method:** v1.4, frozen and unchanged.
-- **Working candidate:** v1.5, ready for an Owner publication decision and not
-  yet a public release.
+- **Current method:** v1.5, published on 2026-08-07.
+- **Historical version:** v1.4 remains available with unchanged HTML and PDF
+  artifact bytes.
 - **Evidence:** author-run projects and repository tests. No independent
   replication or validated delivery, safety, cost, or governance improvement.
 
 ## Read
 
-### v1.5 Owner review candidate
+### Current v1.5
 
-- [中文候选页面](./candidate-v1.5.html)
-- [English candidate](./candidate-v1.5-en.html)
+- [在线阅读中文版](./index.html)
+- [中文版 PDF](./Governance-Driven-Agentic-Coding-v1.5.pdf)
+- [Read the English edition](./en.html)
+- [English PDF](./Governance-Driven-Agentic-Coding-EN-v1.5.pdf)
 - [Related work and boundaries](./RELATED_WORK.md)
 - [Practice Kit](./practice-kit/README.md)
 
-### Current published v1.4
+The current HTML, PDFs, executable contract tools, tests, and supporting records
+are governed by [`SHA256SUMS.txt`](./SHA256SUMS.txt).
 
-- [在线阅读中文版](https://qisun2026.github.io/governance-driven-agentic-coding/)
+### Historical v1.4
+
+- [中文版 HTML](./versions/v1.4/index.html)
 - [中文版 PDF](./Governance-Driven-Agentic-Coding-v1.4.pdf)
-- [Read the English edition](https://qisun2026.github.io/governance-driven-agentic-coding/en.html)
+- [English HTML](./versions/v1.4/en.html)
 - [English PDF](./Governance-Driven-Agentic-Coding-EN-v1.4.pdf)
 
-The published entry pages and versioned PDFs remain governed by the root
-[`SHA256SUMS.txt`](./SHA256SUMS.txt).
+The historical artifacts are governed by
+[`SHA256SUMS-v1.4.txt`](./SHA256SUMS-v1.4.txt).
 
 ## The v1.5 kernel
 
@@ -58,7 +63,7 @@ The schema is at
 [`practice-kit/schemas/outcome-contract.schema.json`](./practice-kit/schemas/outcome-contract.schema.json).
 The filled example describes the actual validator work in this repository.
 
-## What the candidate removes
+## Why v1.5 is smaller
 
 v1.5 removes GTM, narrative, academy, investor-office, portfolio-brand, and
 asset-taxonomy material from the normative method. It also replaces the
@@ -86,7 +91,7 @@ Original repository material is licensed under
 [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).
 See [LICENSE](./LICENSE) and [NOTICE.md](./NOTICE.md).
 
-Historical PDFs remain available:
+Earlier historical PDFs remain available:
 
 - [中文版 v1.2](./Governance-Driven-Agentic-Coding-v1.2.pdf)
 - [English v1.3](./Governance-Driven-Agentic-Coding-EN-v1.3.pdf)

@@ -3,13 +3,14 @@
 This repository records published versions of **Governance-Driven Agentic Coding**.
 Unpublished working changes and internal hypotheses are not public method versions.
 
-## v1.5 candidate - Owner review required
+## v1.5 - 2026-08-07
 
 ### Status
 
-- Unreleased reduction-first candidate.
-- Frozen v1.4 HTML, PDF, and root checksum manifest remain unchanged.
-- No publication, adoption, production, compliance, or external-validation claim.
+- Current bilingual method version, accepted for publication by the Owner.
+- Frozen v1.4 HTML and PDF artifact bytes remain unchanged and have a
+  version-specific checksum manifest.
+- No adoption, production, compliance, or external-validation claim.
 
 ### Removed from the normative method
 

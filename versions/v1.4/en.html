@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance-Driven Agentic Coding · How an AI-Native Company Governs Itself</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Serif:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F9FA;
+  --ink:#1C2735;
+  --ink-soft:#54616F;
+  --seal:#2D5480;
+  --gilt:#8C6D24;
+  --rule:#D9DEE4;
+  --wash:#EEF1F4;
+  --serif:"IBM Plex Serif",Georgia,serif;
+  --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono","SF Mono",Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:16px;line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+}
+.sheet{max-width:820px;margin:0 auto;padding:0 28px}
+
+/* ---------- cover ---------- */
+.cover{padding:96px 0 72px;border-bottom:2px solid var(--ink);position:relative}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  color:var(--gilt);text-transform:uppercase;margin-bottom:40px;
+}
+.cover h1{
+  font-family:var(--sans);font-weight:700;
+  font-size:clamp(34px,6.2vw,58px);
+  line-height:1.15;letter-spacing:-.015em;margin-bottom:16px;
+}
+.cover .sub{
+  font-family:var(--serif);font-weight:600;font-size:clamp(18px,2.6vw,22px);
+  letter-spacing:.01em;color:var(--ink);margin-bottom:46px;
+}
+.cover .def{
+  font-size:17px;color:var(--ink-soft);max-width:620px;margin-bottom:28px;
+}
+.cover .thesis{
+  font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.62;
+  max-width:620px;border-left:3px solid var(--seal);padding-left:20px;margin-bottom:52px;
+}
+.functions{
+  display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+}
+.functions span{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;padding:12px 0;
+  flex:1 1 auto;text-align:center;color:var(--ink);white-space:nowrap;
+  border-right:1px solid var(--rule);min-width:100px;
+}
+.functions span:last-child{border-right:none}
+.functions i{font-style:normal;color:var(--gilt);margin-right:6px}
+.version{
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);
+  letter-spacing:.06em;margin-top:24px;
+}
+
+/* ---------- sections ---------- */
+section{padding:64px 0 8px;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:none}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:30px}
+.sec-num{
+  font-family:var(--mono);font-size:13px;color:var(--gilt);
+  letter-spacing:.1em;white-space:nowrap;padding-top:4px;
+}
+h2{
+  font-family:var(--sans);font-weight:700;font-size:clamp(23px,3.4vw,29px);
+  line-height:1.3;letter-spacing:-.01em;
+}
+h3{
+  font-family:var(--sans);font-weight:600;font-size:18px;
+  margin:38px 0 14px;letter-spacing:-.005em;
+}
+p{margin-bottom:16px;color:var(--ink);max-width:690px}
+p.soft{color:var(--ink-soft)}
+strong{font-weight:700}
+em{font-style:normal;color:var(--seal)}
+code{font-family:var(--mono);font-size:.9em;background:var(--wash);padding:1px 4px;border-radius:2px}
+
+.note{
+  background:var(--wash);border-left:3px solid var(--seal);
+  padding:22px 26px;margin:26px 0 30px;max-width:690px;border-radius:2px;
+}
+.note .tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  color:var(--gilt);display:block;margin-bottom:10px;text-transform:uppercase;
+}
+.note p{margin:0;font-family:var(--serif);font-weight:600;font-size:17.5px;line-height:1.66}
+
+ul.plain,ol.steps{margin:0 0 22px;padding-left:0;max-width:690px}
+ul.plain li{
+  list-style:none;padding:10px 0 10px 26px;position:relative;
+  border-bottom:1px dashed var(--rule);
+}
+ul.plain li:last-child{border-bottom:none}
+ul.plain li::before{
+  content:"";position:absolute;left:4px;top:1.3em;
+  width:7px;height:7px;background:var(--seal);border-radius:1px;transform:translateY(-50%) rotate(45deg);
+}
+ol.steps{counter-reset:step}
+ol.steps li{
+  list-style:none;counter-increment:step;
+  padding:10px 0 10px 44px;position:relative;border-bottom:1px dashed var(--rule);
+}
+ol.steps li:last-child{border-bottom:none}
+ol.steps li::before{
+  content:counter(step,decimal-leading-zero);
+  position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:12.5px;color:var(--gilt);letter-spacing:.05em;
+}
+li b{font-family:var(--sans);font-weight:600}
+
+.tbl{width:100%;border-collapse:collapse;margin:24px 0 34px;font-size:14.5px;line-height:1.6}
+.tbl th{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;font-weight:500;
+  text-align:left;color:var(--ink-soft);text-transform:uppercase;
+  padding:10px 16px 10px 0;border-bottom:1.5px solid var(--ink);
+}
+.tbl td{
+  padding:12px 16px 12px 0;border-bottom:1px solid var(--rule);
+  vertical-align:top;color:var(--ink);
+}
+.tbl td:first-child{font-family:var(--sans);font-weight:600}
+.tbl tr:last-child td{border-bottom:none}
+
+.record{
+  border:1px solid var(--rule);border-radius:2px;
+  padding:24px 26px;margin:0 0 18px;max-width:690px;background:#fff;
+}
+.record .rec-tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gilt);
+  display:block;margin-bottom:10px;text-transform:uppercase;
+}
+.record h4{font-family:var(--sans);font-size:17px;font-weight:600;margin-bottom:8px}
+.record p{margin:0;color:var(--ink-soft);font-size:15px}
+
+.flow{margin:0 0 20px;max-width:690px}
+.flow .f-name{font-family:var(--sans);font-weight:600;font-size:16px;margin-bottom:3px}
+.flow .f-path{
+  font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+  letter-spacing:.01em;margin-bottom:4px;line-height:1.85;
+}
+.flow .f-path i{font-style:normal;color:var(--seal)}
+.flow .f-q{color:var(--ink-soft);font-size:14.5px;margin-bottom:0}
+
+.closing{padding:72px 0 40px}
+.closing .final{
+  font-family:var(--serif);font-weight:700;font-size:clamp(21px,3.2vw,27px);
+  line-height:1.6;max-width:690px;margin-bottom:36px;
+}
+.closing .final em{color:var(--seal);font-style:normal}
+.appendix{
+  font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+  border-top:1px solid var(--rule);padding-top:22px;line-height:1.9;letter-spacing:.02em;
+}
+footer{
+  padding:28px 0 64px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-soft);
+}
+.wm{
+  position:fixed;right:14px;bottom:14px;z-index:9;
+  font-family:var(--mono),"Noto Sans SC";font-size:11px;letter-spacing:.1em;
+  color:var(--ink-soft);background:rgba(248,249,250,.85);
+  border:1px solid var(--rule);border-radius:2px;
+  padding:6px 10px;pointer-events:none;
+}
+.wm b{color:var(--seal);font-weight:500}
+@page{size:A4;margin:16mm 15mm 18mm}
+@media print{
+  body{font-size:13px}
+  .cover{padding-top:40px}
+  section{page-break-inside:auto}
+  .sec-head,h2,h3,.note,.record{break-inside:avoid;page-break-inside:avoid}
+  .sec-head,h2,h3{break-after:avoid-page;page-break-after:avoid}
+  .tbl tr,li{break-inside:avoid;page-break-inside:avoid}
+  section.closing{break-before:page;page-break-before:always;padding:50px 0 4px}
+  .closing .final{font-size:20px;margin-bottom:14px}
+  .appendix{padding-top:10px;line-height:1.55}
+  footer{padding:4px 0 8px;break-inside:avoid;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="eyebrow">Whitepaper · No. 01</div>
+  <h1>Governance-Driven Agentic Coding</h1>
+  <div class="sub">How an AI-Native Company Governs Itself</div>
+  <p class="def">A software development method in which the Owner steers and Agents execute, governed through explicit authorization, mandatory record-keeping, independent challenge, read-only reporting, and a closed learning loop.</p>
+  <div class="thesis">Not several AIs writing code together — but organizing them into a production system that is governable, traceable, and replaceable.</div>
+  <div class="functions">
+    <span><i>·</i>BUILD</span><span><i>·</i>REPORT</span><span><i>·</i>CHALLENGE</span><span><i>·</i>TEACH</span><span><i>·</i>EXTERNALIZE</span>
+  </div>
+  <div class="version">VERSION 1.4&nbsp;&nbsp;|&nbsp;&nbsp;2026-07-30&nbsp;&nbsp;|&nbsp;&nbsp;ITERATED FROM CROSS-PROJECT PRACTICE&nbsp;&nbsp;|&nbsp;&nbsp;XIAOHONGSHU @就很菜 · VEGGIEDESU</div>
+</header>
+
+<!-- ================= 1 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 01</span><h2>Executive Summary</h2></div>
+  <div class="note"><span class="tag">Core definition</span>
+    <p>Governance-driven agentic coding is a way of building software in which the Owner sets authorization and risk boundaries, a Managing Director Agent owns delivery, and the work is governed through independent challenge, organizational records, read-only information projections, and final human accountability.</p>
+  </div>
+  <p>What it addresses is not "how to get more Agents working together." It addresses a more fundamental delegation problem: when a human cannot personally master every technical detail, how do you expand AI's autonomous execution without losing the objective, the judgment, the risk control, and the final responsibility?</p>
+  <p>The long-term value of this system does not depend on any particular model. Codex, Claude, or GPT are merely the current occupants of a role. What must be preserved are role responsibilities, authority boundaries, evidence, decision records, escalation rules, and the acceptance regime.</p>
+  <p><strong>In one line: models are replaceable; roles and institutions must persist.</strong></p>
+  <h3>Five core functions</h3>
+  <ul class="plain">
+    <li><b>Build</b> — the Managing Director creates and delivers project value.</li>
+    <li><b>Report</b> — the Investor Office compresses project change into a state the Owner can actually read.</li>
+    <li><b>Challenge</b> — the Strategic Board independently challenges major direction and high-risk decisions.</li>
+    <li><b>Teach</b> — the Academy converts real project material into the Owner's comprehension and judgment.</li>
+    <li><b>Externalize</b> — the GTM &amp; Narrative Office converts project evidence into verifiable external expression.</li>
+  </ul>
+</section>
+
+<!-- ================= 2 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 02</span><h2>First Principle: Delegation Must Not Mean Loss of Control</h2></div>
+  <p><strong>The real danger of AI coding is not only that AI writes the wrong code. The deeper risk is that when the Owner delegates execution, control, comprehension, and responsibility go out the door with it.</strong></p>
+  <p class="soft">This method therefore holds three floors:</p>
+  <ul class="plain">
+    <li>AI's execution capability may keep expanding, but the Owner's final judgment cannot be transferred.</li>
+    <li>The human need not participate in every step, but must understand the key assumptions, the irreversible decisions, and the residual risk.</li>
+    <li>Complex work can be delegated. Responsibility for the outcome cannot.</li>
+  </ul>
+  <div class="note"><span class="tag">Human-in-command</span>
+    <p>The goal is not to keep the human in every step, but to move the human out of low-value execution while keeping the human in high-value judgment.</p>
+  </div>
+</section>
+
+<!-- ================= 3 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 03</span><h2>Investor Mandate and Operating Constitution</h2></div>
+  <h3>Investor Mandate: the highest authorization for a single project</h3>
+  <p>The Investor Mandate is not an ordinary brief, nor a technical specification. It defines why the investment is being made, what is authorized, how much may be spent, which risks cannot be borne, and what result counts as success.</p>
+  <table class="tbl">
+    <tr><th>Component</th><th>Question it must answer</th></tr>
+    <tr><td>Vision</td><td>What real-world value the project is meant to create</td></tr>
+    <tr><td>Scope / Non-scope</td><td>What will be done — and explicitly what will not</td></tr>
+    <tr><td>Capital</td><td>Time, tokens, tools, external services, and other resources</td></tr>
+    <tr><td>Risk Appetite</td><td>Which risks are acceptable and which are absolutely not</td></tr>
+    <tr><td>Success Criteria</td><td>What evidence determines that the project succeeded</td></tr>
+    <tr><td>Reserved Decisions</td><td>Which matters must be decided by the Owner</td></tr>
+  </table>
+  <h3>Operating Constitution: the organizational discipline that does not change between projects</h3>
+  <ul class="plain">
+    <li>No fabrication of facts, progress, test results, or business impact.</li>
+    <li>Facts, assumptions, risks, and recommendations must be stated separately.</li>
+    <li>Major decisions must leave behind their basis, the alternatives, and any dissent.</li>
+    <li>Critical failures may not be hidden by a summary; irreversible operations must be escalated.</li>
+    <li>No Agent may approve its own final delivery.</li>
+    <li>Important knowledge may not live only in a chat window; history may not be overwritten.</li>
+    <li>Scope may not be expanded, nor risk appetite changed, without authorization.</li>
+  </ul>
+</section>
+
+<!-- ================= 4 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 04</span><h2>Organization and Authority Model</h2></div>
+  <p>The organization has two parts: a control core that can affect the Product, and a read-only derivative layer that may only read facts and generate views for different audiences.</p>
+  <table class="tbl">
+    <tr><th>Role</th><th>Core responsibility</th><th>Authority boundary</th><th>Primary output</th></tr>
+    <tr><td>Owner / Investor</td><td>Vision, capital, risk appetite, legal risk, final acceptance</td><td>Retains final decision rights and responsibility</td><td>Investor Mandate; accept / pause / terminate</td></tr>
+    <tr><td>Managing Director</td><td>Planning, architecture, delegation, quality, records, delivery</td><td>May autonomously handle ordinary engineering decisions within the mandate</td><td>Product, Project Ledger, Decision Log</td></tr>
+    <tr><td>Strategic Board</td><td>Independent challenge, by mandate, on major direction, long-term trade-offs, and high-risk decisions</td><td>Advice and second review only; no management, decision, or implementation authority</td><td>Board package, independent opinion, MD disposition</td></tr>
+    <tr><td>Investor Office</td><td>Reports the true project state from the Owner's side</td><td>Read-only; does not manage the MD or modify the Product</td><td>Project State, Dashboard, Executive Brief</td></tr>
+    <tr><td>Academy</td><td>Converts project facts into the Owner's understanding and judgment</td><td>Read-only; may not alter development sequencing</td><td>Project-driven teaching, Capability Ledger</td></tr>
+    <tr><td>GTM &amp; Narrative</td><td>Converts what has already happened into external narrative</td><td>Read-only; may not reverse-engineer the product to fit a story</td><td>Demo, case study, narrative</td></tr>
+  </table>
+  <h3>Federated Strategic Board</h3>
+  <p>Each project and the portfolio office preserve their own challenge context and visible record. Claude may currently occupy the advisory and second-review role through an Owner-visible Chrome conversation, but Claude is only the current role-holder and has no management, decision, or implementation authority. Advice from one mandate does not automatically become a requirement for another. Advice, MD disposition, Owner decision, implementation, and publication status must be recorded separately.</p>
+  <h3>Temporary execution roles</h3>
+  <p>Specialist Agents and red-team Agents are generated dynamically by the MD per task. They are not standing departments; they may exit as soon as the task ends. Every temporary role must carry an explicit mission, scope, inputs, output, completion criteria, and escalation rule.</p>
+</section>
+
+<!-- ================= 5 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 05</span><h2>The Standard Operating Loop</h2></div>
+  <ol class="steps">
+    <li>The Owner issues an Investor Mandate stating objectives, non-objectives, resources, risk, and acceptance.</li>
+    <li>The MD converts the mandate into the shortest verifiable loop, establishing task dependencies, test strategy, and escalation points.</li>
+    <li>The MD creates Specialist Agents dynamically to carry out research, implementation, testing, documentation, or security work.</li>
+    <li>All Agent communication, decisions, failures, and fixes are recorded by mandate.</li>
+    <li>The MD completes a first round of self-checking; this is quality control, not independent audit.</li>
+    <li>Risk level determines whether dedicated red teams or the Strategic Board are triggered.</li>
+    <li>Ordinary issues are fixed by the MD; anything beyond the mandate or the risk appetite is escalated to the Owner.</li>
+    <li>The Owner performs final acceptance against the mandate: accept, accept with conditions, rework, pause, or terminate.</li>
+    <li>After the project closes, organizational memory, Owner capability, and external narrative assets are consolidated.</li>
+  </ol>
+  <h3>Review escalates by risk</h3>
+  <table class="tbl">
+    <tr><th>Risk level</th><th>Typical trigger</th><th>Review and decision</th></tr>
+    <tr><td>Low · reversible</td><td>Local change, easy rollback, clear blast radius</td><td>MD self-check</td></tr>
+    <tr><td>Medium · cross-module</td><td>Interface change, data handling, multi-module dependency</td><td>One or two dedicated red teams</td></tr>
+    <tr><td>High · irreversible</td><td>Security, legal, capital, major architecture, launch gates</td><td>Multiple red teams + Strategic Board</td></tr>
+    <tr><td>Beyond mandate</td><td>Changing objectives, expanding scope, breaching budget or risk appetite</td><td>Owner decides</td></tr>
+  </table>
+  <p><strong>Review principle:</strong> the number of red teams has no value in itself; a new attack angle, a new evidence source, or a new specialist capability does. Red teams may be generated by the MD, but any high-risk review must include at least one independent perspective that the MD did not create and that does not share the MD's context — such as the Strategic Board or an independent red team. Otherwise the organization falls into the same-source self-review failure it defines for itself.</p>
+</section>
+
+<!-- ================= 6 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 06</span><h2>Organizational Memory</h2></div>
+  <div class="note"><span class="tag">The key difference</span>
+    <p>What the read-only Agents read is not "what the MD told me." It is the organizational record the MD left behind.</p>
+  </div>
+  <p>All internal Agent communication, decisions, and fixes must leave a log; record-keeping is an institutional requirement, not something that depends on any role's diligence. The critical Decision Log follows append-only discipline: history cannot be overwritten, and any revision must fully preserve the version, the time, and the reason.</p>
+  <table class="tbl">
+    <tr><th>Record layer</th><th>Question it answers</th><th>Contents</th></tr>
+    <tr><td>Project Ledger</td><td>Where the project is now</td><td>Current phase, done / in progress, risks and blockers, next milestone, key evidence</td></tr>
+    <tr><td>Decision Ledger</td><td>Why the project got here</td><td>Decision, context, alternatives, evidence, dissent, rationale, later validation</td></tr>
+    <tr><td>Raw Logs</td><td>What actually happened</td><td>Agent communication, commands, tests, failures, fixes, and their order in time</td></tr>
+    <tr><td>Executive Summary</td><td>What the Owner needs to know now</td><td>Changes, health, risks, blockers, matters requiring a decision</td></tr>
+  </table>
+  <p>Raw logs exist for traceability; summaries exist to resume work and lower cognitive load. A summary may be rewritten, but it can never replace or delete the original record.</p>
+  <p><strong>The value of organizational memory:</strong> being able to answer, later, "why did we choose A rather than B?" — instead of relying on some model's vague recollection.</p>
+</section>
+
+<!-- ================= 7 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 07</span><h2>Four Information Flows</h2></div>
+  <p>This organization is not a simple chain of command. It runs four flows at once, each with a different direction and different permissions.</p>
+  <div class="flow">
+    <div class="f-name">Delivery Flow</div>
+    <div class="f-path">Investor Mandate <i>→</i> MD + Specialists <i>→</i> Product</div>
+    <p class="f-q">Answers: how the project gets done.</p>
+  </div>
+  <div class="flow">
+    <div class="f-name">Reporting Flow</div>
+    <div class="f-path">Material change <i>→</i> Mandatory log <i>→</i> Investor Office <i>→</i> Project State / Dashboard <i>→</i> Owner</div>
+    <p class="f-q">Answers: where the project stands now.</p>
+  </div>
+  <div class="flow">
+    <div class="f-name">Learning Flow</div>
+    <div class="f-path">Project Facts <i>→</i> Academy <i>→</i> Owner Capability</div>
+    <p class="f-q">Answers: what the Owner learned from the project.</p>
+  </div>
+  <div class="flow">
+    <div class="f-name">Market Flow</div>
+    <div class="f-path">Project Evidence <i>→</i> GTM Office <i>→</i> Demo / Case / Narrative <i>→</i> External Audience</div>
+    <p class="f-q">Answers: why outsiders should understand and believe it.</p>
+  </div>
+  <p class="soft" style="margin-top:26px"><strong style="color:var(--ink)">Shared fact layer:</strong> Project Ledger + append-only Decision Log.</p>
+</section>
+
+<!-- ================= 8 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 08</span><h2>The Three Read-Only Offices</h2></div>
+  <h3>Investor Office: the Owner's project secretariat</h3>
+  <p>The Investor Office reports to the Owner directly. It is not the MD's secretary and does not manage the project. When mainline milestones, plans, risks, blockers, or important decisions change materially, the MD notifies it. It reads changes in the Project Ledger and Decision Log and produces the management information the Owner sees daily.</p>
+  <ul class="plain">
+    <li><b>Project State</b> — current phase, health, next milestone, blockers.</li>
+    <li><b>Dashboard</b> — a high-density management view for the Owner.</li>
+    <li><b>Executive Brief</b> — material changes, major decisions, risks, recommendations.</li>
+    <li><b>Owner Decisions Required</b> — matters only the Owner can decide, with deadlines.</li>
+  </ul>
+  <h3>Academy: a project-driven learning system for the Owner</h3>
+  <p>The Academy reads only what actually happened in the project. It does not teach abstract courses detached from the work, and it may not ask the MD to change development sequencing for teaching purposes. It answers: what happened today, why it was done this way, what mechanism sits underneath, and how the Owner might judge it independently next time.</p>
+  <div class="note"><span class="tag">Learning objective</span>
+    <p>Ordinary AI coding optimizes how to finish the project. The Academy further optimizes how the human becomes more capable after every project.</p>
+  </div>
+  <h3>GTM &amp; Narrative Office: evidence-driven external expression</h3>
+  <p>The GTM Office generates demos, case studies, interview narratives, and communication material from project evidence. It may not write plans as if they were shipped, may not hide failures, and may not reverse-pressure the Product for the sake of a better story.</p>
+  <p><strong>Highest discipline:</strong>&nbsp;<em>Narrative follows evidence.</em></p>
+</section>
+
+<!-- ================= 9 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 09</span><h2>Five Compounding Assets from One Project</h2></div>
+  <p>Under this method, code is only one of the outputs. A single investment generates five reusable assets at once.</p>
+  <ul class="plain">
+    <li><b>Product</b> — a deliverable that can be run, tested, demonstrated, or iterated further.</li>
+    <li><b>Organizational Memory</b> — mandatory records, a fully preserved Decision Log, an error catalogue, and the record of how the institution itself evolved.</li>
+    <li><b>Project State + Dashboard</b> — sustainable management information generated for the Owner by the Investor Office.</li>
+    <li><b>Owner Capability</b> — conceptual understanding, risk judgment, and independent decision-making consolidated by the Academy.</li>
+    <li><b>Demo / Case / Narrative</b> — external, professional, and commercial assets generated by the GTM Office.</li>
+  </ul>
+  <div class="note"><span class="tag">The compounding logic</span>
+    <p>The project advances, the organization accumulates memory, the Owner accumulates judgment, and the work accumulates external visibility — all from the same investment.</p>
+  </div>
+</section>
+
+<!-- ================= 10 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 10</span><h2>Lean Discipline, Failure Modes, and Measurement</h2></div>
+  <p><strong>Organizational complexity must not exceed project complexity. A new role must solve a problem that has already appeared, not prevent one that is merely imagined; a retained role must keep proving that its value exceeds its coordination cost.</strong></p>
+  <h3>Conditions for adding a role</h3>
+  <ul class="plain">
+    <li>It brings a new source of information.</li>
+    <li>It brings a new specialist capability.</li>
+    <li>It brings a new independent perspective.</li>
+    <li>It brings a new supervisory mechanism.</li>
+  </ul>
+  <h3>Common failure modes</h3>
+  <table class="tbl">
+    <tr><th>Failure mode</th><th>How it shows up</th></tr>
+    <tr><td>Prompt cosplay</td><td>Titles like CEO or Reviewer exist, but there are no permissions, no defined inputs and outputs, and no escalation rules.</td></tr>
+    <tr><td>Same-source self-review</td><td>One model produces the plan, then a few roles sharing the same context are asked to object mildly.</td></tr>
+    <tr><td>Owner abdication</td><td>"I'm not technical" becomes the reason not to define acceptance criteria or risk boundaries.</td></tr>
+    <tr><td>Verbal reporting replaces records</td><td>The Investor Office listens to the MD's summary instead of reading the original organizational record.</td></tr>
+    <tr><td>Narrative capture</td><td>The story or the demo starts driving product facts and priorities in reverse.</td></tr>
+    <tr><td>Permanent roles</td><td>Once created, a role is never re-justified, and the organization keeps inflating.</td></tr>
+  </table>
+  <h3>Suggested organizational KPIs</h3>
+  <ul class="plain">
+    <li>Whether the time the Owner spends reading raw logs is falling.</li>
+    <li>Whether major risks are being found and escalated earlier.</li>
+    <li>The ratio of valid findings to false positives from red teams.</li>
+    <li>Whether the reasons for overturned or reworked decisions remain traceable.</li>
+    <li>Whether Project State matches actual delivery.</li>
+    <li>Whether the Academy is improving the Owner's independent judgment.</li>
+    <li>Whether GTM helps external audiences understand the project's value more accurately.</li>
+  </ul>
+</section>
+
+<!-- ================= 11 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 11</span><h2>Field Record: Three Governance Interventions</h2></div>
+  <p><strong>The effectiveness of an institution does not show up in its diagram. It shows up in what the institution actually intercepted.</strong> The three records below come from the live project currently running this method; details have been anonymized.</p>
+  <div class="record">
+    <span class="rec-tag">Record · I</span>
+    <h4>The instrument changed mid-measurement; the whole batch was voided</h4>
+    <p>During an acceptance review executed personally by the Owner, the MD altered the wording of part of the review material midway. An independent red team ruled that changing the object of measurement while measurement is in progress contaminates the entire batch, not merely the parts that were edited. The review round was marked invalid in full and redone against a frozen version. The original records, the edits, and the reason for invalidation were preserved and not deleted.</p>
+  </div>
+  <div class="record">
+    <span class="rec-tag">Record · II</span>
+    <h4>The reviewer refused to sign off on a summary</h4>
+    <p>In a milestone re-review, the Strategic Board refused to issue a pass verdict on the basis of an implementation summary alone. Its reasoning: if the review step accepts a verbal summary as evidence, the top of the control chain becomes the weakest link in it. That round's conclusion was explicitly downgraded to "a judgment on the described design only," kept strictly separate from conclusions reached through independent verification.</p>
+  </div>
+  <div class="record">
+    <span class="rec-tag">Record · III</span>
+    <h4>Order of evidence moved from believed to provable</h4>
+    <p>A red team required that key review material be committed to a version snapshot before it is handed to the reviewer, and that the review output live in a later snapshot. The order of material and conclusion thereby became a verifiable fact rather than a procedural claim.</p>
+  </div>
+  <p style="margin-top:24px"><strong>What they have in common:</strong> none of the three interventions caught a capability defect in a model. Each caught the moment when the process, under pressure, wanted to cut a corner.</p>
+</section>
+
+<!-- ================= 12 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 12</span><h2>Practice → Evidence: an Auditable Governance-Learning Loop</h2></div>
+  <div class="note"><span class="tag">Versioned learning</span>
+    <p>Application projects provide facts and experience, but they may not rewrite the shared method. An unverified hypothesis may not enter the canonical method early.</p>
+  </div>
+  <table class="tbl">
+    <tr><th>Stage</th><th>Required record</th><th>Control boundary</th></tr>
+    <tr><td>Practice</td><td>Raw observation, friction, failure, or near miss</td><td>Describe what happened before abstracting a rule</td></tr>
+    <tr><td>Evidence</td><td>Reproduction steps, version snapshots, counterexamples, applicability boundary</td><td>Separate facts, source attestation, and unknowns</td></tr>
+    <tr><td>Proposed Change</td><td>Rule proposal, migration impact, rollback, version candidate</td><td>A proposal does not mean the method has changed</td></tr>
+    <tr><td>Decision</td><td>Accept, modify, reject, or continue testing, with rationale</td><td>Internal patch/minor changes may be approved by the portfolio governance office; major principles and publication remain Owner decisions</td></tr>
+    <tr><td>Versioned Method</td><td>Version, Change Log, evidence references, migration note</td><td>Only approved changes enter a formal version</td></tr>
+    <tr><td>Re-test</td><td>Results in the source context and a transfer context</td><td>When contradicted, roll back, narrow the boundary, or return to hypothesis</td></tr>
+  </table>
+  <h3>When governance review starts</h3>
+  <ul class="plain">
+    <li>The same friction appears in two projects.</li>
+    <li>One project exposes a material control gap or near miss.</li>
+    <li>Unclear role or authority boundaries cause rework.</li>
+    <li>Practice contradicts an existing method statement.</li>
+    <li>A reproducible, transferable governance mechanism appears.</li>
+    <li>Agentic automation exposes a new supervision or rollback need.</li>
+    <li>A major milestone provides sufficient new evidence.</li>
+  </ul>
+  <h3>Version boundaries</h3>
+  <table class="tbl">
+    <tr><th>Level</th><th>Typical change</th><th>Approval boundary</th></tr>
+    <tr><td>Patch</td><td>Typo, clarification, citation, or non-substantive evidence addition</td><td>No change to authority, control gates, or behavior requirements</td></tr>
+    <tr><td>Minor</td><td>Backward-compatible mechanism, trigger, record type, or low-risk control</td><td>No change to core decision rights, risk appetite, or human decision boundary</td></tr>
+    <tr><td>Major</td><td>Change to a core principle, authority, mandatory control, or human decision boundary</td><td>Owner decides</td></tr>
+  </table>
+</section>
+
+<!-- ================= 13 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 13</span><h2>Capability Claims, Conclusion Provenance, and Derivation Integrity</h2></div>
+  <p>Cross-project practice shows that governance must preserve evidence and constrain what the evidence can support. The three rules below are domain-neutral. Implementations may differ, but they may not cross the same fact boundary.</p>
+  <h3>1. Capability Claim Attestation</h3>
+  <p>An <code>Agent-executed</code>, <code>AI-executed</code>, automated, or model-evaluated capability claim must be bound to evidence of the actual runtime, provider, execution event, and material configuration or output. An interface, fixture, mock, provider adapter, or <code>agent-ready</code> structure proves readiness, not that an Agent executed the reviewed case.</p>
+  <h3>2. Conclusion Provenance</h3>
+  <p>A <code>human-only</code>, human-approved, or reviewer-approved conclusion cannot be established by a label alone. It must be verifiable or recomputable from exception state and a human-review chain that answers who reviewed what evidence, what decision was made, and whether unresolved exceptions remained.</p>
+  <h3>3. Derivation Integrity</h3>
+  <p>An input or raw hash proves identity and immutability of that object. It does not prove that a downstream draft, recommendation, or conclusion was derived from it. Decision-critical chains must connect <code>raw → draft → conclusion</code> through replayable transformation, canonical equality, a testable equivalence rule, or a derivation manifest.</p>
+  <div class="note"><span class="tag">Application portfolio</span>
+    <p>RiskFirewall AI — Product Risk Review (Complex Instruments · Second Line) and RiskFirewall AI — Risk Control Assurance (Transactions, Processes &amp; AI Actions · Third Line) are the two application lines practicing this method.</p>
+  </div>
+  <p><strong>Naming boundary:</strong> <code>RiskFirewall AI</code> is a portfolio brand, not a fourth repository. It does not prove live AI execution, automated decision-making, a production firewall, a deployed control system, or identical implementation between the applications.</p>
+  <p><strong>Limits retained:</strong> a provider interface is not live execution; source authenticity and semantic sufficiency may still require human review; a hash is not semantic derivation; and evidence maturity must be stated separately for each application.</p>
+</section>
+
+<!-- ================= 14 ================= -->
+<section>
+  <div class="sec-head"><span class="sec-num">SEC. 14</span><h2>Minimum Viable Implementation</h2></div>
+  <p>A minimum viable version does not need a dozen Agents. Start with one production core that holds write access, one strategic challenge role, three read-only views, and five basic record types.</p>
+  <ol class="steps">
+    <li>Write a one-page Investor Mandate.</li>
+    <li>Make explicit the authority boundaries of the Owner, the MD, and the Strategic Board.</li>
+    <li>Have the MD continuously maintain a Project Ledger and an append-only Decision Log.</li>
+    <li>Define which project changes actively trigger the Investor Office.</li>
+    <li>Establish a three-tier review protocol for low, medium, and high risk.</li>
+    <li>Ensure the Academy and GTM stay read-only and never modify the Product in reverse.</li>
+    <li>Define the final Acceptance Gate and the residual risk that is acceptable.</li>
+    <li>Establish the Practice → Evidence → Proposed Change → Decision → Versioned Method → Re-test record.</li>
+    <li>Audit capability claims, human-conclusion provenance, and decision-critical derivation chains.</li>
+    <li>Update organizational rules, the Change Log, and the Capability Ledger at the end of every milestone.</li>
+  </ol>
+  <h3>Acceptance Gate</h3>
+  <table class="tbl">
+    <tr><th>Acceptance layer</th><th>What is judged</th></tr>
+    <tr><td>Functional</td><td>Whether the deliverable works and the critical tests pass</td></tr>
+    <tr><td>Assurance</td><td>Whether evidence, red-teaming, risk records, and failure handling are complete</td></tr>
+    <tr><td>Investor</td><td>Whether the result still fits the Investor Mandate and the risk appetite</td></tr>
+  </table>
+  <p>The final state may be <strong>accepted, accepted with residual risks, conditionally accepted, rework required, paused, or terminated</strong> — not merely "done."</p>
+</section>
+
+<!-- ================= closing ================= -->
+<section class="closing">
+  <p><strong>This method is not about making AI look like a company. What it sets out to solve is this: how to organize probabilistic, not-fully-reliable models into a production system that is replaceable, traceable, auditable, and capable of learning.</strong></p>
+  <div class="final">You are not hiring a model.<br>You are building an institution in which <em>models are replaceable, facts are traceable, risk is escalable, and the Owner always steers</em>.</div>
+  <div class="appendix">NOTE — This document summarizes a method currently practiced, challenged, and iterated across two application projects. It is not presented as an industry-validated standard, and it does not describe unpublished candidates, private implementations, or interface readiness as public capability.</div>
+</section>
+
+<footer>
+  <span>GOVERNANCE-DRIVEN AGENTIC CODING</span>
+  <span>XIAOHONGSHU @就很菜 · VEGGIEDESU</span>
+  <span>WHITEPAPER NO. 01 · V1.4</span>
+</footer>
+
+</div>
+<div class="wm">Xiaohongshu <b>@就很菜</b> · veggiedesu</div>
+</body>
+</html>

@@ -3,9 +3,8 @@
 This directory contains small, copyable tools for applying
 **Governance-Driven Agentic Coding** in real work.
 
-It is a non-normative companion to public GDAC v1.4 and the unreleased v1.5
-candidate. It does not change the published method or make every field
-mandatory for every task.
+It is a non-normative companion to current GDAC v1.5. It does not make every
+field mandatory for every task.
 
 Except where otherwise noted, the kit is licensed with the rest of the
 repository under [CC BY 4.0](../NOTICE.md).
@@ -65,7 +64,6 @@ claims that remain prohibited.
 
 ## Integrity and versioning
 
-The versioned v1.4 HTML and PDF artifacts remain governed by the repository-root
-`SHA256SUMS.txt`. This Practice Kit is a repository supplement, not part of
-those frozen v1.4 artifact bytes. Its files have a separate
-[`SHA256SUMS.txt`](SHA256SUMS.txt).
+The current v1.5 release is governed by the repository-root `SHA256SUMS.txt`.
+Historical v1.4 artifacts remain governed by `SHA256SUMS-v1.4.txt`. The Practice
+Kit files also have a directory-level [`SHA256SUMS.txt`](SHA256SUMS.txt).
