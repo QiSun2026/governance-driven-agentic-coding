@@ -276,6 +276,9 @@ li { margin-bottom: 8px; }
   section { padding-top: 9mm; break-before: auto; }
   h2, h3 { break-after: avoid; }
   table, pre, .status, .control, .callout { break-inside: avoid; }
+  ol > li, ul > li { break-inside: avoid; margin-bottom: 2mm; }
+  ul > li { display: block; position: relative; padding-left: 4mm; }
+  ul > li::before { content: "•"; position: absolute; left: 0; }
   a { color: var(--ink); text-decoration: none; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: var(--muted); }
   .footer { display: none; }

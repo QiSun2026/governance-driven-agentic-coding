@@ -80,3 +80,15 @@ def test_candidate_pdf_has_pdf_signature(filename: str) -> None:
     path = ROOT / filename
     assert path.stat().st_size > 50_000
     assert path.read_bytes()[:5] == b"%PDF-"
+
+
+def test_public_boundaries_cover_release_review_findings() -> None:
+    related_work = (ROOT / "RELATED_WORK.md").read_text(encoding="utf-8")
+    review_result = (ROOT / "examples/freeze-review/review-result.md").read_text(
+        encoding="utf-8"
+    )
+
+    for required_reference in ("SR 26-2", "EU AI Act", "Inspect", "AGENTS.md"):
+        assert required_reference in related_work
+    assert "two author-run private projects" in related_work
+    assert "No real defect was caught in this example" in review_result

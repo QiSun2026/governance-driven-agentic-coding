@@ -29,3 +29,5 @@ This example demonstrates temporal ordering and a fail-closed review result.
 Repository history proves that the governed object was committed before this
 review record. It does not demonstrate third-party reviewer independence. The
 Producer and Reviewer party relationship remains `unknown` in this example.
+No real defect was caught in this example. It demonstrates feasibility of the
+ordering control only, not defect-detection effectiveness.

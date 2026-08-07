@@ -7,7 +7,8 @@ claim-level evidence, and an accountable Owner decision.
 ## Status
 
 - **Published method:** v1.4, frozen and unchanged.
-- **Working candidate:** v1.5, under Owner review and not a public release.
+- **Working candidate:** v1.5, ready for an Owner publication decision and not
+  yet a public release.
 - **Evidence:** author-run projects and repository tests. No independent
   replication or validated delivery, safety, cost, or governance improvement.
 
@@ -75,8 +76,9 @@ They do not establish external adoption, product need, production effectiveness,
 or compliance.
 
 The construction is domain-agnostic only in the limited sense that its core
-schema has no domain-specific fields. It has not been independently validated
-across domains.
+schema has no domain-specific fields. Current practice evidence comes from two
+author-run private projects that external readers cannot inspect. It has not
+been independently validated across domains.
 
 ## License
 

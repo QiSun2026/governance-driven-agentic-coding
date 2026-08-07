@@ -49,7 +49,7 @@
           <strong>不是完整 Agent runtime，也不是合规认证。</strong>
           它不替代 Codex、Claude、CI、代码审查或组织治理。它只连接任务前的可验证结果、执行中的权限边界、任务后的证据与 Owner 决定。
         </div>
-        <p>这套结构可以用于不同软件领域，因为核心字段不绑定某个业务行业。但目前证据只来自作者主导的项目，没有外部采用、独立复现或生产效果证明。</p>
+        <p>这套结构可以用于不同软件领域，因为核心字段不绑定某个业务行业。但目前实践证据只来自作者主导的两个私有项目，外部读者无法查证，也没有外部采用、独立复现或生产效果证明。</p>
       </section>
 
       <section id="controls">
@@ -136,7 +136,7 @@ python practice-kit/tools/validate_contract.py \
           </div>
           <div>
             <h3>三条声明规则</h3>
-            <p><strong>Capability Claim Attestation：</strong><code>agent-ready</code> 不等于 <code>agent-executed</code>。</p>
+            <p><strong>Capability Claim Attestation：</strong><code>agent-ready</code> 不等于 <code>agent-executed</code>。这是可单独执行、可单独判失败的具名规则。</p>
             <p><strong>Conclusion Provenance：</strong>结论必须能追到对象、版本、证据与决定者。</p>
             <p><strong>Derivation Integrity：</strong>哈希能证明对象相同，不能单独证明从原始材料到结论的语义推导正确。</p>
           </div>
@@ -181,7 +181,7 @@ python practice-kit/tools/validate_contract.py \
           <li>AI Act 或其他监管 overlay 只能做证据映射和风险提示，不构成合规认证。</li>
           <li>现有测试证明 schema 和校验器在给定样例上工作，不证明组织采用价值。</li>
         </ul>
-        <p>完整对照见 <a href="RELATED_WORK.md">Related Work and Boundaries</a>。它说明 GDAC 与 NIST AI RMF、IIA Three Lines、SR 26-2、ADR、in-toto、SLSA 和 preregistration 的关系与差异。</p>
+        <p>完整对照见 <a href="RELATED_WORK.md">Related Work and Boundaries</a>。它说明 GDAC 与 NIST AI RMF、IIA Three Lines、SR 26-2、EU AI Act、ADR、in-toto、SLSA、preregistration、Inspect 和 AGENTS.md 的关系与差异。</p>
       </section>
     </main>
   </div>

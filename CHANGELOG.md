@@ -26,7 +26,8 @@ Unpublished working changes and internal hypotheses are not public method versio
   Outcome Contract.
 - An explicit evidence-independence statement.
 - Related-work boundaries covering NIST AI RMF, the IIA Three Lines Model,
-  Federal Reserve SR 26-2, ADRs, in-toto, SLSA, and preregistration.
+  Federal Reserve SR 26-2, the EU AI Act, ADRs, in-toto, SLSA,
+  preregistration, Inspect, and AGENTS.md.
 - A git-verifiable freeze-before-review example that does not overclaim reviewer
   party independence.
 - A one-page prospective Method-Change Re-test.
@@ -40,7 +41,7 @@ negative cases. The method and conclusions remain author-produced and
 author-evaluated with AI assistance. No independent replication or organizational
 outcome improvement has been established.
 
-## Repository supplement — 2026-08-07
+## Repository supplement (not a method version) - 2026-08-07
 
 ### Status
 
