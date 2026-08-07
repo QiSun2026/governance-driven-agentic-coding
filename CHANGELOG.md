@@ -3,6 +3,33 @@
 This repository records published versions of **Governance-Driven Agentic Coding**.
 Unpublished working changes and internal hypotheses are not public method versions.
 
+## Repository supplement — 2026-08-07
+
+### Status
+
+- Added a non-normative GDAC Practice Kit.
+- Public method version remains v1.4.
+- Versioned v1.4 HTML/PDF artifacts and their root SHA-256 manifest remain
+  unchanged.
+
+### Added
+
+- Applied the Owner-selected Creative Commons Attribution 4.0 International
+  license to original repository material and added an attribution notice.
+- A lightweight Outcome Contract template for material Agent work.
+- An evidence-gated Project Closeout template.
+- A prospective Method-Change Re-test template with explicit baseline,
+  falsification, proportionality, and authority fields.
+- A negative-result Harness closeout case note explaining what was retained and
+  what was deliberately not transferred.
+
+### Evidence and claim boundary
+
+The source Harness established bounded internal engineering behavior, not
+external adoption or a distinct standalone product need. Its runtime, adapters,
+dashboards, synthetic pass rates, and unvalidated method candidates were not
+imported into canonical GDAC.
+
 ## v1.4 — 2026-07-30
 
 ### Status

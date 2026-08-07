@@ -2,3 +2,4 @@
 *.md text eol=lf
 *.txt text eol=lf
 *.pdf binary
+LICENSE text eol=lf
