@@ -16,6 +16,21 @@
 - [Read the English edition v1.4 online](https://qisun2026.github.io/governance-driven-agentic-coding/en.html)
 - [Download the English PDF v1.4](./Governance-Driven-Agentic-Coding-EN-v1.4.pdf)
 - [查看 Change Log 与迁移说明](./CHANGELOG.md)
+- [查看许可证与署名说明](./NOTICE.md)
+
+## Practice Kit：直接拿来用
+
+如果你不想先实现一套新 runtime，可以从轻量的
+[GDAC Practice Kit](./practice-kit/README.md) 开始：
+
+- Outcome Contract：在工作开始前冻结结果、权限、预算和停止条件；
+- Project Closeout：停止一个项目，但不丢失其中可验证的学习；
+- Method-Change Re-test：先和现有方法做基线比较，再决定是否升级规则；
+- Harness Closeout Case：一个工程通过、产品证据不足，因此停止产品线并
+  只保留可复用治理工具的负面案例。
+
+Practice Kit 是非规范性配套材料，不改变 v1.4，也不代表其中的每个字段
+都适用于每个任务。
 
 ## 当前版本
 
@@ -70,6 +85,16 @@ AI 或 Agent 不替 Owner 决定风险偏好、重大原则或不可逆事项。
 ## 作者标识
 
 Qi Sun · 小红书 `@就很菜` · `veggiedesu`
+
+## 开源许可
+
+除另有说明外，本仓库原创内容由 Qi Sun 以
+[Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
+许可公开。你可以复制、传播和改编，包括商业使用；使用时须合理署名、
+链接许可证、注明是否修改，并不得暗示作者为改编内容或其用途背书。
+
+完整法律文本见 [LICENSE](./LICENSE)，推荐署名方式及第三方材料边界见
+[NOTICE.md](./NOTICE.md)。
 
 ## 文件完整性
 

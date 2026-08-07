@@ -1,0 +1,63 @@
+# Optional GDAC practice template. It is not a new canonical method rule.
+schema_version: "0.1"
+contract_id: "replace-me"
+status: draft
+
+outcome:
+  statement: "What verifiable result should exist when this work is done?"
+  accepted_by: "Owner or declared acceptance authority"
+
+acceptance_criteria:
+  - criterion_id: "criterion-1"
+    description: "A result that can be checked before work is accepted."
+    grader: deterministic  # deterministic | rule | model | human | owner
+
+non_goals:
+  - "Work that is explicitly outside this task."
+
+risk_tier: medium  # low | medium | high | regulated-overlay
+
+authority:
+  owner:
+    owner_id: "replace-me"
+    reserved_decisions:
+      - "Final acceptance"
+      - "Scope, budget, permission, or risk-boundary expansion"
+      - "External publication or irreversible action"
+  roles:
+    - role_id: builder
+      can_write:
+        - "Declare exact paths or resources."
+      forbidden_actions:
+        - "Change acceptance tests without recorded review."
+        - "Expand its own authority, budget, or recursion."
+    - role_id: verifier
+      can_write: []
+      forbidden_actions:
+        - "Modify the implementation being verified."
+        - "Convert technical verification into Owner acceptance."
+
+budget:
+  max_elapsed_minutes: 60
+  max_retries: 2
+  max_agent_depth: 1
+  token_budget: null  # Keep unknown when reliable usage data is unavailable.
+
+stop_conditions:
+  - "A required input, authority, or acceptance test is missing."
+  - "The task requires scope or permission outside this contract."
+  - "The retry, time, or Agent-depth budget is exhausted."
+  - "A material verifier or red-team finding remains unresolved."
+
+evidence_requirements:
+  - claim_id: "criterion-1"
+    required_types:
+      - deterministic_test
+    insufficient_action: block  # block | owner-decision-required
+
+handoff:
+  required_outputs:
+    - "Exact changed artifacts or governed object reference."
+    - "Checks run and their results."
+    - "Known limitations and unresolved items."
+    - "Owner decision still required, if any."
