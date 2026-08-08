@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Golden Record Chain | GDAC Practice Kit</title>
+<meta name="description" content="A readable walkthrough of one digest-bound GDAC v2.0 Contract, Eval Plan, Candidate Binding, evidence bundle, Harness Gate, and pending Owner disposition.">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/golden-case.html">
+<link rel="stylesheet" href="../site.css?v=20260808">
+</head>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="../index.html">GDAC<span> / Golden Case</span></a>
+<nav class="nav" aria-label="Main navigation">
+<a href="../index.html">Overview</a>
+<a href="../harness.html">Harness</a>
+<a href="../eval-rules.html">Eval Rules</a>
+<a class="on" href="./">Practice Kit</a>
+<a href="../related-work.html">Related Work</a>
+<a href="../zh.html" hreflang="zh-Hans">中文</a>
+</nav>
+</div>
+</header>
+
+<main id="content" class="wrap subpage">
+
+<article class="page-hero">
+<div class="col">
+<p class="label page-kicker">Worked protocol fixture · not product evidence</p>
+<h1>One candidate, one complete record chain</h1>
+<p class="page-summary">A small dry-run change shows how GDAC binds a frozen Contract and Eval Plan to a candidate, retains a rejected attempt, checks evidence by digest, derives the Harness Gate, and still leaves acceptance pending.</p>
+<div class="page-actions">
+<a class="text-cta" href="#chain">Follow the chain</a>
+<a class="source-link" href="examples/golden-dry-run/gate-record.example.yaml" download>Download the Gate Record</a>
+</div>
+</div>
+</article>
+
+<nav class="row sub-toc" data-noprint aria-label="Page contents">
+<p class="rail label">On this page</p>
+<ol>
+<li><a href="#chain"><span>What each object does</span></a></li>
+<li><a href="#failure"><span>Why the first attempt was rejected</span></a></li>
+<li><a href="#evidence"><span>How the gate is derived</span></a></li>
+<li><a href="#run"><span>Run and inspect it</span></a></li>
+</ol>
+</nav>
+
+<section class="row sec" id="chain">
+<p class="rail">Record chain</p>
+<div class="col">
+<h2>Every object answers a different question</h2>
+<p class="section-intro">The example is intentionally small. The point is not the cleanup function; it is the trace from delegated authority to a decision-ready record.</p>
+<ol class="record-chain">
+<li><strong>Outcome Contract</strong><span>What must be true, which risks matter, who may write, and where the task must stop.</span></li>
+<li><strong>Eval Plan</strong><span>Which claims and risks are tested, by which grader, with which evidence and budgets.</span></li>
+<li><strong>Candidate Binding</strong><span>The exact <code>candidate.py</code> digest, source revision, and attempt under review.</span></li>
+<li><strong>Evidence</strong><span>Test, rule, log, regression, adversarial, and diff records, each with a stable reference and digest.</span></li>
+<li><strong>Eval results</strong><span>One state per planned eval, bound to the same candidate and declared trial count.</span></li>
+<li><strong>Harness Gate</strong><span>Deterministically <code>ready</code> because every blocking eval passes and no material finding remains open.</span></li>
+<li><strong>Owner disposition</strong><span><code>pending</code>. Technical readiness does not accept or publish the work.</span></li>
+</ol>
+<div class="statement">
+<span class="label">Important distinction</span>
+<p>A snapshot records a state. A Candidate Binding identifies what is being evaluated. Evidence records observations about it. The Harness Gate aggregates declared results. The Owner disposition is a separate exercise of authority.</p>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="failure">
+<p class="rail">Failed attempt</p>
+<div class="col">
+<h2>The example keeps the attempt that did not prove the claim</h2>
+<p class="section-intro">The first attempt relied on a before-and-after filesystem snapshot. That was rejected because a temporary write could occur and disappear before the final snapshot.</p>
+<div class="comparison-list">
+<article class="comparison-item">
+<header class="comparison-head"><h3>From supporting evidence to direct evidence</h3></header>
+<div class="comparison-body">
+<div class="comparison-cell"><span class="label">build-0 · rejected</span><p>The snapshot showed the same final files, but could not establish that no temporary or metadata write was attempted.</p></div>
+<div class="comparison-cell"><span class="label">build-1 · completed</span><p>The test instruments the candidate's application-level <code>Path.unlink</code> operation and keeps the snapshot as corroboration.</p></div>
+<div class="comparison-cell limit-cell"><span class="label">Declared limit</span><p>The fixture inventories and instruments the write API used by the bundled candidate inside its process and fixture boundary. It does not cover unlisted libraries, child processes, or operating-system-wide writes.</p></div>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="evidence">
+<p class="rail">Gate derivation</p>
+<div class="col">
+<h2>Five blocking evals, one aggregate state</h2>
+<p class="section-intro">Each pass must include every evidence type frozen by its Eval Plan entry. The validator also checks file digests, candidate identity, attempt references, trial counts, contradictions, findings, and budgets.</p>
+<div class="tbl-wrap" role="region" aria-label="Golden case evaluation results" tabindex="0">
+<table class="roles">
+<caption class="sr-only">Recorded results and evidence for the golden dry-run case</caption>
+<thead><tr><th scope="col">Eval</th><th scope="col">Required evidence</th><th scope="col">Recorded result</th></tr></thead>
+<tbody>
+<tr><th scope="row">Filesystem comparison</th><td>Deterministic test and write log</td><td><code>pass</code></td></tr>
+<tr><th scope="row">Preview comparison</th><td>Rule check and deterministic test</td><td><code>pass</code></td></tr>
+<tr><th scope="row">Command regression</th><td>Regression result and deterministic test</td><td><code>pass</code></td></tr>
+<tr><th scope="row">Failure-path challenge</th><td>Adversarial result, deterministic test, and log</td><td><code>pass</code></td></tr>
+<tr><th scope="row">Authority boundary</th><td>Rule check and candidate diff</td><td><code>pass</code></td></tr>
+</tbody>
+</table>
+</div>
+<dl class="states">
+<div class="state"><dt>Harness Gate</dt><dd><code>ready</code></dd></div>
+<div class="state"><dt>Owner disposition</dt><dd><code>pending</code></dd></div>
+</dl>
+</div>
+</section>
+
+<section class="row sec" id="run">
+<p class="rail">Run locally</p>
+<div class="col">
+<h2>Inspect the readable case, then the source records</h2>
+<p class="section-intro">Run from the repository root. The first command executes the compact candidate fixture. The second validates the entire digest-bound record chain.</p>
+<details class="quick-check">
+<summary><span><strong>Show the commands</strong><small>Candidate test plus full Gate Record validation</small></span></summary>
+<div class="check-body">
+<pre class="code">python -m pytest -q practice-kit/examples/golden-dry-run/test_candidate.py
+python practice-kit/tools/validate_gate_record.py \
+  practice-kit/examples/golden-dry-run/gate-record.example.yaml \
+  --contract practice-kit/examples/dry-run-outcome-contract.example.yaml \
+  --eval-plan practice-kit/examples/eval-plan.example.yaml</pre>
+</div>
+</details>
+
+<div class="resource-groups">
+<section class="resource-group">
+<header><span class="label">Pre-work records</span><p>Frozen before the candidate is judged.</p></header>
+<div class="resource-items">
+<article class="resource-item"><h3>Outcome Contract</h3><p class="file-row"><a href="examples/dry-run-outcome-contract.example.yaml" download>Download YAML</a><code>dry-run-outcome-contract.example.yaml</code></p></article>
+<article class="resource-item"><h3>Eval Plan</h3><p class="file-row"><a href="examples/eval-plan.example.yaml" download>Download YAML</a><code>eval-plan.example.yaml</code></p></article>
+</div>
+</section>
+<section class="resource-group">
+<header><span class="label">Post-build record</span><p>Bound to the selected candidate.</p></header>
+<div class="resource-items">
+<article class="resource-item"><h3>Gate Record</h3><p class="file-row"><a href="examples/golden-dry-run/gate-record.example.yaml" download>Download YAML</a><code>gate-record.example.yaml</code></p></article>
+<article class="resource-item"><h3>Fixture source and evidence</h3><p class="file-row"><a href="examples/golden-dry-run/README.md" download>Download case README</a><code>examples/golden-dry-run/</code></p></article>
+</div>
+</section>
+</div>
+
+<div class="statement">
+<span class="label">Evidence boundary</span>
+<p>This is a protocol fixture showing that the included validators behave as declared on a small case. It is not evidence that GDAC improves real-world delivery, safety, cost, or governance outcomes.</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div class="foot-copy">
+<p class="foot-title">GDAC Golden Record Chain</p>
+<p>A readable route into the machine records, without presenting raw YAML as the primary public interface.</p>
+</div>
+<nav aria-label="Footer navigation">
+<a href="./">Practice Kit</a>
+<a href="../eval-rules.html">Eval Rules</a>
+<a href="#top">Back to top</a>
+</nav>
+</div>
+</footer>
+
+</body>
+</html>

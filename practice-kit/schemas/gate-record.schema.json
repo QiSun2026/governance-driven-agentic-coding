@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/schemas/gate-record.schema.json",
+  "title": "GDAC v2.0 Gate Record",
+  "description": "A post-build record binding one candidate to its attempts, evidence, evaluation results, findings, derived Harness Gate, and separate Owner disposition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate_record_id",
+    "contract_ref",
+    "eval_plan_ref",
+    "candidate_binding",
+    "attempts",
+    "evidence",
+    "eval_results",
+    "findings",
+    "harness_gate",
+    "owner_disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "gate_record_id": {
+      "type": "string",
+      "minLength": 3,
+      "pattern": "^[a-z0-9][a-z0-9._-]+$"
+    },
+    "contract_ref": {"$ref": "#/$defs/documentRef"},
+    "eval_plan_ref": {"$ref": "#/$defs/documentRef"},
+    "candidate_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_ref", "artifact_ref", "sha256", "source_revision"],
+      "properties": {
+        "candidate_ref": {"type": "string", "minLength": 3},
+        "artifact_ref": {"type": "string", "minLength": 3},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "source_revision": {"type": "string", "minLength": 3}
+      }
+    },
+    "attempts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attempt_id", "kind", "candidate_ref", "outcome", "reason"],
+        "properties": {
+          "attempt_id": {"type": "string", "minLength": 3},
+          "kind": {"enum": ["build", "evaluator_rerun"]},
+          "candidate_ref": {"type": "string", "minLength": 3},
+          "outcome": {"enum": ["retained", "rejected", "completed"]},
+          "reason": {"type": "string", "minLength": 5}
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "evidence_type",
+          "artifact_ref",
+          "sha256",
+          "produced_by_role",
+          "produced_by_principal_id"
+        ],
+        "properties": {
+          "evidence_id": {"type": "string", "minLength": 3},
+          "evidence_type": {
+            "enum": [
+              "deterministic_test",
+              "regression_test",
+              "rule_check",
+              "adversarial_result",
+              "security_check",
+              "privacy_check",
+              "model_grade",
+              "human_review",
+              "external_source",
+              "clean_clone",
+              "diff",
+              "log"
+            ]
+          },
+          "artifact_ref": {"type": "string", "minLength": 3},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "produced_by_role": {"type": "string", "minLength": 2},
+          "produced_by_principal_id": {"type": "string", "minLength": 2}
+        }
+      }
+    },
+    "eval_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "eval_id",
+          "candidate_ref",
+          "status",
+          "invalidated",
+          "trial_count",
+          "attempt_ids",
+          "evidence_ids",
+          "contradiction_refs",
+          "conflict_status"
+        ],
+        "properties": {
+          "eval_id": {"type": "string", "minLength": 3},
+          "candidate_ref": {"type": "string", "minLength": 3},
+          "status": {"enum": ["pass", "fail", "insufficient_evidence", "not_evaluated"]},
+          "invalidated": {"type": "boolean"},
+          "trial_count": {"type": "integer", "minimum": 0, "maximum": 100},
+          "attempt_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 3}
+          },
+          "evidence_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 3}
+          },
+          "contradiction_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 3}
+          },
+          "conflict_status": {"enum": ["none", "unresolved", "resolved"]}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_id", "material", "status", "claim_ids", "description"],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 3},
+          "material": {"type": "boolean"},
+          "status": {"enum": ["open", "resolved"]},
+          "claim_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 3}
+          },
+          "description": {"type": "string", "minLength": 8}
+        }
+      }
+    },
+    "harness_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "derivation_rule"],
+      "properties": {
+        "state": {"enum": ["ready", "blocked"]},
+        "derivation_rule": {"const": "gdac-v2.0-deterministic-aggregate"}
+      }
+    },
+    "owner_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "owner_id", "decision_ref", "conditions"],
+      "properties": {
+        "decision": {"enum": ["pending", "accept", "accept_with_conditions", "rework", "pause", "stop"]},
+        "owner_id": {"type": "string", "minLength": 2},
+        "decision_ref": {"type": ["string", "null"], "minLength": 3},
+        "conditions": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 3}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"decision": {"const": "pending"}}, "required": ["decision"]},
+          "then": {"properties": {"decision_ref": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"decision": {"enum": ["accept", "accept_with_conditions", "rework", "pause", "stop"]}}, "required": ["decision"]},
+          "then": {"properties": {"decision_ref": {"type": "string", "minLength": 3}}}
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "documentRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_id", "revision", "sha256"],
+      "properties": {
+        "document_id": {"type": "string", "minLength": 3},
+        "revision": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}

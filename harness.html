@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>GDAC Harness Architecture | Governance-Driven Agentic Coding</title>
+<meta name="description" content="A readable guide to the GDAC Harness architecture: bounded execution, separate evaluation, durable evidence, and accountable Owner decisions.">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/harness.html">
+<link rel="stylesheet" href="site.css?v=20260808">
+</head>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="index.html">GDAC<span> / Harness + Eval</span></a>
+<nav class="nav" aria-label="Main navigation">
+<a href="index.html">Overview</a>
+<a class="on" href="harness.html" aria-current="page">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="practice-kit/">Practice Kit</a>
+<a href="related-work.html">Related Work</a>
+<a href="zh.html" hreflang="zh-Hans">中文</a>
+</nav>
+</div>
+</header>
+
+<main id="content" class="wrap subpage">
+
+<article class="page-hero">
+<div class="col">
+<p class="label page-kicker">Harness architecture · GDAC v2.0</p>
+<h1>The control layer around agent work</h1>
+<p class="page-summary">A portable architecture that fixes outcome and authority before work, binds evidence to one exact candidate, derives one technical gate, and keeps acceptance with the accountable Owner.</p>
+<div class="page-actions">
+<a class="text-cta" href="#architecture">See how the system connects</a>
+<a class="source-link" href="HARNESS.md">Working source document (Markdown)</a>
+</div>
+</div>
+</article>
+
+<nav class="row sub-toc" data-noprint aria-label="Page contents">
+<p class="rail label">On this page</p>
+<ol>
+<li><a href="#definition"><span>What the Harness controls</span></a></li>
+<li><a href="#functions"><span>Five core functions</span></a></li>
+<li><a href="#architecture"><span>Connected architecture</span></a></li>
+<li><a href="#authority"><span>Authority and hard rules</span></a></li>
+<li><a href="#records"><span>Required record chain</span></a></li>
+<li><a href="#states"><span>States and controlled learning</span></a></li>
+<li><a href="#economy"><span>Budget and minimum adoption</span></a></li>
+<li><a href="#boundary"><span>Evidence boundary</span></a></li>
+</ol>
+</nav>
+
+<section class="row sec" id="definition">
+<p class="rail">Definition</p>
+<div class="col">
+<h2>What the Harness controls</h2>
+<p class="section-intro">The Harness sits around Codex, Claude, or another software Agent. It does not replace the Agent runtime. It defines how work enters, what may change, what must be recorded, how claims are checked, when work stops, and what reaches the Owner.</p>
+
+<div class="resource-groups">
+<section class="resource-group">
+<header>
+<span class="label">The durable layer</span>
+<p>Tools and models may change.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Outcome, authority, and evidence persist</h3>
+<p>Roles are temporary responsibilities, not permanent departments. The contract, permissions, records, evidence, and accountable decision survive each Agent session.</p>
+</article>
+<article class="resource-item">
+<h3>Two paths stay separate</h3>
+<p>The execution path may change the governed artifact within scope. The evaluation path may inspect, test, challenge, and block, but it may not rewrite the work or accept it for the Owner.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">What exists here</span>
+<p>Repository scope today.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Included</h3>
+<p>The architecture, Eval Rules, schemas, templates, validators, and worked examples.</p>
+</article>
+<article class="resource-item">
+<h3>Not included</h3>
+<p>An Agent runner, persistent evidence database, operating-system sandbox, deployment system, Owner identity service, or hosted control plane.</p>
+</article>
+</div>
+</section>
+</div>
+
+<p class="limit">The design aims to make delegated work bounded, reviewable, portable, and economical. Those aims are not evidence of adoption or effectiveness.</p>
+</div>
+</section>
+
+<section class="row sec" id="functions">
+<p class="rail">Core functions</p>
+<div class="col">
+<h2>Five functions make it useful</h2>
+<p class="section-intro">These are logical functions. A small project can implement them with files and scripts; they do not need separate services.</p>
+
+<dl class="defs">
+<div class="def">
+<dt>Contract validation</dt>
+<dd>Checks the outcome, non-goals, permissions, budget, stop rules, and Eval Plan before material work begins.</dd>
+</div>
+<div class="def">
+<dt>Attempt and budget record</dt>
+<dd>Preserves material actions, snapshots, failures, unresolved items, and resource use across the whole task.</dd>
+</div>
+<div class="def">
+<dt>Evidence interface</dt>
+<dd>Stores grader output in a common record linked to one claim or risk and one exact Candidate Binding.</dd>
+</div>
+<div class="def">
+<dt>Gate engine</dt>
+<dd>Reads stored results and applies the declared rules. It does not alter evidence or make the Owner's decision.</dd>
+</div>
+<div class="def">
+<dt>Owner decision record</dt>
+<dd>Binds the accountable decision, conditions, and remaining risk to the exact contract, candidate, and gate result.</dd>
+</div>
+</dl>
+
+<p class="coda">Adapters, dashboards, model calls, databases, Agent hosting, and deployment are optional extensions, not part of the minimum core.</p>
+</div>
+</section>
+
+<section class="row sec" id="architecture">
+<p class="rail">Architecture</p>
+<div class="col">
+<h2>One task, connected controls</h2>
+<p class="section-intro">The system follows one governed object from the Owner's intent to a recorded decision. Every handoff uses shared, versioned records.</p>
+
+<div class="system-diagram" role="img" aria-label="The Owner freezes the Outcome Contract and Eval Plan. Execution creates a candidate and evidence. Separate evaluation checks and challenges the candidate. The Harness Gate prepares a decision package for the Owner.">
+<div class="system-owner">
+<span class="system-label">Accountable control</span>
+<strong>Owner</strong>
+<p>Sets the outcome, risk limits, authority, budget, stop rules, and final acceptance.</p>
+</div>
+<div class="system-contracts">
+<div>
+<strong>Outcome Contract</strong>
+<span>What must be true, what is out of scope, and what the Agent may change.</span>
+</div>
+<div>
+<strong>Eval Plan</strong>
+<span>Which claims are checked, how the subject is selected, and which evidence is required.</span>
+</div>
+</div>
+<div class="system-work">
+<article>
+<span class="system-label">Write path</span>
+<h3>Execution</h3>
+<p>The Orchestrator prepares bounded work. The Builder makes the smallest change inside declared scope.</p>
+</article>
+<article>
+<span class="system-label">Shared source of truth</span>
+<h3>Records and evidence</h3>
+<p>The exact snapshot, diff, attempts, tests, logs, findings, limitations, and unknowns remain available to every role.</p>
+</article>
+<article>
+<span class="system-label">Read path</span>
+<h3>Verification and challenge</h3>
+<p>The Verifier checks frozen criteria. Red Team looks for unsafe assumptions, abnormal cases, overreach, and evidence gaps.</p>
+</article>
+</div>
+<div class="system-decision">
+<div>
+<strong>Harness Gate</strong>
+<span>Returns one aggregate state: blocked or ready.</span>
+</div>
+<div>
+<strong>Decision package</strong>
+<span>Shows the change, evidence, findings, unknowns, conditions, and remaining risk.</span>
+</div>
+<div>
+<strong>Owner disposition</strong>
+<span>Accept, accept with conditions, rework, pause, or stop.</span>
+</div>
+</div>
+</div>
+
+<p class="system-note">Read-only views may summarize the same records for the Owner, learning, or public communication. A view may reduce reading effort, but it may not rewrite original evidence or present a plan as a completed fact.</p>
+</div>
+</section>
+
+<section class="row sec" id="authority">
+<p class="rail">Authority</p>
+<div class="col">
+<h2>Responsibility is separated on purpose</h2>
+<p class="section-intro">Small tasks may combine roles, but write access, review context, evidence, and Owner-reserved decisions must remain explicit.</p>
+
+<div class="tbl-wrap" role="region" aria-label="Role authority table" tabindex="0">
+<table class="authority-table">
+<caption class="sr-only">Authority boundaries for each Harness responsibility</caption>
+<thead>
+<tr>
+<th scope="col">Responsibility</th>
+<th scope="col">May do</th>
+<th scope="col" class="deny">May not do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">Owner</th>
+<td>Freeze the outcome, risk, authority, and acceptance. Review assumptions, unknowns, and remaining risk. Make final, release, and publication decisions.</td>
+<td>Treat required missing evidence as a technical pass or transfer accountability to an Agent.</td>
+</tr>
+<tr>
+<th scope="row">Orchestrator</th>
+<td>Create bounded task packets, allocate context and budget, and enforce dependencies and stop rules.</td>
+<td>Expand scope, permission, budget, acceptance, or its own authority.</td>
+</tr>
+<tr>
+<th scope="row">Builder</th>
+<td>Modify declared objects, test the change, and record implementation evidence.</td>
+<td>Write outside scope, weaken the Eval Plan, perform the only final review, or declare acceptance.</td>
+</tr>
+<tr>
+<th scope="row">Verifier</th>
+<td>Run the frozen acceptance, capability, and regression checks against the exact snapshot.</td>
+<td>Modify the implementation, replace required evidence, or redefine success.</td>
+</tr>
+<tr>
+<th scope="row">Red Team</th>
+<td>Challenge assumptions, edge cases, abuse paths, and evidence sufficiency without inheriting the Builder's reasoning.</td>
+<td>Claim third-party independence when it does not exist or make the Owner decision.</td>
+</tr>
+<tr>
+<th scope="row">Integrator</th>
+<td>Reconcile the frozen artifact, evidence, findings, and handoff after required gates.</td>
+<td>Merge blocked work, suppress findings, or turn a failed gate into a pass.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p class="authority-rule">No role creates its own authority. Every material state change must trace to a declared permission and sufficient evidence.</p>
+
+<h3>Know where each rule is enforced</h3>
+<div class="tbl-wrap" role="region" aria-label="GDAC enforcement locations" tabindex="0">
+<table class="fields">
+<caption class="sr-only">Enforcement locations for GDAC control types</caption>
+<thead><tr><th scope="col">Rule type</th><th scope="col">Enforcement location</th></tr></thead>
+<tbody>
+<tr><th scope="row">Record structure and binding</th><td>JSON Schema and deterministic validators reject invalid IDs, digests, budgets, evidence types, and state transitions.</td></tr>
+<tr><th scope="row">Write scope and runtime identity</th><td>The Agent platform, repository, CI, sandbox, and secrets controls named by the Contract must enforce the boundary.</td></tr>
+<tr><th scope="row">Materiality and grader competence</th><td>Verifier and specialist review establish whether the selected evidence is proportionate and competent.</td></tr>
+<tr><th scope="row">Residual risk and acceptance</th><td>The accountable Owner records the disposition. A validator never impersonates this decision.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Rules that do not bend</h3>
+<div class="claims">
+<div>
+<h4>Freeze before judging</h4>
+<p>Freeze the Outcome Contract, Eval Plan, and subject-selection rule before implementation output is evaluated. A material change creates a new version and reruns affected checks.</p>
+</div>
+<div>
+<h4>Deny undeclared action</h4>
+<p>Writes, external actions, role expansion, permission growth, and extra budget are denied unless the Owner has declared them.</p>
+</div>
+<div>
+<h4>Do not average away gaps</h4>
+<p>Trace each material claim through its eval, grader, evidence, gate, and Owner disposition. A score cannot hide failed, missing, or unevaluated required evidence.</p>
+</div>
+<div>
+<h4>Count the whole task</h4>
+<p>Usage by the Builder, child Agents, Verifier, Red Team, and reruns all counts against the task budget. Builder self-checks do not become separate review by changing the label.</p>
+</div>
+<div>
+<h4>Preserve the history</h4>
+<p>Keep prior contracts, candidates, attempts, findings, results, gate states, and decisions when a revision creates a new version.</p>
+</div>
+<div>
+<h4>Keep acceptance human</h4>
+<p>The Harness Gate prepares a decision. It does not accept, deploy, publish, or assume the Owner's accountability.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="records">
+<p class="rail">Record chain</p>
+<div class="col">
+<h2>Six record groups carry the task</h2>
+<p class="section-intro">The chain binds intent, work, evidence, and decision to the same versioned object. Summaries are views; the original records remain the source of truth.</p>
+
+<ol class="record-chain">
+<li>
+<strong>Outcome Contract</strong>
+<span>Owner intent, outcome, non-goals, authority, task limits, budget, stop rules, and acceptance.</span>
+</li>
+<li>
+<strong>Eval Plan</strong>
+<span>Claims, subject-selection rules, graders, pass rules, evidence, producer limits, retries, and retention.</span>
+</li>
+<li>
+<strong>Attempt Record</strong>
+<span>Task packet, actions, failures, repairs, usage, unresolved items, and order of events.</span>
+</li>
+<li>
+<strong>Candidate Binding</strong>
+<span>The exact artifact, digest, source revision, and attempt under review. A changed subject requires a new binding.</span>
+</li>
+<li>
+<strong>Gate Record</strong>
+<span>Attempts, evidence references and digests, eval results, contradictions, findings, and the derived Harness Gate.</span>
+</li>
+<li>
+<strong>Owner Disposition and Closeout</strong>
+<span>The decision, conditions, remaining risk, retained work, prohibited claims, and any learning candidate.</span>
+</li>
+</ol>
+
+<div class="statement">
+<span class="label">Record integrity</span>
+<p>A shorter summary may reorganize the material for a reader. It may not delete the original contract, candidate, tests, logs, findings, disagreement, authority, or decision history.</p>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="states">
+<p class="rail">States</p>
+<div class="col">
+<h2>Checking is not accepting</h2>
+<p class="section-intro">Technical evaluation, gate aggregation, and accountable decision-making use separate state sets so one cannot quietly stand in for another.</p>
+
+<dl class="states">
+<div class="state">
+<dt>Technical eval</dt>
+<dd><code>pass</code>, <code>fail</code>, <code>insufficient_evidence</code>, or <code>not_evaluated</code></dd>
+</div>
+<div class="state">
+<dt>Harness Gate</dt>
+<dd><code>blocked</code> or <code>ready</code></dd>
+</div>
+<div class="state">
+<dt>Owner disposition</dt>
+<dd><code>accept</code>, <code>accept_with_conditions</code>, <code>rework</code>, <code>pause</code>, or <code>stop</code></dd>
+</div>
+</dl>
+
+<ul class="marks">
+<li><span class="num">a</span>Execution requires a frozen Outcome Contract and the applicable Eval Plan.</li>
+<li><span class="num">b</span>A required failure, evidence gap, or unevaluated claim makes the current candidate blocked.</li>
+<li><span class="num">c</span>Only ready work may lead to acceptance. Conditions cannot carry a failed or missing mandatory eval.</li>
+<li><span class="num">d</span>A blocked candidate may be reworked, paused, or stopped. Rework preserves the failed attempt and creates a new Candidate Binding.</li>
+<li><span class="num">e</span>A changed contract, plan, candidate, pass rule, or relevant procedure creates a new version and reruns affected required evals.</li>
+</ul>
+
+<h3>Learning is controlled too</h3>
+<div class="learning-flow" aria-label="Controlled learning lifecycle">
+<div><strong>candidate</strong><span>A failure or correction proposes a possible rule.</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>validated</strong><span>A preregistered comparison met its rule; source evidence, counterexamples, burden, scope, and expiry are retained.</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>active</strong><span>The Owner authorizes the rule for an explicit scope.</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>retired</strong><span>Later evidence or changed conditions remove it from use.</span></div>
+</div>
+<p class="learning-rule">Validation does not activate a rule. Active status additionally requires an Owner authorization reference and an explicit scope; an Agent cannot supply its own authority.</p>
+<p class="learning-detail">New projects retrieve only the three to five active learnings most relevant to their task and risk, not the full learning history.</p>
+</div>
+</section>
+
+<section class="row sec" id="economy">
+<p class="rail">Economy</p>
+<div class="col">
+<h2>Spend control where it changes risk</h2>
+<p class="section-intro">Context, tokens, retries, Agent depth, and evaluation effort are governed resources. More roles and more tests are not automatically better.</p>
+
+<div class="resource-groups">
+<section class="resource-group">
+<header>
+<span class="label">Context</span>
+<p>Load only what the responsibility needs.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Retrieve progressively</h3>
+<p>Start from the frozen contract and the smallest relevant source set. Add context only when the task or evidence requires it.</p>
+</article>
+<article class="resource-item">
+<h3>Checkpoint before context drifts</h3>
+<p>Preserve the current state, evidence, and unresolved items before the working context becomes ambiguous or expensive.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Whole-task budget</span>
+<p>Retries are not free resets.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Set limits before execution</h3>
+<p>Declare time, token, build-retry, evaluator-rerun, trial, and Agent-depth limits for the entire task.</p>
+</article>
+<article class="resource-item">
+<h3>Stop repeated failure</h3>
+<p>Preserve material retries as separate attempts. Stop when the same blocker repeats or a budget is exhausted.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Risk and evidence</span>
+<p>The smallest sufficient control set.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Load controls by material risk</h3>
+<p>The Outcome Contract selects a risk tier. The <a href="eval-rules.html">Eval Rules</a> define the default profile; weaker evidence needs recorded Owner rationale and cannot be described as equivalent.</p>
+</article>
+<article class="resource-item">
+<h3>Measure only what is recorded</h3>
+<p>Record tokens per accepted outcome only when usage and Owner acceptance are observable and segmented by task type, risk, and rework. Treat it as a diagnostic, never a target that can justify weaker evidence.</p>
+</article>
+</div>
+</section>
+</div>
+
+<h3>Minimum useful setup</h3>
+<p class="body">Start with one important, reversible task. A project does not need every optional role, view, or service.</p>
+<ol class="task-chain">
+<li><strong>Freeze the task</strong><span>Write one Outcome Contract and one Eval Plan before implementation is judged.</span></li>
+<li><strong>Limit the write path</strong><span>Give one Builder only the access, context, budget, and retries it needs.</span></li>
+<li><strong>Make the smallest change</strong><span>Begin from acceptance tests. Reuse the existing architecture and avoid speculative abstraction.</span></li>
+<li><strong>Run relevant checks</strong><span>Use deterministic acceptance and regression tests first, then type, lint, security, adversarial, and clean-environment checks where material.</span></li>
+<li><strong>Review the frozen snapshot</strong><span>Use original evidence without inheriting the Builder's hidden reasoning or conclusion.</span></li>
+<li><strong>Gate, decide, and close</strong><span>Record failures, limits, unknowns, the Owner decision, and any learning candidate without activating it automatically.</span></li>
+</ol>
+
+<p class="coda">This is enough to use the architecture. Platform adapters, dashboards, model graders, remote services, regulated-environment evidence maps, and automated deployment remain optional.</p>
+</div>
+</section>
+
+<section class="row sec" id="boundary">
+<p class="rail">Evidence boundary</p>
+<div class="col">
+<h2>What the current evidence supports</h2>
+<div class="plain-prose">
+<p>GDAC is an author-maintained Harness architecture and evaluation rule set developed with AI assistance. Repository tests can show that the stated schemas, validators, and example controls behave as recorded on the declared cases.</p>
+<p>Those tests do not establish external adoption, production effectiveness, independent assurance, organizational value, reduced risk, lower cost, or legal compliance.</p>
+</div>
+<div class="statement">
+<span class="label">Independent evidence</span>
+<p>Current practice observations include private author-run projects that outside readers cannot independently inspect. No independent third party has replicated the method or validated improved delivery, safety, cost, or governance outcomes.</p>
+</div>
+<div class="page-actions">
+<a class="text-cta" href="eval-rules.html">Read the Eval Rules</a>
+<a class="source-link" href="HARNESS.md">Working source document (Markdown)</a>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div class="rail" aria-hidden="true"></div>
+<div class="col">
+<p class="foot-title">GDAC v2.0 Harness Architecture</p>
+<p>The published GDAC v2.0 architecture for bounded Agent execution, separate evaluation, durable evidence, and accountable Owner decisions.</p>
+</div>
+<nav aria-label="Footer navigation">
+<a href="index.html">Overview</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="HARNESS.md">Working source (Markdown)</a>
+<a href="#top">Back to top</a>
+</nav>
+</div>
+</footer>
+
+</body>
+</html>

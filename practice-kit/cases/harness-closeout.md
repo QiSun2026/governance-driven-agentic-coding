@@ -3,7 +3,7 @@
 ## The situation
 
 An experimental AI-Native Systems Harness was built to explore whether
-outcome-first contracts, governed Agent roles, evidence gates, controlled
+outcome-first contracts, governed Agent roles, evidence rules and gate records, controlled
 learning, context budgets, platform adapters, and deterministic reports should
 exist as one standalone open-source product.
 
@@ -40,8 +40,10 @@ The reusable output was therefore smaller than the product:
 - a Prospective Method-Change Re-test that compares a candidate with the
   current method before promotion.
 
-These are practice tools, not evidence that the Harness product succeeded and
-not a new GDAC version.
+These practice tools were not evidence that the Harness product succeeded and,
+at closeout, did not by themselves justify a new GDAC version. Subsequent v2.0
+work incorporated only the parts that survived a separate continuity review,
+adversarial review, and executable record-chain test.
 
 ## Why this is useful
 

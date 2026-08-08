@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Related Work and Integration | GDAC v2.0</title>
+<meta name="description" content="How GDAC fits with branch protection, CODEOWNERS, policy as code, agent permissions, evaluation runtimes, provenance, and risk frameworks.">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/related-work.html">
+<link rel="stylesheet" href="site.css?v=20260808">
+</head>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="index.html">GDAC<span> / Related Work</span></a>
+<nav class="nav" aria-label="Main navigation">
+<a href="index.html">Overview</a>
+<a href="harness.html">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="practice-kit/">Practice Kit</a>
+<a class="on" href="related-work.html" aria-current="page">Related Work</a>
+<a href="zh.html" hreflang="zh-Hans">中文</a>
+</nav>
+</div>
+</header>
+
+<main id="content" class="wrap subpage">
+
+<article class="page-hero">
+<div class="col">
+<p class="label page-kicker">Integration map · GDAC v2.0</p>
+<h1>Use the controls that already exist</h1>
+<p class="page-summary">GDAC is not a new branch-protection tool, policy engine, eval runtime, or provenance format. It connects those mechanisms to one delegated outcome, one exact candidate, and one accountable disposition.</p>
+<div class="page-actions">
+<a class="text-cta" href="#engineering">Start with engineering controls</a>
+<a class="source-link" href="RELATED_WORK.md">Source comparison (Markdown)</a>
+</div>
+</div>
+</article>
+
+<nav class="row sub-toc" data-noprint aria-label="Page contents">
+<p class="rail label">On this page</p>
+<ol>
+<li><a href="#position"><span>The integration point</span></a></li>
+<li><a href="#engineering"><span>Nearest engineering neighbors</span></a></li>
+<li><a href="#overlays"><span>Risk and regulated overlays</span></a></li>
+<li><a href="#stance"><span>Design test and evidence status</span></a></li>
+</ol>
+</nav>
+
+<section class="row sec" id="position">
+<p class="rail">Position</p>
+<div class="col">
+<h2>The contribution is the binding protocol</h2>
+<p class="section-intro">The individual controls are familiar. GDAC's proposed unit is the chain that keeps them attached to the same task and object.</p>
+<div class="claim-chain" aria-label="GDAC integration chain">
+<span>frozen outcome + authority</span><i aria-hidden="true">→</i>
+<span>exact candidate</span><i aria-hidden="true">→</i>
+<span>declared evals</span><i aria-hidden="true">→</i>
+<span>evidence</span><i aria-hidden="true">→</i>
+<span>aggregate gate</span><i aria-hidden="true">→</i>
+<span>Owner disposition</span>
+</div>
+<p class="after">A team should be able to connect an issue, checked-in Contract and Eval Plan, commit SHA, CI or evaluation output, Gate Record, and maintainer decision without creating a second project-management system.</p>
+</div>
+</section>
+
+<section class="row sec" id="engineering">
+<p class="rail">Engineering</p>
+<div class="col">
+<h2>Nearest engineering neighbors</h2>
+<p class="section-intro">These mechanisms remain the enforcement and execution layers. GDAC should consume their outputs instead of reimplementing them.</p>
+
+<div class="resource-groups">
+<section class="resource-group">
+<header><span class="label">Repository enforcement</span><p>Merge, ownership, and required checks.</p></header>
+<div class="resource-items">
+<article class="resource-item">
+<h3><a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches">Protected branches and required checks</a></h3>
+<p>GitHub can enforce reviews, status checks, signed commits, and merge conditions. GDAC states why those checks are required for this task and binds their result to the claim and candidate in the Gate Record.</p>
+</article>
+<article class="resource-item">
+<h3><a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners">CODEOWNERS</a></h3>
+<p>CODEOWNERS routes path-level review. GDAC records task-level Owner authority, principal/context separation, and whether the approval is technical evidence or the later accountable disposition.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header><span class="label">Policy and permissions</span><p>Decide and enforce what an Agent may do.</p></header>
+<div class="resource-items">
+<article class="resource-item">
+<h3><a href="https://www.openpolicyagent.org/docs">Open Policy Agent</a></h3>
+<p>OPA evaluates machine-readable policy and can run in CI/CD. A GDAC validator can call or be called by it; GDAC supplies the surrounding Contract, candidate/evidence binding, fail-closed state, and human disposition.</p>
+</article>
+<article class="resource-item">
+<h3><a href="https://docs.anthropic.com/en/docs/claude-code/cli-usage">Agent runtime permissions</a></h3>
+<p>Claude Code and other runtimes can restrict tools, commands, and files. The Outcome Contract makes that authority portable, but the runtime must enforce it. A YAML write scope is not a sandbox.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header><span class="label">Evaluation</span><p>Run tests, scorers, agents, and logs.</p></header>
+<div class="resource-items">
+<article class="resource-item">
+<h3><a href="https://inspect.aisi.org.uk/">Inspect</a> and <a href="https://inspect.aisi.org.uk/eval-logs.html">Inspect logs</a></h3>
+<p>Inspect supplies evaluation execution, limits, scorers, tools, and inspectable logs. GDAC wraps the selected eval runtime with task authority, exact claim/candidate binding, aggregation rules, and the separate Owner disposition.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header><span class="label">Artifact identity</span><p>Provenance and attestations.</p></header>
+<div class="resource-items">
+<article class="resource-item">
+<h3><a href="https://in-toto.io/docs/getting-started/">in-toto</a>, <a href="https://slsa.dev/spec/v1.2/provenance">SLSA</a>, and <a href="https://docs.github.com/en/enterprise-cloud@latest/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations">artifact attestations</a></h3>
+<p>These systems bind artifacts to authenticated build steps, identities, and provenance statements. GDAC evidence can reference them. The starter validator checks file digests but does not itself authenticate producers or provide tamper-resistant provenance.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header><span class="label">Repository records</span><p>Instructions and decisions that remain useful.</p></header>
+<div class="resource-items">
+<article class="resource-item">
+<h3><a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Architecture Decision Records</a></h3>
+<p>ADRs preserve architectural context and consequences. The Outcome Contract instead freezes task result, delegated authority, budgets, stops, and evidence before implementation. A project can use both.</p>
+</article>
+<article class="resource-item">
+<h3><a href="https://agents.md/">AGENTS.md</a></h3>
+<p>AGENTS.md gives coding agents repository-wide setup, conventions, and security guidance. GDAC references that environment and adds a task-level Contract plus post-build decision chain.</p>
+</article>
+</div>
+</section>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="overlays">
+<p class="rail">Overlays</p>
+<div class="col">
+<h2>Broader risk frameworks operate at another level</h2>
+<p class="section-intro"><a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST AI RMF</a>, the <a href="https://www.theiia.org/en/resources/statements-of-position">IIA Three Lines Model</a>, and the <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj?locale=en">EU AI Act</a> address organizational risk, assurance, or legal obligations beyond one coding task.</p>
+<div class="comparison-list">
+<article class="comparison-item">
+<header class="comparison-head"><h3>What a regulated-environment overlay may do</h3></header>
+<div class="comparison-body">
+<div class="comparison-cell"><span class="label">Map</span><p>Link task records and evidence to an organization's control or documentation requirement.</p></div>
+<div class="comparison-cell"><span class="label">Flag</span><p>Preserve unresolved legal role, classification, competence, independence, and evidence questions.</p></div>
+<div class="comparison-cell limit-cell"><span class="label">Not decide</span><p>It cannot establish legal role, conformity, compliance, internal-audit independence, or third-party assurance.</p></div>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="stance">
+<p class="rail">Design test</p>
+<div class="col">
+<h2>Integration is the credibility test</h2>
+<p class="section-intro">A GDAC term earns its place only when it changes authority, object identity, evidence sufficiency, or a permitted state transition. Otherwise, use the existing tool's vocabulary.</p>
+<div class="statement">
+<span class="label">Current evidence</span>
+<p>The repository demonstrates the structure and deterministic rules on included cases. Whether teams adopt the protocol and whether it improves production outcomes remain questions for external use and comparison, not claims embedded in the architecture.</p>
+</div>
+<div class="page-actions">
+<a class="text-cta" href="practice-kit/">Inspect the executable record chain</a>
+<a class="source-link" href="RELATED_WORK.md">Open source comparison</a>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div class="foot-copy">
+<p class="foot-title">Governance-Driven Agentic Coding</p>
+<p>Use existing enforcement and evaluation systems. Bind them to explicit authority, evidence, and accountable acceptance.</p>
+</div>
+<nav aria-label="Footer navigation">
+<a href="index.html">Overview</a>
+<a href="harness.html">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="#top">Back to top</a>
+</nav>
+</div>
+</footer>
+
+</body>
+</html>

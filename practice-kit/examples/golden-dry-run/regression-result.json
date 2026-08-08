@@ -1,0 +1,6 @@
+{
+  "candidate_ref": "golden-dry-run-v1",
+  "normal_execution_removes_selected_tmp_files": true,
+  "unselected_file_preserved": true,
+  "result": "pass"
+}

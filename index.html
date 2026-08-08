@@ -1,194 +1,390 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Governance-Driven Agentic Coding v1.5：用有边界的授权、独立复核和证据门槛治理 Agent 软件工作。">
-  <title>Governance-Driven Agentic Coding | v1.5</title>
-  <link rel="stylesheet" href="site.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Governance-Driven Agentic Coding | Harness and Eval Rules</title>
+<meta name="description" content="A portable Harness architecture and evaluation protocol for bounded software work delegated to AI agents.">
+<link rel="alternate" hreflang="en" href="index.html">
+<link rel="alternate" hreflang="zh-Hans" href="zh.html">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/">
+<link rel="stylesheet" href="site.css?v=20260808">
 </head>
-<body>
-  <nav class="topbar" aria-label="主要导航">
-    <div class="topbar-inner">
-      <a class="brand" href="#top">GDAC</a>
-      <div class="toplinks">
-        <a href="practice-kit/README.md">Practice Kit</a>
-        <a href="RELATED_WORK.md">相关工作</a>
-        <a href="en.html" lang="en">English</a>
-      </div>
-    </div>
-  </nav>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">Skip to content</a>
 
-  <header class="hero" id="top">
-    <div>
-      <h1>Governance-Driven Agentic Coding</h1>
-      <p class="deck">给 Agent 有边界的执行权。用证据支持声明。把复核与生产分开。最终接受权留给人。</p>
-    </div>
-    <p class="hero-note"><strong>证据边界</strong>这是当前公开的 v1.5。它是一套作者维护的小型规范，不是行业标准、合规认证或效果证明。<span class="author-line">Qi Sun，CC BY 4.0</span></p>
-  </header>
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="#top">GDAC</a>
+<nav class="nav" aria-label="Main navigation">
+<a class="on" href="index.html" aria-current="page">Overview</a>
+<a href="harness.html">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="practice-kit/">Practice Kit</a>
+<a href="related-work.html">Related Work</a>
+<a href="zh.html" hreflang="zh-Hans">中文</a>
+</nav>
+</div>
+</header>
 
-  <div class="layout">
-    <aside class="toc" aria-label="本文目录">
-      <strong>从这里开始</strong>
-      <a href="#purpose">解决什么问题</a>
-      <a href="#controls">三个核心控制</a>
-      <a href="#loop">运行回路</a>
-      <a href="#contract">Outcome Contract</a>
-      <a href="#authority">权限与复核</a>
-      <a href="#evidence">证据与声明</a>
-      <a href="#learning">收尾与学习</a>
-      <a href="#adopt">最小采用方式</a>
-      <a href="#limits">证据边界</a>
-    </aside>
+<main id="content">
 
-    <main>
-      <section id="purpose">
-        <h2>它解决什么问题</h2>
-        <p class="lead">Agent 可以快速生成实现，但速度不会自动产生授权、正确性或责任归属。GDAC 是一套轻量的委托协议，用来规定谁能做什么、怎样证明做完、谁能否决，以及什么时候必须停。</p>
-        <div class="status">
-          <strong>不是完整 Agent runtime，也不是合规认证。</strong>
-          它不替代 Codex、Claude、CI、代码审查或组织治理。它只连接任务前的可验证结果、执行中的权限边界、任务后的证据与 Owner 决定。
-        </div>
-        <p>这套结构可以用于不同软件领域，因为核心字段不绑定某个业务行业。但目前实践证据只来自作者主导的两个私有项目，外部读者无法查证，也没有外部采用、独立复现或生产效果证明。</p>
-      </section>
+<section class="manual-hero page-shell">
+<div class="hero-copy">
+<p class="hero-kicker">GDAC v2.0 · released 2026-08-08</p>
+<h1>A Control System for AI Agent Work</h1>
+<p class="hero-lede">Define the outcome, bound the Agent, test the exact result, and keep the final decision with an accountable person.</p>
+<div class="hero-actions">
+<a class="primary-link" href="#system">See the system</a>
+<a href="#task">Follow one task</a>
+</div>
+</div>
 
-      <section id="controls">
-        <h2>真正承重的只有三个控制</h2>
-        <dl class="controls">
-          <div class="control">
-            <dt>有边界的委托</dt>
-            <dd>工作开始前冻结可验收结果、非目标、写权限、预算、停止条件和 Owner 保留决定。Agent 不能自行扩权。</dd>
-          </div>
-          <div class="control">
-            <dt>上下文独立复核</dt>
-            <dd>重要对象由没有继承 Builder 推理过程的 Reviewer 重新检查。它减少共同盲点，但不等于组织独立、第三方验证或内部审计。</dd>
-          </div>
-          <div class="control">
-            <dt>声明完整性</dt>
-            <dd>把事实、推断、假设、未知和 Owner 决定分开。代码存在不证明它运行过，测试通过不证明 Owner 已接受，哈希一致不证明语义正确。</dd>
-          </div>
-        </dl>
-      </section>
+<figure class="hero-model" aria-labelledby="hero-model-title">
+<figcaption id="hero-model-title">Two paths, one accountable decision</figcaption>
+<div class="model-owner"><strong>Owner</strong><span>Outcome, risk, authority, acceptance</span></div>
+<div class="model-contract"><span>Frozen Contract</span><span>Eval Plan</span></div>
+<div class="model-paths">
+<div><strong>Execution path</strong><span>May change declared objects</span></div>
+<div><strong>Evaluation path</strong><span>May test, challenge, and block</span></div>
+</div>
+<div class="model-gate"><strong>Gate Record</strong><span>Harness: blocked or ready · Owner decides separately</span></div>
+</figure>
+</section>
 
-      <section id="loop">
-        <h2>一次受治理工作的完整回路</h2>
-        <ol class="loop">
-          <li><div><strong>冻结结果</strong><br>先写可验证的 outcome 和 acceptance criteria，再开始实现。</div></li>
-          <li><div><strong>划定权限</strong><br>写明可写对象、禁止动作、预算、重试上限和停止条件。</div></li>
-          <li><div><strong>最小实现</strong><br>复用现有架构，只做满足验收所需的最小变更。</div></li>
-          <li><div><strong>生成证据</strong><br>优先使用确定性测试，再按风险加入规则、模型、人类或 Owner 复核。</div></li>
-          <li><div><strong>独立挑战</strong><br>Reviewer 从冻结对象和原始记录出发，寻找遗漏、越权、错误推断和不充分证据。</div></li>
-          <li><div><strong>Owner 接受或停止</strong><br>技术通过只支持决定。它不替 Owner 做发布、风险或不可逆决定。</div></li>
-        </ol>
-        <p class="callout">契约到证据的链条是骨架，但核心不是“链”这个名词。核心是每个状态变化都有明确权限和足够证据，没有证据时不能偷偷前进。</p>
-      </section>
+<div class="principle-strip page-shell" aria-label="Core operating principles">
+<p>Design from outcomes</p>
+<p>Build within authority</p>
+<p>Evaluate against evidence</p>
+<p>Keep decisions accountable</p>
+</div>
 
-      <section id="contract">
-        <h2>Outcome Contract 是可执行入口</h2>
-        <p>Contract 只在重要或被委托的任务上使用。低风险工作应当缩减内容，而不是仪式性填满字段。</p>
-        <table>
-          <thead><tr><th>字段</th><th>它阻止什么</th></tr></thead>
-          <tbody>
-            <tr><td>Outcome 与 acceptance criteria</td><td>把“做了很多”误当作“结果已被接受”。</td></tr>
-            <tr><td>Non-goals</td><td>任务在执行中不断扩大。</td></tr>
-            <tr><td>Authority</td><td>Agent 自行改变范围、测试、预算或发布权限。</td></tr>
-            <tr><td>Budget 与 stop conditions</td><td>无限重试、无限递归和沉没成本继续。</td></tr>
-            <tr><td>Evidence requirements</td><td>用最容易获得的证据替代声明真正需要的证据。</td></tr>
-            <tr><td>Handoff</td><td>只交付结果，不交付限制、失败和未决事项。</td></tr>
-          </tbody>
-        </table>
-        <pre><code>python -m pip install -r requirements-dev.txt
-python practice-kit/tools/validate_contract.py \
-  practice-kit/examples/outcome-contract.example.yaml</code></pre>
-        <p>机器可读的 <a href="practice-kit/schemas/outcome-contract.schema.json">JSON Schema</a>、<a href="practice-kit/examples/outcome-contract.example.yaml">已填写实例</a>和<a href="practice-kit/tools/validate_contract.py">校验器</a>都在仓库内。</p>
-      </section>
+<details class="page-directory page-shell" data-noprint>
+<summary>Explore the complete guide</summary>
+<nav aria-label="Complete page contents">
+<a href="#why">When to use GDAC</a>
+<a href="#system">System architecture</a>
+<a href="#task">One task end to end</a>
+<a href="#evaluation">Evaluation rules</a>
+<a href="#authority">Authority and roles</a>
+<a href="#records">Record chain</a>
+<a href="#stop">Stop conditions</a>
+<a href="#learning">Controlled learning</a>
+<a href="#practice">Practice Kit</a>
+<a href="#limits">Evidence boundary</a>
+</nav>
+</details>
 
-      <section id="authority">
-        <h2>权限与复核</h2>
-        <p class="lead">方法只需要三类责任。复杂项目可以增加 Orchestrator、Verifier、Red Team 或 Integrator，但新增角色不能改变 Owner 保留权。</p>
-        <table>
-          <thead><tr><th>责任</th><th>可以做</th><th>不能做</th></tr></thead>
-          <tbody>
-            <tr><td>Owner</td><td>冻结目标与权限，接受结果，决定发布、风险和重大方法变更。</td><td>不能把责任归因给 Agent 或把缺失证据当作通过。</td></tr>
-            <tr><td>Producer</td><td>在声明的写范围和预算内实现，记录测试、失败与限制。</td><td>不能自行扩权、修改验收标准或宣布自己已被接受。</td></tr>
-            <tr><td>Reviewer</td><td>从冻结对象和原始证据重新判断，阻止不充分声明。</td><td>不能把上下文隔离包装成第三方独立，也不能代替 Owner 接受。</td></tr>
-          </tbody>
-        </table>
-        <h3>复核的最低独立性</h3>
-        <ul>
-          <li>Reviewer 不继承 Producer 的隐藏推理或结论摘要。</li>
-          <li>复核输入是冻结对象、验收标准、diff、测试和原始记录。</li>
-          <li>Producer 不能单方面选择忽略哪些 material finding。</li>
-          <li>同一模型可以承担不同角色，但这只提供上下文分离，不提供主体独立。</li>
-        </ul>
-      </section>
+<section class="content-section page-shell" id="why">
+<div class="section-heading">
+<h2>When execution scales faster than oversight</h2>
+<p>AI agents can do more software work than one person can inspect line by line. The harder risk is losing the control path around the code.</p>
+</div>
+<div class="problem-grid">
+<div class="prose-block">
+<p>The question is not only whether an Agent writes correct code. It is also: what was authorized, what changed, what evidence supports the result, who can stop the work, and who decides whether it is acceptable?</p>
+<p>When those answers live only in a chat history, the work is difficult to resume, review, or hand over. The Harness makes the outcome, authority, record, evaluation, and decision path explicit.</p>
+</div>
+<aside class="failure-pattern">
+<h3>Failures the Harness is designed to block</h3>
+<ul>
+<li>An Agent silently expands scope or permissions.</li>
+<li>The frozen pass rule changes after results are known.</li>
+<li>A summary replaces the original evidence.</li>
+<li>A model grades its own conclusion in the same context.</li>
+<li>A passing test is treated as Owner acceptance.</li>
+</ul>
+</aside>
+</div>
 
-      <section id="evidence">
-        <h2>证据先于声明</h2>
-        <div class="two-col">
-          <div>
-            <h3>证据状态</h3>
-            <p><strong>事实：</strong>可以直接从记录重现。</p>
-            <p><strong>推断：</strong>由事实支持，但仍包含解释。</p>
-            <p><strong>假设：</strong>尚未经过足够测试的解释或预测。</p>
-            <p><strong>未知：</strong>当前材料不能支持判断。</p>
-            <p><strong>Owner 决定：</strong>接受、风险偏好或授权选择。</p>
-          </div>
-          <div>
-            <h3>三条声明规则</h3>
-            <p><strong>Capability Claim Attestation：</strong><code>agent-ready</code> 不等于 <code>agent-executed</code>。这是可单独执行、可单独判失败的具名规则。</p>
-            <p><strong>Conclusion Provenance：</strong>结论必须能追到对象、版本、证据与决定者。</p>
-            <p><strong>Derivation Integrity：</strong>哈希能证明对象相同，不能单独证明从原始材料到结论的语义推导正确。</p>
-          </div>
-        </div>
-        <p>确定性测试优先。模型 grader 可以补充能力或对抗性评价，但其配置、输入、输出和失败也必须被记录。缺少声明所需证据时，默认状态是 blocked 或 unknown。</p>
-      </section>
+<div class="mode-grid" aria-label="Adoption modes">
+<article><span class="label">Use full</span><h3>Material or hard to reverse</h3><p>Freeze Contract and Eval Plan, use separated review, retain a complete Gate Record, and require Owner disposition.</p></article>
+<article><span class="label">Use light</span><h3>Reversible but delegated</h3><p>Use a short Contract, direct acceptance and authority checks, one Candidate Binding, and a compact Gate Record.</p></article>
+<article><span class="label">Skip</span><h3>Trivial or read-only</h3><p>Use the repository's normal issue, tests, review, and branch rules. GDAC should not manufacture ceremony.</p></article>
+</div>
+<div class="workflow-strip">
+<strong>Where it fits in a normal Git workflow</strong>
+<p>Issue or Contract → checked-in Eval Plan → commit SHA → CI or eval evidence → Gate Record → maintainer / Owner disposition</p>
+</div>
+</section>
 
-      <section id="learning">
-        <h2>从失败中学习，但不让系统自我授权</h2>
-        <p>项目可以提出方法变化，不能直接激活全局规则。候选规则按 <code>candidate</code>、<code>validated</code>、<code>active</code>、<code>retired</code> 管理，并绑定测试、日志、diff、用户纠正或 preventive check。</p>
-        <ul>
-          <li>在看到结果前冻结 baseline、candidate delta 和判定条件。</li>
-          <li>比较候选是否改变了重要决定或更早发现了重要错误。</li>
-          <li>如果只是增加字段、重复已有控制或造成不成比例返工，就缩减或拒绝。</li>
-          <li>项目停止时记录保留物、禁止声明和未解决未知，而不是因为已投入成本继续。</li>
-        </ul>
-        <p>精简后的 <a href="practice-kit/templates/method-change-retest.md">Method-Change Re-test</a> 和 <a href="practice-kit/templates/project-closeout.md">Project Closeout</a> 可直接复制。</p>
-      </section>
+<section class="content-section system-section" id="system">
+<div class="page-shell">
+<div class="section-heading">
+<h2>One system, five connected layers</h2>
+<p>The Harness connects authority, implementation, evidence, review, and decision without requiring a standing multi-agent organization.</p>
+</div>
 
-      <section id="adopt">
-        <h2>最小采用方式</h2>
-        <p class="lead">不要先建立一个“AI 组织”。先选一项高价值、可回滚、能被测试的真实任务。</p>
-        <ol>
-          <li>复制并缩减 Outcome Contract，冻结后运行校验。</li>
-          <li>让 Producer 只获得必要写权限，并设定一次或两次重试上限。</li>
-          <li>让 Reviewer 只读检查冻结对象、diff、测试和原始证据。</li>
-          <li>由 Owner 明确写下 accepted、rework、blocked 或 stopped。</li>
-          <li>只在真实采集数据时衡量两个指标：每个 accepted outcome 的 token 成本，以及因为原始证据不足而重新打开的 accepted outcome 比例。</li>
-        </ol>
-        <p>没有真实使用记录时，不报告效率提升、质量提升或风险降低。</p>
-      </section>
+<div class="system-diagram" role="img" aria-label="GDAC Harness layers from Owner control through execution, evidence, evaluation, and decision">
+<div class="system-owner">
+<span class="system-label">Direction</span>
+<strong>Owner control plane</strong>
+<p>Defines outcome, risk, authority, acceptance, release, and publication.</p>
+</div>
+<div class="system-contracts">
+<div><strong>Outcome Contract</strong><span>What, why, limits, budget, stop rules</span></div>
+<div><strong>Eval Plan</strong><span>Claims, graders, evidence, pass rules</span></div>
+</div>
+<div class="system-work">
+<article>
+<span class="system-label">Write path</span>
+<h3>Execution core</h3>
+<p>Orchestrator and Builder may change only the declared objects within the whole-task budget.</p>
+</article>
+<article>
+<span class="system-label">Shared facts</span>
+<h3>Record and evidence plane</h3>
+<p>Frozen snapshot, diff, attempts, tests, sources, findings, limits, and unknowns.</p>
+</article>
+<article>
+<span class="system-label">Read path</span>
+<h3>Verification and challenge</h3>
+<p>Verifier and optional Red Team may test and block. They do not modify the candidate.</p>
+</article>
+</div>
+<div class="system-decision">
+<div><strong>Harness Gate</strong><span>one aggregate state: blocked or ready</span></div>
+<div><strong>Read-only views</strong><span>status, learning, and evidence-backed public claims</span></div>
+<div><strong>Owner disposition</strong><span>accept, accept_with_conditions, rework, pause, or stop</span></div>
+</div>
+</div>
 
-      <section id="limits">
-        <h2>当前证据与边界</h2>
-        <div class="status">
-          <strong>证据独立性声明</strong>
-          除非具体记录另有说明，当前 GDAC 文档、实例、测试、评审和结论均由作者在 AI 协助下产生、记录和评价。没有独立第三方复现本方法，也没有证据证明它改善了真实交付、安全、成本或治理结果。
-        </div>
-        <ul>
-          <li>v1.5 是当前公开版本，但尚未经过外部独立复现。</li>
-          <li>结构可以跨领域复用，不代表已经跨领域验证。</li>
-          <li>AI Act 或其他监管 overlay 只能做证据映射和风险提示，不构成合规认证。</li>
-          <li>现有测试证明 schema 和校验器在给定样例上工作，不证明组织采用价值。</li>
-        </ul>
-        <p>完整对照见 <a href="RELATED_WORK.md">Related Work and Boundaries</a>。它说明 GDAC 与 NIST AI RMF、IIA Three Lines、SR 26-2、EU AI Act、ADR、in-toto、SLSA、preregistration、Inspect 和 AGENTS.md 的关系与差异。</p>
-      </section>
-    </main>
-  </div>
+<p class="system-note">The Harness is the control layer around Codex, Claude, or another Agent. This repository ships the architecture, Eval Rules, three portable schemas, deterministic validators, and a digest-bound golden record chain. It does not ship an Agent runner, sandbox, deployment system, or Owner identity service.</p>
+<p class="source-row"><a href="harness.html">Read the Harness architecture</a> <a href="continuity.html">See what was retained from v1.3</a></p>
+</div>
+</section>
 
-  <footer class="footer">
-    <span>Qi Sun</span>
-    <span>CC BY 4.0。本方法不等于标准、认证或产品效果证明。</span>
-  </footer>
+<section class="content-section page-shell" id="task">
+<div class="section-heading">
+<h2>One task, end to end</h2>
+<p>A cleanup command needs a <code>--dry-run</code> option that previews the exact changes without calling any inventoried write API inside the declared candidate-process and fixture boundary.</p>
+</div>
+
+<div class="task-example">
+<aside class="contract-sheet">
+<h3>Frozen task boundary</h3>
+<dl>
+<div><dt>Outcome</dt><dd>Preview the exact change set while initiating no write through the candidate's inventoried write-capable APIs inside the declared boundary.</dd></div>
+<div><dt>Acceptance</dt><dd>The API inventory has no uncovered write path, the trace records zero calls, the preview matches normal execution, and existing behavior passes.</dd></div>
+<div><dt>Non-goals</dt><dd>No CLI redesign, dependency change, migration, or publication.</dd></div>
+<div><dt>Authority</dt><dd>Builder may edit the command and its tests only.</dd></div>
+<div><dt>Budget</dt><dd>Two implementation attempts and one bounded review cycle.</dd></div>
+<div><dt>Stop</dt><dd>Unexpected write, missing environment, scope expansion, or unresolved material finding.</dd></div>
+</dl>
+</aside>
+
+<ol class="task-chain">
+<li><strong>Owner freezes the Outcome Contract.</strong><span>The result and evidence requirements cannot move unnoticed after implementation begins.</span></li>
+<li><strong>The Eval Plan is locked before coding.</strong><span>Each claim names its grader, required evidence, pass rule, retry budget, and failure consequence.</span></li>
+<li><strong>The execution core makes the smallest change.</strong><span>The Builder works only in declared files and records the diff, attempts, failures, and tests.</span></li>
+<li><strong>The Candidate Binding is recorded.</strong><span>Evaluation binds to one exact artifact, digest, source revision, and attempt. A change creates a new binding and invalidates affected results.</span></li>
+<li><strong>Verifier and Red Team inspect separate failure paths.</strong><span>Instrumentation covers every inventoried write API; an uncovered path becomes insufficient evidence. Regression and challenge cases cover the preview, interruption, and permission errors.</span></li>
+<li><strong>The Harness validates the Gate Record.</strong><span>Attempts, evidence digests, results, contradictions, findings, and the derived gate stay attached to the same candidate.</span></li>
+<li><strong>The Owner decides.</strong><span>A passed technical gate means ready for a decision, not already accepted or authorized for release.</span></li>
+</ol>
+</div>
+</section>
+
+<section class="content-section eval-section" id="evaluation">
+<div class="page-shell">
+<div class="section-heading">
+<h2>Evaluation starts before building</h2>
+<p>An Eval Plan is a frozen claim-to-evidence agreement, not a score added after the result looks good.</p>
+</div>
+
+<div class="claim-chain" aria-label="Traceability chain">
+<span>claim</span><i aria-hidden="true">→</i>
+<span>eval</span><i aria-hidden="true">→</i>
+<span>grader</span><i aria-hidden="true">→</i>
+<span>evidence</span><i aria-hidden="true">→</i>
+<span>gate</span><i aria-hidden="true">→</i>
+<span>decision</span>
+</div>
+
+<div class="gate-groups">
+<section>
+<h3>Before execution</h3>
+<div class="gate-item"><strong>Contract check</strong><p>Is the outcome specific, testable, bounded, and frozen?</p><span>Failure: block before work</span></div>
+<div class="gate-item"><strong>Authority check</strong><p>Is every write, tool, budget, and external action explicitly permitted?</p><span>Failure: stop and escalate</span></div>
+</section>
+<section>
+<h3>Against the candidate</h3>
+<div class="gate-item"><strong>Build integrity</strong><p>Is the change minimal and clean under applicable type, lint, security, and environment checks?</p><span>Failure: rework or stop</span></div>
+<div class="gate-item"><strong>Capability and regression</strong><p>Does the claimed path work without breaking accepted behavior?</p><span>Failure: fail or insufficient evidence</span></div>
+</section>
+<section>
+<h3>Before the Owner</h3>
+<div class="gate-item"><strong>Challenge and review</strong><p>Were material assumptions, edge cases, and evidence gaps checked from separated context?</p><span>Failure: block unresolved findings</span></div>
+<div class="gate-item"><strong>Decision readiness</strong><p>Does the handoff retain limits, unknowns, residual risk, and every mandatory result?</p><span>Result: blocked or ready for Owner</span></div>
+</section>
+</div>
+
+<div class="eval-principles">
+<h3>Grader rules</h3>
+<div>
+<p><strong>Deterministic first.</strong> Use code and rule graders when they directly answer the claim.</p>
+<p><strong>Regression is mandatory when accepted behavior can break.</strong> A new capability does not excuse an old failure.</p>
+<p><strong>Adversarial cases follow material risk.</strong> Test coverage matters more than test volume.</p>
+<p><strong>Model graders retain configuration and calibration.</strong> They are never the sole blocking grader for a material claim.</p>
+<p><strong>Missing evidence fails closed.</strong> It becomes <code>insufficient_evidence</code>, never an estimated pass.</p>
+<p><strong>Owner judgment stays separate.</strong> Evals return <code>pass</code>, <code>fail</code>, <code>insufficient_evidence</code>, or <code>not_evaluated</code>. One Harness Gate then returns <code>blocked</code> or <code>ready</code>. Only the Owner records a disposition.</p>
+</div>
+</div>
+
+<p class="source-row"><a href="eval-rules.html">Read the complete Eval Rules</a></p>
+</div>
+</section>
+
+<section class="content-section page-shell" id="authority">
+<div class="section-heading">
+<h2>Every responsibility has power and limits</h2>
+<p>Roles are not job titles. A role exists only when it adds evidence, expertise, a materially different challenge, or a state-changing control.</p>
+</div>
+<div class="tbl-wrap" role="region" aria-label="Harness responsibilities and authority limits" tabindex="0">
+<table class="authority-table">
+<caption class="sr-only">What each Harness responsibility may and may not do</caption>
+<thead><tr><th scope="col">Responsibility</th><th scope="col">May do</th><th scope="col">May not do</th></tr></thead>
+<tbody>
+<tr><th scope="row">Owner</th><td>Freeze outcome, authority, risk, and acceptance. Review material assumptions and unresolved items. Make final and external decisions.</td><td>Transfer accountability, ignore unresolved items, or rewrite failed evidence as a pass.</td></tr>
+<tr><th scope="row">Orchestrator</th><td>Create bounded task packets, allocate context and budget, enforce stop rules.</td><td>Expand scope, permission, budget, or acceptance.</td></tr>
+<tr><th scope="row">Builder</th><td>Change declared objects and produce implementation evidence.</td><td>Write outside scope, weaken evals, or accept its own work.</td></tr>
+<tr><th scope="row">Verifier</th><td>Run frozen acceptance and regression checks on the exact candidate.</td><td>Modify the candidate or redefine success after seeing it.</td></tr>
+<tr><th scope="row">Red Team</th><td>Challenge assumptions, abuse paths, edge cases, and evidence sufficiency.</td><td>Claim third-party independence or run unlimited challenge loops.</td></tr>
+<tr><th scope="row">Integrator</th><td>Assemble passed material, findings, and the decision handoff.</td><td>Suppress blockers, merge failed material, or decide for the Owner.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="authority-rule">No responsibility creates its own authority. Every material state change traces to a declared permission and sufficient evidence.</p>
+</section>
+
+<section class="content-section records-section" id="records">
+<div class="page-shell">
+<div class="section-heading">
+<h2>Decisions travel through records, not recollection</h2>
+<p>Summaries reduce reading effort. They never replace the original contract, candidate, tests, findings, or decision.</p>
+</div>
+<ol class="record-chain">
+<li><strong>Outcome Contract</strong><span>result, authority, budget, stop rules</span></li>
+<li><strong>Eval Plan</strong><span>claims, graders, evidence, pass rules</span></li>
+<li><strong>Attempt Record</strong><span>actions, failures, usage, unresolved items</span></li>
+<li><strong>Candidate Binding</strong><span>exact artifact, digest, source revision, attempt</span></li>
+<li><strong>Evidence records</strong><span>stable references and digests bound to the candidate</span></li>
+<li><strong>Gate Record</strong><span>results, contradictions, findings, blocked or ready</span></li>
+<li><strong>Owner Disposition</strong><span>conditions, residual risk, next state</span></li>
+<li><strong>Closeout</strong><span>retained work, prohibited claims, learning candidate</span></li>
+</ol>
+<div class="view-grid">
+<div><h3>Owner view</h3><p>Current state, material change, risk, blockers, and decisions required.</p></div>
+<div><h3>Learning view</h3><p>Failure, correction, proposed preventive check, and evidence needed for re-test.</p></div>
+<div><h3>Public view</h3><p>Only facts, examples, and limits supported by the accepted evidence record.</p></div>
+</div>
+</div>
+</section>
+
+<section class="content-section page-shell" id="stop">
+<div class="section-heading">
+<h2>A governed system must know when to stop</h2>
+<p>Stopping is a valid controlled result. Continuing because time has already been spent is not.</p>
+</div>
+<div class="stop-layout">
+<div class="stop-list">
+<h3>The rules require work to remain blocked when</h3>
+<ul>
+<li>required authority, inputs, or acceptance criteria are missing;</li>
+<li>an action falls outside declared scope;</li>
+<li>the candidate or Eval Plan changes during evaluation;</li>
+<li>time, token, attempt, or Agent-depth budget is exhausted;</li>
+<li>a material finding remains unresolved; or</li>
+<li>required evidence is missing, conflicting, stale, or unbound.</li>
+</ul>
+</div>
+<div class="owner-decisions">
+<h3>The Owner can decide</h3>
+<p><code>accept</code></p>
+<p><code>accept_with_conditions</code></p>
+<p><code>rework</code></p>
+<p><code>pause</code></p>
+<p><code>stop</code></p>
+<small>Deployment, publication, compliance statements, and irreversible external actions require separate authorization.</small>
+</div>
+</div>
+</section>
+
+<section class="content-section learning-section" id="learning">
+<div class="page-shell learning-layout">
+<div class="section-heading">
+<h2>Failure may propose a rule. It may not authorize one.</h2>
+<p>A project can create a learning candidate. Only evidence and Owner authorization can make it active elsewhere.</p>
+</div>
+<div class="learning-flow" aria-label="Controlled learning lifecycle">
+<div><strong>candidate</strong><span>linked to a failure, correction, or missing control</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>validated</strong><span>pre-registered comparison met its rule; evidence, burden, limits, and expiry retained</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>active</strong><span>authorized for an explicit scope</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>retired</strong><span>superseded, disproved, unsafe, or no longer relevant</span></div>
+</div>
+<p class="learning-rule">Agents may propose and test a lesson. They may not activate a cross-project rule or silently rewrite the Harness.</p>
+<p class="learning-detail">A learning candidate records the triggering failure, baseline, proposed rule, observable difference, prospective decision rule, preventive check, burden, counterexamples, boundary, and expiry. Validation never activates it: active status additionally needs an Owner authorization reference and explicit scope. A new project retrieves only the three to five relevant active learnings.</p>
+</div>
+</section>
+
+<section class="content-section page-shell practice-section" id="practice">
+<div class="section-heading">
+<h2>Start with one task, not an AI organization</h2>
+<p>The Practice Kit contains a machine-checkable path from pre-work Contract and Eval Plan to post-build Gate Record.</p>
+</div>
+<div class="practice-links">
+<a href="practice-kit/templates/outcome-contract.yaml"><strong>Outcome Contract</strong><span>Freeze result, authority, budget, and stop rules</span></a>
+<a href="practice-kit/templates/eval-plan.yaml"><strong>Eval Plan</strong><span>Bind claims to graders and required evidence</span></a>
+<a href="practice-kit/examples/eval-plan.example.yaml"><strong>Worked Eval example</strong><span>See the dry-run claims in machine-readable form</span></a>
+<a href="practice-kit/golden-case.html"><strong>Golden record chain</strong><span>Understand the failed attempt, candidate binding, evidence digests, gate, and pending Owner decision</span></a>
+<a href="practice-kit/"><strong>Open the Practice Kit</strong><span>Templates, schemas, validators, closeout, and learning re-test</span></a>
+</div>
+
+<details class="quick-check">
+<summary><span><strong>Developer quick check</strong><small>Validate both filled examples locally</small></span></summary>
+<div class="check-body">
+<p>These commands validate the task contract and the Eval Plan. They do not start an Agent or replace technical evaluation.</p>
+<pre class="code">python -m pip install -r requirements-dev.txt
+python practice-kit/tools/validate_contract.py practice-kit/examples/dry-run-outcome-contract.example.yaml
+python practice-kit/tools/validate_eval_plan.py practice-kit/examples/eval-plan.example.yaml --contract practice-kit/examples/dry-run-outcome-contract.example.yaml
+python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-dry-run/gate-record.example.yaml --contract practice-kit/examples/dry-run-outcome-contract.example.yaml --eval-plan practice-kit/examples/eval-plan.example.yaml</pre>
+</div>
+</details>
+</section>
+
+<section class="content-section evidence-section" id="limits">
+<div class="page-shell evidence-layout">
+<h2>Current evidence boundary</h2>
+<div>
+<p>GDAC is an author-maintained Harness architecture and evaluation rule set developed with AI assistance. Repository tests can show that stated schemas, validators, and example controls behave as recorded on the declared cases.</p>
+<p>They do not establish external adoption, production effectiveness, independent assurance, organizational value, reduced risk, lower cost, or legal compliance. Current practice observations include private author-run projects that outside readers cannot independently inspect. No independent third party has replicated the method.</p>
+<p>A regulated-environment or AI Act overlay may map evidence and flag questions. It does not determine legal classification, certify compliance, or replace accountable legal and organizational review.</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div>
+<p class="foot-title">Governance-Driven Agentic Coding</p>
+<p>A Harness architecture and Eval rule set for bounded Agent work. Qi Sun, CC BY 4.0.</p>
+</div>
+<nav aria-label="Footer navigation">
+<a href="harness.html">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="continuity.html">From v1.3</a>
+<a href="related-work.html">Related work</a>
+<a href="zh.html" hreflang="zh-Hans">中文</a>
+<a href="#top">Back to top</a>
+</nav>
+</div>
+</footer>
+
 </body>
 </html>

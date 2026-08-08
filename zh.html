@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Governance-Driven Agentic Coding | Harness 架构与 Eval 规则</title>
+<meta name="description" content="一套面向受控 Agent 软件工作的 Harness 架构与评测规则：先锁定结果和权限，再让 Agent 执行、用证据验证，并由 Owner 作最终决定。">
+<link rel="alternate" hreflang="en" href="index.html">
+<link rel="alternate" hreflang="zh-Hans" href="zh.html">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/zh.html">
+<link rel="stylesheet" href="site.css?v=20260808">
+</head>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">跳到正文</a>
+
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="#top">GDAC</a>
+<nav class="nav" aria-label="主导航">
+<a class="on" href="zh.html" aria-current="page">概览</a>
+<a href="harness.html">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="practice-kit/">Practice Kit</a>
+<a href="related-work.html">Related Work</a>
+<a href="index.html" hreflang="en">English</a>
+</nav>
+</div>
+</header>
+
+<main id="content">
+
+<section class="manual-hero page-shell">
+<div class="hero-copy">
+<p class="hero-kicker">GDAC v2.0 · 2026-08-08 发布</p>
+<h1>让 AI Agent 干活有边界，交付有证据</h1>
+<p class="hero-lede">先把结果和权限写清楚，再让 Agent 执行；用预先定义的 Eval 检查同一个候选版本，最后仍由一个明确负责的人作决定。</p>
+<div class="hero-actions">
+<a class="primary-link" href="#system">先看系统</a>
+<a href="#task">跟着一项任务走</a>
+</div>
+</div>
+
+<figure class="hero-model" aria-labelledby="hero-model-title">
+<figcaption id="hero-model-title">两条路径，一个有人负责的决定</figcaption>
+<div class="model-owner"><strong>Owner</strong><span>结果、风险、权限与验收</span></div>
+<div class="model-contract"><span>锁定的结果约定</span><span>Eval Plan</span></div>
+<div class="model-paths">
+<div><strong>执行路径</strong><span>只可改动已授权对象</span></div>
+<div><strong>评测路径</strong><span>可以测试、挑战和阻断</span></div>
+</div>
+<div class="model-gate"><strong>Gate Record</strong><span>Harness 只给出 blocked / ready，Owner 另行决定</span></div>
+</figure>
+</section>
+
+<div class="principle-strip page-shell" aria-label="核心运行原则">
+<p>从结果倒推设计</p>
+<p>只在授权内实现</p>
+<p>按照证据评测</p>
+<p>让决定有人负责</p>
+</div>
+
+<details class="page-directory page-shell" data-noprint>
+<summary>展开完整目录</summary>
+<nav aria-label="完整页面目录">
+<a href="#why">何时使用 GDAC</a>
+<a href="#system">系统架构</a>
+<a href="#task">一项任务的完整链路</a>
+<a href="#evaluation">Eval 规则</a>
+<a href="#authority">权限与角色</a>
+<a href="#records">记录链</a>
+<a href="#stop">停止条件</a>
+<a href="#learning">受控学习</a>
+<a href="#practice">Practice Kit</a>
+<a href="#limits">证据边界</a>
+</nav>
+</details>
+
+<section class="content-section page-shell" id="why">
+<div class="section-heading">
+<h2>当 Agent 做得比人看得更快</h2>
+<p>AI Agent 可以完成的工作越来越多，但一个人已经很难逐行检查所有产出。更难控制的，往往不是代码本身，而是代码周围那条决定链。</p>
+</div>
+<div class="problem-grid">
+<div class="prose-block">
+<p>问题不只是 Agent 有没有写对代码，还包括：它获得了什么授权、实际改了什么、结果由什么证据支持、谁可以叫停，以及谁来判断这项工作是否可以接受。</p>
+<p>如果这些答案只留在聊天记录里，任务就很难继续、复核或交接。Harness 把结果、权限、过程记录、评测和最终决定变成一条看得见的路径。</p>
+</div>
+<aside class="failure-pattern">
+<h3>框架被设计来阻断的失控方式</h3>
+<ul>
+<li>Agent 悄悄扩大任务范围或权限。</li>
+<li>Builder 看到结果后再修改测试标准。</li>
+<li>一段总结取代原始证据。</li>
+<li>同一个模型在同一上下文里给自己的结论打分。</li>
+<li>测试通过被直接写成 Owner 已经接受。</li>
+</ul>
+</aside>
+</div>
+
+<div class="mode-grid" aria-label="三种采用模式">
+<article><span class="label">完整使用</span><h3>重要、敏感或难以撤销</h3><p>锁定 Contract 与 Eval Plan，使用隔离复核，保留完整 Gate Record，再由 Owner 作决定。</p></article>
+<article><span class="label">轻量使用</span><h3>可撤销，但 Agent 有写权限</h3><p>缩短 Contract，保留直接验收与权限检查、Candidate Binding 和简版 Gate Record。</p></article>
+<article><span class="label">不必使用</span><h3>只读、琐碎、可本地撤销</h3><p>沿用仓库现有 issue、测试、review 和 branch rules；不要为了框架制造仪式。</p></article>
+</div>
+<div class="workflow-strip">
+<strong>它放在现有 Git 工作流的什么位置</strong>
+<p>Issue / Contract → 纳入版本控制的 Eval Plan → commit SHA → CI / eval evidence → Gate Record → maintainer / Owner disposition</p>
+</div>
+</section>
+
+<section class="content-section system-section" id="system">
+<div class="page-shell">
+<div class="section-heading">
+<h2>一个系统，五层控制</h2>
+<p>v1.3 中真正有用的机制被保留下来：控制权、执行、共同记录、隔离复核和只读视图。去掉拟人化的公司包装后，每一层都对应一个明确的控制作用。</p>
+</div>
+
+<div class="system-diagram" role="img" aria-label="GDAC Harness 从 Owner 控制、执行、记录、评测到最终决定的五层架构">
+<div class="system-owner">
+<span class="system-label">方向与控制</span>
+<strong>Owner 控制层</strong>
+<p>定义结果、风险、权限、验收，以及发布和对外行动。</p>
+</div>
+<div class="system-contracts">
+<div><strong>Outcome Contract</strong><span>做什么、为什么、边界、预算与停止规则</span></div>
+<div><strong>Eval Plan</strong><span>要验证的声明、判定方式、证据与通过规则</span></div>
+</div>
+<div class="system-work">
+<article>
+<span class="system-label">写入路径</span>
+<h3>执行内核</h3>
+<p>Orchestrator 和 Builder 只能在已声明对象及整项任务预算内工作。</p>
+</article>
+<article>
+<span class="system-label">共同记录</span>
+<h3>记录与证据层</h3>
+<p>保存锁定版本、改动、尝试、测试、来源、发现、限制和未知。</p>
+</article>
+<article>
+<span class="system-label">只读路径</span>
+<h3>验证与挑战层</h3>
+<p>Verifier 和按风险加入的 Red Team 可以检查和阻断，但不能修改候选版本。</p>
+</article>
+</div>
+<div class="system-decision">
+<div><strong>Harness Gate</strong><span>一个汇总状态：blocked 或 ready</span></div>
+<div><strong>只读视图</strong><span>项目状态、学习记录和有证据支持的公开表达</span></div>
+<div><strong>Owner 最终决定</strong><span>accept、accept_with_conditions、rework、pause 或 stop</span></div>
+</div>
+</div>
+
+<p class="system-note">Harness 是包在 Codex、Claude 或其他 Agent 外围的控制层。当前仓库交付 Harness 规范、Eval Rules、三份 portable schema、确定性校验器和一条按 digest 绑定的 golden record chain；不交付 Agent runner、sandbox、部署系统或 Owner 身份服务。</p>
+<p class="source-row"><a href="harness.html">阅读 Harness 架构</a> <a href="continuity.html">查看 v1.3 内容如何保留</a></p>
+</div>
+</section>
+
+<section class="content-section page-shell" id="task">
+<div class="section-heading">
+<h2>用一项任务走完整条链路</h2>
+<p>现在要给一个清理命令增加 <code>--dry-run</code>：准确预览将要发生的变化；在声明的候选进程和测试边界内，不调用候选所使用的任何已盘点写入接口。</p>
+</div>
+
+<div class="task-example">
+<aside class="contract-sheet">
+<h3>先锁定任务边界</h3>
+<dl>
+<div><dt>结果</dt><dd>准确预览完整改动集合，并且在声明边界内不触发候选所使用的任何已盘点写入接口。</dd></div>
+<div><dt>验收</dt><dd>写入接口盘点没有遗漏，监测记录为零，预览准确，原有行为继续通过；执行前后的文件系统快照只作辅助证据。</dd></div>
+<div><dt>明确不做</dt><dd>不重做 CLI，不换依赖，不做迁移，也不发布。</dd></div>
+<div><dt>权限</dt><dd>Builder 只能修改该命令及其测试。</dd></div>
+<div><dt>预算</dt><dd>最多两次实现尝试和一轮有边界的复核。</dd></div>
+<div><dt>停止条件</dt><dd>出现意外写入、缺少环境、范围扩大或重要问题未解决。</dd></div>
+</dl>
+</aside>
+
+<ol class="task-chain">
+<li><strong>Owner 锁定 Outcome Contract。</strong><span>实现开始后，结果和证据要求不能在无人知情的情况下移动。</span></li>
+<li><strong>写代码前先锁定 Eval Plan。</strong><span>每项声明都写明由谁判断、必须提供什么证据、怎样算通过、最多重试几次，以及失败后怎么办。</span></li>
+<li><strong>执行内核只做必要改动。</strong><span>Builder 只碰已授权文件，并记录改动、尝试、失败和测试。</span></li>
+<li><strong>记录 Candidate Binding。</strong><span>把精确 artifact、digest、source revision 和 attempt 绑定在一起；对象改变就建立新 binding 并重跑受影响检查。</span></li>
+<li><strong>Verifier 和 Red Team 分别检查不同失败路径。</strong><span>已盘点写入接口的直接监测是主要证据，执行前后快照只作辅助；如果存在未被监测的写入路径，结果就是证据不足。挑战测试覆盖临时文件、中断、权限错误和隐藏写入调用。</span></li>
+<li><strong>Harness 校验 Gate Record。</strong><span>attempt、证据 digest、结果、冲突、finding 和 Gate 都绑定到同一个候选对象，不能用总分盖住问题。</span></li>
+<li><strong>最后由 Owner 决定。</strong><span>技术门槛通过只代表材料已经可以判断，不代表结果已经被接受或获准发布。</span></li>
+</ol>
+</div>
+</section>
+
+<section class="content-section eval-section" id="evaluation">
+<div class="page-shell">
+<div class="section-heading">
+<h2>Eval 在动手前就开始</h2>
+<p>Eval Plan 是提前锁定的“声明与证据约定”，不是看到结果不错后再补一个分数。</p>
+</div>
+
+<div class="claim-chain" aria-label="从声明到决定的追溯链">
+<span>声明</span><i aria-hidden="true">→</i>
+<span>评测</span><i aria-hidden="true">→</i>
+<span>判定器</span><i aria-hidden="true">→</i>
+<span>证据</span><i aria-hidden="true">→</i>
+<span>门槛</span><i aria-hidden="true">→</i>
+<span>决定</span>
+</div>
+
+<div class="gate-groups">
+<section>
+<h3>开始执行前</h3>
+<div class="gate-item"><strong>结果约定检查</strong><p>是否明确写清写入边界、准确预览、范围和可检查的验收标准？</p><span>失败：工作开始前阻塞</span></div>
+<div class="gate-item"><strong>权限检查</strong><p>是否只允许修改命令和测试，并写明预算、工具、重试与外部动作？</p><span>失败：停止并升级</span></div>
+</section>
+<section>
+<h3>针对候选版本</h3>
+<div class="gate-item"><strong>实现完整性</strong><p>改动是否足够小，并通过适用的类型、lint、安全和环境检查？</p><span>失败：返工或停止</span></div>
+<div class="gate-item"><strong>能力与回归</strong><p><code>--dry-run</code> 是否准确预览、在声明边界内没有触发任何已盘点写入接口，并且没有破坏原有命令？</p><span>失败：不通过或证据不足</span></div>
+</section>
+<section>
+<h3>交给 Owner 前</h3>
+<div class="gate-item"><strong>挑战与复核</strong><p>临时文件、中断、权限错误、隐藏写入和证据缺口是否从隔离上下文被检查？</p><span>失败：重要问题未解决则阻塞</span></div>
+<div class="gate-item"><strong>决策就绪</strong><p>交接材料是否保留限制、未知、剩余风险和每项必需结果？</p><span>结果：继续阻塞，或交给 Owner</span></div>
+</section>
+</div>
+
+<div class="eval-principles">
+<h3>判定规则</h3>
+<div>
+<p><strong>确定性优先。</strong>如果代码或规则能够直接回答问题，就先用它们判断。</p>
+<p><strong>可能破坏既有行为时，回归检查必做。</strong>新增能力不能抵消旧功能失败。</p>
+<p><strong>对抗测试跟随实质风险。</strong>重要的是覆盖会改变决定的失败路径，不是堆测试数量。</p>
+<p><strong>模型评分必须保留配置与 calibration。</strong>任何 material claim 都不能只靠模型 grader 放行。</p>
+<p><strong>缺少证据默认不通过。</strong>它会成为 <code>insufficient_evidence</code>，不会被估算成及格。</p>
+<p><strong>Owner 接受不是 Eval。</strong>技术结果和 Harness Gate 只为决定准备材料；Owner disposition 是单独的授权行为，不是一个 grader 或质量分数。</p>
+</div>
+</div>
+
+<p class="source-row"><a href="eval-rules.html">阅读完整 Eval Rules</a></p>
+</div>
+</section>
+
+<section class="content-section page-shell" id="authority">
+<div class="section-heading">
+<h2>每项责任都有权力，也有边界</h2>
+<p>这里的角色不是职位名称。只有当一项责任带来新的证据、专业能力、实质不同的挑战，或能够改变状态的控制时，它才有存在价值。</p>
+</div>
+<div class="tbl-wrap" role="region" aria-label="Harness 责任与权限边界" tabindex="0">
+<table class="authority-table">
+<caption class="sr-only">Harness 中每项责任可以做和不能做的事情</caption>
+<thead><tr><th scope="col">责任</th><th scope="col">可以做</th><th scope="col">不能做</th></tr></thead>
+<tbody>
+<tr><th scope="row">Owner</th><td>锁定结果、权限、风险和验收；作出最终状态和外部行动决定。</td><td>转移最终责任，或把失败和缺失证据改写成通过。</td></tr>
+<tr><th scope="row">Orchestrator</th><td>创建有边界的任务包，分配上下文和预算，执行停止规则。</td><td>扩大范围、权限、预算或验收标准。</td></tr>
+<tr><th scope="row">Builder</th><td>修改已声明对象，并留下实现和测试证据。</td><td>越界写入、削弱 Eval，或接受自己的工作。</td></tr>
+<tr><th scope="row">Verifier</th><td>针对精确候选版本运行已锁定的验收和回归检查。</td><td>修改候选版本，或看到结果后重新定义成功。</td></tr>
+<tr><th scope="row">Red Team</th><td>挑战假设、滥用路径、边界情况和证据充分性。</td><td>把上下文隔离说成第三方独立，或无限循环挑战。</td></tr>
+<tr><th scope="row">Integrator</th><td>整理通过材料、问题发现和交给 Owner 的决定包。</td><td>隐藏阻塞项、合并失败材料，或替 Owner 决定。</td></tr>
+</tbody>
+</table>
+</div>
+<p class="authority-rule">任何责任都不能自行创造权限。每个重要状态变化，都必须能追到已声明的授权和足够证据。</p>
+</section>
+
+<section class="content-section records-section" id="records">
+<div class="page-shell">
+<div class="section-heading">
+<h2>靠记录传递决定，不靠回忆</h2>
+<p>摘要可以减少阅读负担，但不能取代原始结果约定、候选版本、测试、问题发现或 Owner 决定。</p>
+</div>
+<ol class="record-chain">
+<li><strong>Outcome Contract</strong><span>锁定可验证的写入边界、准确预览、权限、预算和停止规则</span></li>
+<li><strong>Eval Plan</strong><span>把四项 dry-run 声明绑定到判定方式和必需证据</span></li>
+<li><strong>尝试记录</strong><span>保存实际动作、失败、资源使用和未解决问题</span></li>
+<li><strong>Candidate Binding</strong><span>精确 artifact、digest、source revision 和 attempt</span></li>
+<li><strong>证据记录</strong><span>用 stable reference 和 digest 绑定写入监测、预览、回归及挑战结果</span></li>
+<li><strong>Gate Record</strong><span>保留所有结果、冲突、finding，以及 blocked / ready 状态</span></li>
+<li><strong>Owner 决定</strong><span>记录条件、剩余风险和下一状态</span></li>
+<li><strong>收尾记录</strong><span>保留成果、不能声称的内容和学习候选</span></li>
+</ol>
+<div class="view-grid">
+<div><h3>Owner 视图</h3><p>当前状态、重要变化、风险、阻塞和需要决定的事项。</p></div>
+<div><h3>学习视图</h3><p>发生了什么失败、如何修正、建议增加什么预防检查，以及重测还需要哪些证据。</p></div>
+<div><h3>公开视图</h3><p>只呈现已经被接受记录支持的事实、例子和限制。</p></div>
+</div>
+</div>
+</section>
+
+<section class="content-section page-shell" id="stop">
+<div class="section-heading">
+<h2>受治理的系统必须知道何时停下</h2>
+<p>停止本身可以是一个有效的受控结果。因为已经花了时间就继续，不是。</p>
+</div>
+<div class="stop-layout">
+<div class="stop-list">
+<h3>遇到以下情况，规则要求工作继续保持 blocked</h3>
+<ul>
+<li>缺少必要授权、输入或验收标准；</li>
+<li>准备执行的动作超出已声明范围；</li>
+<li>评测期间候选版本或 Eval Plan 发生改变；</li>
+<li>时间、token、尝试次数或 Agent 深度预算已经用完；</li>
+<li>仍有重要问题没有解决；</li>
+<li>必需证据缺失、冲突、过期或没有绑定到当前版本。</li>
+</ul>
+</div>
+<div class="owner-decisions">
+<h3>Owner 可以决定</h3>
+<p><code>accept</code> 接受</p>
+<p><code>accept_with_conditions</code> 附条件接受</p>
+<p><code>rework</code> 返工</p>
+<p><code>pause</code> 暂停</p>
+<p><code>stop</code> 停止</p>
+<small>部署、发布、合规声明和不可逆外部行动需要单独授权。</small>
+</div>
+</div>
+</section>
+
+<section class="content-section learning-section" id="learning">
+<div class="page-shell learning-layout">
+<div class="section-heading">
+<h2>失败可以提出新规则，但不能自己让它生效</h2>
+<p>一个项目可以产生学习候选。只有经过证据验证并获得 Owner 授权，它才能在其他范围内启用。</p>
+</div>
+<div class="learning-flow" aria-label="受控学习生命周期">
+<div><strong>candidate / 候选</strong><span>来自失败、纠正或缺失的控制</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>validated / 已验证</strong><span>预注册比较达到规则，并保留证据、反例、负担、边界与到期条件</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>active / 生效</strong><span>获得授权，并有明确适用范围</span></div>
+<i aria-hidden="true">→</i>
+<div><strong>retired / 退役</strong><span>被替代、被证伪、不再安全或不再相关</span></div>
+</div>
+<p class="learning-rule"><strong>validated 不等于 active：</strong>激活还必须有 Owner authorization reference 和明确 scope。Agent 可以提出和测试经验，但不能自我授权。新项目只检索最相关的 3 到 5 条 active learning。</p>
+</div>
+</section>
+
+<section class="content-section page-shell practice-section" id="practice">
+<div class="section-heading">
+<h2>从一项真实任务开始，不必搭建 AI 组织</h2>
+<p>Practice Kit 提供从 Outcome Contract、Eval Plan 到 Gate Record 的机器可检查链路。</p>
+</div>
+<div class="practice-links">
+<a href="practice-kit/templates/outcome-contract.yaml"><strong>Outcome Contract 模板</strong><span>锁定结果、权限、预算和停止规则</span></a>
+<a href="practice-kit/templates/eval-plan.yaml"><strong>Eval Plan 模板</strong><span>把声明绑定到判定方式和必需证据</span></a>
+<a href="practice-kit/examples/eval-plan.example.yaml"><strong>已填写的 Eval 示例</strong><span>查看 dry-run 声明怎样写成机器可读记录</span></a>
+<a href="practice-kit/golden-case.html"><strong>Golden record chain</strong><span>先看懂失败 attempt、Candidate Binding、证据 digest、Gate 与 pending Owner decision</span></a>
+<a href="practice-kit/"><strong>打开 Practice Kit</strong><span>模板、schema、校验器、收尾和学习重测</span></a>
+</div>
+
+<details class="quick-check">
+<summary><span><strong>开发者快速检查</strong><small>在本地校验两份已填写示例</small></span></summary>
+<div class="check-body">
+<p>这些命令检查任务约定和 Eval Plan 的结构。它们不会启动 Agent，也不能替代技术评测。</p>
+<pre class="code">python -m pip install -r requirements-dev.txt
+python practice-kit/tools/validate_contract.py practice-kit/examples/dry-run-outcome-contract.example.yaml
+python practice-kit/tools/validate_eval_plan.py practice-kit/examples/eval-plan.example.yaml --contract practice-kit/examples/dry-run-outcome-contract.example.yaml
+python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-dry-run/gate-record.example.yaml --contract practice-kit/examples/dry-run-outcome-contract.example.yaml --eval-plan practice-kit/examples/eval-plan.example.yaml</pre>
+</div>
+</details>
+</section>
+
+<section class="content-section evidence-section" id="limits">
+<div class="page-shell evidence-layout">
+<h2>当前证据边界</h2>
+<div>
+<p>GDAC 是一套由作者维护、在 AI 协助下形成的 Harness 架构与 Eval 规则。仓库测试能够说明：在已声明的样例上，相关 schema、校验器和示例控制按照记录运行。</p>
+<p>这些材料不能证明外部采用、生产环境效果、独立保证、组织价值、风险降低、成本下降或法律合规。目前的实践观察包含作者主导的私有项目，外部读者无法独立检查；也没有独立第三方复现这套方法。</p>
+<p>面向受监管环境或 AI Act 的附加层，只能做证据映射并提示需要回答的问题。它不能判断法律分类、认证合规，也不能替代有责任主体参与的法律与组织复核。</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div>
+<p class="foot-title">Governance-Driven Agentic Coding</p>
+<p>一套面向受控 Agent 工作的 Harness 架构与 Eval 规则。Qi Sun，CC BY 4.0。</p>
+</div>
+<nav aria-label="页脚导航">
+<a href="harness.html">Harness 架构</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="continuity.html">v1.3 延续关系</a>
+<a href="related-work.html">相关工作</a>
+<a href="index.html" hreflang="en">English</a>
+<a href="#top">回到顶部</a>
+</nav>
+</div>
+</footer>
+
+</body>
+</html>

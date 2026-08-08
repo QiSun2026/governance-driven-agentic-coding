@@ -1,0 +1,116 @@
+schema_version: "2.0"
+revision: 1
+contract_id: "dry-run-option"
+status: frozen
+
+outcome:
+  statement: "A cleanup command previews its exact changes without initiating a filesystem write through its inventoried write-capable APIs inside the declared candidate-process and fixture boundary."
+
+acceptance_criteria:
+  - criterion_id: "no-write"
+    criterion_kind: technical
+    description: "Within the declared candidate-process and fixture boundary, dry-run initiates no filesystem write through the write-capable APIs used by the candidate."
+    grader: deterministic
+  - criterion_id: "preview-accurate"
+    criterion_kind: technical
+    description: "The preview matches the changes normal execution would make."
+    grader: rule
+  - criterion_id: "regression-safe"
+    criterion_kind: technical
+    description: "Existing behavior without dry-run remains unchanged."
+    grader: deterministic
+  - criterion_id: "failure-path-safe"
+    criterion_kind: technical
+    description: "Within the declared boundary, dry-run initiates no write through the inventoried APIs across interruption, permission, temporary-file, and hidden-path cases."
+    grader: deterministic
+
+non_goals:
+  - "Redesigning the command-line interface."
+  - "Changing dependencies or migrating stored data."
+  - "Authorizing deployment or publication."
+
+risk_tier: medium
+risk_overlays: []
+risks:
+  - risk_id: "filesystem-write"
+    description: "Dry-run could mutate files or metadata inside the declared process and filesystem boundary."
+    material: true
+  - risk_id: "preview-mismatch"
+    description: "The reported preview could differ from the changes made by normal execution."
+    material: true
+  - risk_id: "accepted-regression"
+    description: "Adding dry-run could alter previously accepted command behavior."
+    material: true
+  - risk_id: "authority-expansion"
+    description: "An Agent could change files, tests, scope, or evidence outside its declared authority."
+    material: true
+
+authority:
+  owner:
+    owner_id: "Repository Owner"
+    reserved_decisions:
+      - "Accept, accept with conditions, rework, pause, or stop."
+      - "Authorize deployment or publication."
+  roles:
+    - role_id: builder
+      principal_id: "builder-session"
+      context_ref: "dry-run-build-context"
+      can_write:
+        - "src/cleanup-command"
+        - "tests/cleanup-command"
+      forbidden_actions:
+        - "Modify the frozen Outcome Contract or Eval Plan."
+        - "Write outside the declared command and test paths."
+        - "Accept or publish its own work."
+    - role_id: verifier
+      principal_id: "verifier-session"
+      context_ref: "dry-run-fresh-review-context"
+      can_write: []
+      forbidden_actions:
+        - "Modify the candidate under review."
+        - "Change a pass rule after seeing a result."
+        - "Turn missing evidence into a pass."
+
+budget:
+  max_elapsed_minutes: 120
+  max_build_retries: 2
+  max_total_eval_reruns: 2
+  max_total_trials: 8
+  max_agent_depth: 1
+  token_budget: null
+
+stop_conditions:
+  - "Any filesystem write is observed through an inventoried API during dry-run."
+  - "The write-capable API inventory, required instrumentation, or fixture is unavailable or incomplete."
+  - "The task requires a file, dependency, or decision outside declared authority."
+  - "A required evaluation fails or remains unresolved after the attempt budget."
+
+evidence_requirements:
+  - claim_id: "no-write"
+    required_types:
+      - deterministic_test
+      - log
+    insufficient_action: block
+  - claim_id: "preview-accurate"
+    required_types:
+      - rule_check
+      - deterministic_test
+    insufficient_action: block
+  - claim_id: "regression-safe"
+    required_types:
+      - regression_test
+      - deterministic_test
+    insufficient_action: block
+  - claim_id: "failure-path-safe"
+    required_types:
+      - adversarial_result
+      - deterministic_test
+      - log
+    insufficient_action: block
+
+handoff:
+  required_outputs:
+    - "Exact candidate reference and diff."
+    - "Write trace, preview comparison, regression results, and adversarial results."
+    - "Failed and missing evidence, unresolved findings, and remaining risk."
+    - "Harness Gate state for Owner review."

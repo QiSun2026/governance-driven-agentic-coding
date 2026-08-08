@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>GDAC Practice Kit | Start with one governed task</title>
+<meta name="description" content="Machine-checkable Outcome Contract and Eval Plan starters for one bounded Agent task.">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/">
+<link rel="stylesheet" href="../site.css?v=20260808">
+</head>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="../index.html">GDAC<span> / Harness + Eval</span></a>
+<nav class="nav" aria-label="Main">
+<a href="../index.html">Overview</a>
+<a href="../harness.html">Harness</a>
+<a href="../eval-rules.html">Eval Rules</a>
+<a class="on" href="./" aria-current="page">Practice Kit</a>
+<a href="../related-work.html">Related Work</a>
+<a href="../zh.html" hreflang="zh-Hans">中文</a>
+</nav>
+</div>
+</header>
+
+<main id="content" class="wrap subpage">
+
+<article class="page-hero">
+<div class="col">
+<p class="label page-kicker">Practice Kit · GDAC v2.0</p>
+<h1>Start with one governed task</h1>
+<p class="page-summary">Copyable schemas, examples, and validators for freezing one task, binding one candidate, checking its evidence, deriving the Harness Gate, and keeping the Owner decision separate.</p>
+<div class="page-actions">
+<a class="text-cta" href="#start">Follow the smallest workflow</a>
+<a class="source-link" href="README.md">View source Markdown</a>
+</div>
+</div>
+</article>
+
+<nav class="row sub-toc" data-noprint aria-label="Page contents">
+<p class="rail label">On this page</p>
+<ol>
+<li><a href="#start"><span>Start with one task</span></a></li>
+<li><a href="#tools"><span>Pick only what you need</span></a></li>
+<li><a href="#boundary"><span>Keep the boundary clear</span></a></li>
+<li><a href="#provenance"><span>Why these files are here</span></a></li>
+</ol>
+</nav>
+
+<section class="row sec" id="start">
+<p class="rail">Workflow</p>
+<div class="col">
+<h2>The smallest useful workflow</h2>
+<p class="section-intro">Do not begin by filling every template. Choose one important, reversible, testable task and use only the controls that change how it can be accepted.</p>
+<ol class="stepslist">
+<li><span class="num">01</span><span><strong>Choose the task.</strong> It should matter enough to govern, but remain small enough to reverse and test.</span></li>
+<li><span class="num">02</span><span><strong>Freeze the Outcome Contract.</strong> State the result, non-goals, write paths, whole-task budget, stop rules, and required evidence.</span></li>
+<li><span class="num">03</span><span><strong>Freeze the Eval Plan before a candidate exists.</strong> Define the subject-selection rule, claims, graders, evidence, separation, and retry policy.</span></li>
+<li><span class="num">04</span><span><strong>Validate both records together.</strong> Catch risk, claim, grader, evidence, role, or authority drift before implementation.</span></li>
+<li><span class="num">05</span><span><strong>Build within the declared boundary.</strong> Every attempt, failure, and review consumes the same whole-task budget.</span></li>
+<li><span class="num">06</span><span><strong>Bind and evaluate one exact candidate.</strong> Required results attach to the immutable post-build reference, not an unversioned description.</span></li>
+<li><span class="num">07</span><span><strong>Validate the Gate Record.</strong> The exact candidate, evidence digests, results, contradictions, findings, and budget usage derive one <code>blocked</code> or <code>ready</code> Harness Gate.</span></li>
+<li><span class="num">08</span><span><strong>Record the Owner disposition.</strong> Accept, set conditions, request rework, pause, or stop. The technical gate does not make this decision.</span></li>
+</ol>
+
+<details class="quick-check">
+<summary><span><strong>Run the complete golden chain</strong><small>Contract, Eval Plan, candidate tests, evidence, and Gate Record</small></span></summary>
+<div class="check-body">
+<p>Run these commands from the repository root. The example is intentionally small enough to inspect by eye and machine-check by digest.</p>
+<pre class="code">python -m pip install -r requirements-dev.txt
+python practice-kit/tools/validate_contract.py practice-kit/examples/dry-run-outcome-contract.example.yaml
+python practice-kit/tools/validate_eval_plan.py practice-kit/examples/eval-plan.example.yaml --contract practice-kit/examples/dry-run-outcome-contract.example.yaml
+python -m pytest -q practice-kit/examples/golden-dry-run/test_candidate.py
+python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-dry-run/gate-record.example.yaml --contract practice-kit/examples/dry-run-outcome-contract.example.yaml --eval-plan practice-kit/examples/eval-plan.example.yaml</pre>
+</div>
+</details>
+</div>
+</section>
+
+<section class="row sec" id="tools">
+<p class="rail">Files</p>
+<div class="col">
+<h2>Pick only what the task needs</h2>
+<p class="section-intro">The files are grouped by the decision they support. You do not need to adopt the whole kit to use one useful control.</p>
+
+<div class="resource-groups">
+<section class="resource-group">
+<header>
+<span class="label">Define the work</span>
+<p>Write down the result and the limits before the work begins.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Outcome Contract template</h3>
+<p>Use it when a delegated task needs a measurable result, explicit authority, a budget, stop conditions, and evidence requirements.</p>
+<p class="file-row"><a href="templates/outcome-contract.yaml">Open template</a><code>templates/outcome-contract.yaml</code></p>
+</article>
+<article class="resource-item">
+<h3>Paired dry-run contract</h3>
+<p>The Outcome Contract used by the end-to-end dry-run Eval example. It freezes a bounded no-write claim, four technical claims, authority, budget, and stop rules.</p>
+<p class="file-row"><a href="examples/dry-run-outcome-contract.example.yaml">Open example</a><code>examples/dry-run-outcome-contract.example.yaml</code></p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Plan the evidence</span>
+<p>Decide how the material claims will be evaluated before implementation begins.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Eval Plan template</h3>
+<p>Define the pre-build subject selection, claim-to-grader mapping, mandatory evidence, producer separation, evaluator retries, trials, and retention.</p>
+<p class="file-row"><a href="templates/eval-plan.yaml">Open template</a><code>templates/eval-plan.yaml</code></p>
+</article>
+<article class="resource-item">
+<h3>Strict dry-run Eval example</h3>
+<p>A medium-risk plan covering inventoried write APIs, preview accuracy, regression, and adversarial failure paths.</p>
+<p class="file-row"><a href="examples/eval-plan.example.yaml">Open example</a><code>examples/eval-plan.example.yaml</code></p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Check the chain</span>
+<p>Reject drift before work and invalid evidence or state transitions afterward.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Machine-readable schema</h3>
+<p>The formal structure for Outcome Contract version 2.0, including risks, principals, contexts, and separate build, rerun, and trial budgets.</p>
+<p class="file-row"><a href="schemas/outcome-contract.schema.json" download>Download schema</a><code>schemas/outcome-contract.schema.json</code></p>
+</article>
+<article class="resource-item">
+<h3>Contract validator</h3>
+<p>A small checker for YAML or JSON. It exits with a failure when a contract does not meet the schema.</p>
+<p class="file-row"><a href="tools/validate_contract.py">Open validator</a><code>tools/validate_contract.py</code></p>
+</article>
+<article class="resource-item">
+<h3>Eval Plan schema and validator</h3>
+<p>The Plan schema plus a checker for canonical Contract binding, material claim/risk coverage, grader evidence, separation, and budgets.</p>
+<p class="file-row"><a href="schemas/eval-plan.schema.json" download>Download schema</a><a href="tools/validate_eval_plan.py" download>Download validator</a></p>
+</article>
+<article class="resource-item">
+<h3>Gate Record schema, validator, and golden case</h3>
+<p>The post-build record binds one candidate to attempts, evidence digests, eval results, findings, the deterministic Harness Gate, and the separate Owner disposition.</p>
+<p class="file-row"><a href="golden-case.html">Read the worked chain</a><a href="schemas/gate-record.schema.json" download>Download schema</a><a href="tools/validate_gate_record.py" download>Download validator</a></p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Close and learn</span>
+<p>Stop cleanly, preserve evidence, and test lessons before promoting them.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>Project Closeout</h3>
+<p>Use it when a project should stop, pause, or narrow without losing the useful evidence or letting sunk cost justify more work.</p>
+<p class="file-row"><a href="closeout.html#closeout">Read the closeout guide</a><code>templates/project-closeout.md</code></p>
+</article>
+<article class="resource-item">
+<h3>Method-Change Re-test</h3>
+<p>Use it when a project lesson might improve the shared method. Compare the candidate with the current baseline before any Owner-controlled promotion.</p>
+<p class="file-row"><a href="closeout.html#retest">Read the re-test guide</a><code>templates/method-change-retest.md</code></p>
+</article>
+<article class="resource-item">
+<h3>Harness closeout case</h3>
+<p>A worked negative result: the product hypothesis was closed, while a smaller set of governance practices was retained.</p>
+<p class="file-row"><a href="closeout.html#case">Read the designed case note</a><code>cases/harness-closeout.md</code></p>
+</article>
+</div>
+</section>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="boundary">
+<p class="rail">Boundary</p>
+<div class="col">
+<h2>Keep the boundary clear</h2>
+<ul class="marks">
+<li><span class="num">a</span>Facts, inferences, assumptions, unknowns, and Owner decisions stay separate.</li>
+<li><span class="num">b</span>Missing evidence does not become a pass, zero, approval, or readiness.</li>
+<li><span class="num">c</span>The pre-build Eval Plan does not contain the post-build candidate reference.</li>
+<li><span class="num">d</span>Technical eval results, the aggregate Harness Gate, and Owner disposition remain separate.</li>
+<li><span class="num">e</span>The Builder cannot be the sole grader of its material non-deterministic claim.</li>
+<li><span class="num">f</span>Builder attempts, evaluator reruns, and stochastic trials use different records and budgets.</li>
+<li><span class="num">g</span>A project may propose a cross-project rule but cannot activate it by itself.</li>
+</ul>
+</div>
+</section>
+
+<section class="row sec" id="provenance">
+<p class="rail">Provenance</p>
+<div class="col">
+<h2>Why these files are here</h2>
+<div class="plain-prose">
+<p>The kit includes controls extracted from the closeout of the experimental AI-Native Systems Harness, then reconciled with the fuller authority, record, review, and acceptance architecture of GDAC v1.3.</p>
+<p>The standalone runtime, adapters, dashboards, synthetic pass rates, and product hypothesis remain closed. The retained result is a runtime-independent Harness architecture, Eval rule set, and machine-checkable pre-work and post-build record chain.</p>
+</div>
+<div class="statement">
+<span class="label">Integrity</span>
+<p>The current GDAC v2.0 release is governed by the repository-root <a href="../SHA256SUMS.txt">checksum manifest</a>. The previous v1.5 release remains available at commit <code>39ff3cd</code>, and the Practice Kit has its own <a href="SHA256SUMS.txt">directory-level manifest</a>. Matching checksums establish file identity, not correctness or effectiveness.</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div class="rail" aria-hidden="true"></div>
+<div class="foot-copy">
+<p class="foot-title">GDAC Practice Kit</p>
+<p>Machine-checkable records for the published GDAC v2.0 method. Original repository material is licensed under CC BY 4.0.</p>
+</div>
+<nav aria-label="Footer">
+<a href="../index.html">Overview</a>
+<a href="../harness.html">Harness</a>
+<a href="../eval-rules.html">Eval Rules</a>
+<a href="../related-work.html">Related work</a>
+<a href="README.md">Source Markdown</a>
+<a href="#top">Back to top</a>
+</nav>
+</div>
+</footer>
+
+</body>
+</html>

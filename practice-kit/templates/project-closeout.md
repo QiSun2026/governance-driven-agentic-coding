@@ -70,7 +70,12 @@ For each possible lesson:
 - Preventive check:
 - Applicability boundary:
 - State: `candidate | validated | active | retired`
-- Authority required before activation:
+- Validation evidence and expiry (required for `validated`):
+- Owner authorization reference and active scope (required for `active`):
+
+`validated` means the declared prospective comparison met its rule and retained
+its evidence, burden, counterexamples, limits, and expiry. It does not activate
+the candidate. No Agent may self-authorize `active` or rewrite global rules.
 
 A closeout may produce no method change. That is a valid result.
 

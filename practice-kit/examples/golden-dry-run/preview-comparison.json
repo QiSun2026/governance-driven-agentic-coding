@@ -1,0 +1,6 @@
+{
+  "candidate_ref": "golden-dry-run-v1",
+  "preview_paths": ["nested/.hidden.tmp", "one.tmp"],
+  "normal_execution_removed_paths": ["nested/.hidden.tmp", "one.tmp"],
+  "match": true
+}

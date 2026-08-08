@@ -1,22 +1,29 @@
-# Optional GDAC practice template. Validate it before delegated work begins:
+# Optional GDAC v2.0 practice template. Freeze and validate it before material
+# delegated work begins:
 # python practice-kit/tools/validate_contract.py path/to/contract.yaml
-schema_version: "1.0"
+schema_version: "2.0"
+revision: 1
 contract_id: "replace-me"
 status: draft
 
 outcome:
   statement: "What verifiable result should exist when this work is done?"
-  accepted_by: "Owner or declared acceptance authority"
 
 acceptance_criteria:
   - criterion_id: "criterion-1"
+    criterion_kind: technical
     description: "A result that can be checked before work is accepted."
-    grader: deterministic  # deterministic | rule | model | human | owner
+    grader: deterministic  # deterministic | rule | model | human
 
 non_goals:
   - "Work that is explicitly outside this task."
 
-risk_tier: medium  # low | medium | high | regulated-overlay
+risk_tier: low  # low | medium | high
+risk_overlays: []  # Add security, privacy, or regulated only when triggered.
+risks:
+  - risk_id: "risk-1"
+    description: "The primary way this delegated task could cause material harm."
+    material: true
 
 authority:
   owner:
@@ -27,12 +34,16 @@ authority:
       - "External publication or irreversible action"
   roles:
     - role_id: builder
+      principal_id: "builder-agent-or-session"
+      context_ref: "builder-context-ref"
       can_write:
         - "Declare exact paths or resources."
       forbidden_actions:
         - "Change acceptance tests without recorded review."
         - "Expand its own authority, budget, or recursion."
     - role_id: verifier
+      principal_id: "verifier-agent-or-session"
+      context_ref: "fresh-verifier-context-ref"
       can_write: []
       forbidden_actions:
         - "Modify the implementation being verified."
@@ -40,25 +51,27 @@ authority:
 
 budget:
   max_elapsed_minutes: 60
-  max_retries: 2
+  max_build_retries: 2
+  max_total_eval_reruns: 2
+  max_total_trials: 10
   max_agent_depth: 1
   token_budget: null  # Keep unknown when reliable usage data is unavailable.
 
 stop_conditions:
   - "A required input, authority, or acceptance test is missing."
   - "The task requires scope or permission outside this contract."
-  - "The retry, time, or Agent-depth budget is exhausted."
+  - "A retry, trial, time, token, or Agent-depth budget is exhausted."
   - "A material verifier or red-team finding remains unresolved."
 
 evidence_requirements:
   - claim_id: "criterion-1"
     required_types:
-      - deterministic_test  # deterministic_test | rule_check | model_grade | human_review | owner_decision | external_source
-    insufficient_action: block  # block | owner-decision-required
+      - deterministic_test
+    insufficient_action: block
 
 handoff:
   required_outputs:
     - "Exact changed artifacts or governed object reference."
     - "Checks run and their results."
     - "Known limitations and unresolved items."
-    - "Owner decision still required, if any."
+    - "Owner disposition still required, if any."

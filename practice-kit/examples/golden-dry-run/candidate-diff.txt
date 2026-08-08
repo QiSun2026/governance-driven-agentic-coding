@@ -1,0 +1,3 @@
+Illustrative candidate binding: candidate.py plus test_candidate.py.
+The artifact is intentionally small so the record chain can be audited by eye.
+No publication or Owner acceptance is represented by this file.

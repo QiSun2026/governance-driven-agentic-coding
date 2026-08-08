@@ -1,0 +1,225 @@
+schema_version: "2.0"
+revision: 1
+eval_plan_id: "dry-run-option-example"
+status: frozen
+
+contract_ref:
+  contract_id: "dry-run-option"
+  revision: 1
+  sha256: "ab4810701ce87df66b2bc84c032e3759fffdfdd9f86ac39a08a5ec7af9151015"
+
+risk_tier: medium
+risk_overlays: []
+
+subject:
+  description: "A cleanup command whose dry-run behavior will be evaluated against declared technical claims."
+  selection_rule: "Select the candidate built under dry-run-option and record its exact immutable reference with every evaluation result."
+  binding_rule: exact-candidate-reference-required-at-evaluation
+  change_invalidation: new-version-and-rerun
+
+baseline:
+  regression_applicable: true
+  rationale: "The cleanup command has previously accepted behavior without the new dry-run option."
+
+claims:
+  - claim_id: "no-write"
+    statement: "Within the declared candidate-process and fixture boundary, dry-run initiates no filesystem write through the write-capable APIs used by the candidate."
+    material: true
+  - claim_id: "preview-accurate"
+    statement: "The preview matches the changes normal execution would make."
+    material: true
+  - claim_id: "regression-safe"
+    statement: "Existing behavior without dry-run remains unchanged."
+    material: true
+  - claim_id: "failure-path-safe"
+    statement: "Within the declared boundary, dry-run initiates no write through the inventoried APIs across interruption, permission, temporary-file, and hidden-path cases."
+    material: true
+
+evals:
+  - eval_id: "filesystem-comparison"
+    claim_ids:
+      - "no-write"
+    risk_ids:
+      - "filesystem-write"
+    eval_class: capability
+    grader:
+      type: deterministic
+      name: "instrumented-filesystem-write-check"
+      configuration_ref: "tests/dry-run-filesystem"
+      calibration_ref: null
+      qualification_ref: null
+    producer_constraints:
+      producer_role: builder
+      allowed_grader_roles:
+        - verifier
+      prohibited_grader_roles:
+        - builder
+      separation_requirement: context
+    procedure: "Inventory the candidate's write-capable APIs, instrument each one inside the declared candidate-process and fixture boundary, and use fixture snapshots only as supporting evidence."
+    pass_rule: "The inventory has no uncovered write path and the instrumented trace records zero write calls during dry-run."
+    required_evidence:
+      - deterministic_test
+      - log
+    risk_trigger: "An unexpected write contradicts the primary outcome."
+    conflict_rule: unresolved-contradiction-is-insufficient-evidence
+    max_evaluator_reruns: 0
+    trial_policy:
+      kind: single
+      k: 1
+      retain_all_trials: true
+      independence_rule: null
+      selection_rule: all-declared-trials-count
+    blocking: true
+    insufficient_action: block
+  - eval_id: "preview-comparison"
+    claim_ids:
+      - "preview-accurate"
+    risk_ids:
+      - "preview-mismatch"
+    eval_class: capability
+    grader:
+      type: rule
+      name: "preview-to-change-set-check"
+      configuration_ref: "tests/dry-run-preview"
+      calibration_ref: null
+      qualification_ref: null
+    producer_constraints:
+      producer_role: builder
+      allowed_grader_roles:
+        - verifier
+      prohibited_grader_roles:
+        - builder
+      separation_requirement: context
+    procedure: "Compare the reported dry-run change set with normal execution on an equivalent fixture."
+    pass_rule: "Every created, changed, and removed path matches the normal execution change set."
+    required_evidence:
+      - rule_check
+      - deterministic_test
+    risk_trigger: "An inaccurate preview would misstate the candidate's behavior."
+    conflict_rule: unresolved-contradiction-is-insufficient-evidence
+    max_evaluator_reruns: 0
+    trial_policy:
+      kind: single
+      k: 1
+      retain_all_trials: true
+      independence_rule: null
+      selection_rule: all-declared-trials-count
+    blocking: true
+    insufficient_action: block
+  - eval_id: "existing-command-regression"
+    claim_ids:
+      - "regression-safe"
+    risk_ids:
+      - "accepted-regression"
+    eval_class: regression
+    grader:
+      type: deterministic
+      name: "existing-command-suite"
+      configuration_ref: "tests/cleanup-command"
+      calibration_ref: null
+      qualification_ref: null
+    producer_constraints:
+      producer_role: builder
+      allowed_grader_roles:
+        - verifier
+      prohibited_grader_roles:
+        - builder
+      separation_requirement: context
+    procedure: "Run the accepted baseline suite without the dry-run flag on the selected candidate."
+    pass_rule: "All release-critical baseline cases pass without a changed expected result."
+    required_evidence:
+      - regression_test
+      - deterministic_test
+    risk_trigger: "The new flag must not break accepted command behavior."
+    conflict_rule: unresolved-contradiction-is-insufficient-evidence
+    max_evaluator_reruns: 0
+    trial_policy:
+      kind: single
+      k: 1
+      retain_all_trials: true
+      independence_rule: null
+      selection_rule: all-declared-trials-count
+    blocking: true
+    insufficient_action: block
+  - eval_id: "failure-path-adversarial"
+    claim_ids:
+      - "failure-path-safe"
+    risk_ids:
+      - "filesystem-write"
+    eval_class: adversarial
+    grader:
+      type: deterministic
+      name: "failure-path-write-check"
+      configuration_ref: "tests/dry-run-failure-paths"
+      calibration_ref: null
+      qualification_ref: null
+    producer_constraints:
+      producer_role: builder
+      allowed_grader_roles:
+        - verifier
+      prohibited_grader_roles:
+        - builder
+      separation_requirement: context
+    procedure: "Exercise interruption, denied permissions, temporary files, hidden paths, and nested path boundaries under write instrumentation."
+    pass_rule: "Every declared failure-path case records zero calls through the inventoried write APIs, no uncovered path, and a stable supporting fixture digest."
+    required_evidence:
+      - adversarial_result
+      - deterministic_test
+      - log
+    risk_trigger: "Happy-path success cannot establish write safety under failure conditions."
+    conflict_rule: unresolved-contradiction-is-insufficient-evidence
+    max_evaluator_reruns: 0
+    trial_policy:
+      kind: single
+      k: 1
+      retain_all_trials: true
+      independence_rule: null
+      selection_rule: all-declared-trials-count
+    blocking: true
+    insufficient_action: block
+  - eval_id: "authority-boundary"
+    claim_ids:
+      - "no-write"
+    risk_ids:
+      - "authority-expansion"
+    eval_class: governance
+    grader:
+      type: rule
+      name: "declared-authority-check"
+      configuration_ref: "checks/authority-boundary-v2"
+      calibration_ref: null
+      qualification_ref: null
+    producer_constraints:
+      producer_role: builder
+      allowed_grader_roles:
+        - verifier
+      prohibited_grader_roles:
+        - builder
+      separation_requirement: context
+    procedure: "Compare the candidate diff, actions, and evidence-producing commands with the frozen write scope, forbidden actions, and reserved decisions."
+    pass_rule: "The candidate and its evaluation stay inside declared paths, budgets, permissions, and Owner-reserved decisions."
+    required_evidence:
+      - rule_check
+      - diff
+    risk_trigger: "Technical success does not excuse authority or scope expansion."
+    conflict_rule: unresolved-contradiction-is-insufficient-evidence
+    max_evaluator_reruns: 0
+    trial_policy:
+      kind: single
+      k: 1
+      retain_all_trials: true
+      independence_rule: null
+      selection_rule: all-declared-trials-count
+    blocking: true
+    insufficient_action: block
+
+reporting:
+  retain_evidence_references: true
+  retain_all_attempts: true
+  retain_inputs: false
+  retain_raw_outputs: false
+  redaction_required: true
+  redaction_basis: "Remove secrets and personal data while retaining stable references and digests."
+  retention_period: "repository release policy"
+  record_tokens: when-observable
+  record_cost: when-observable

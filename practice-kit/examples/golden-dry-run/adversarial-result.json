@@ -1,0 +1,6 @@
+{
+  "candidate_ref": "golden-dry-run-v1",
+  "cases": ["nested path", "hidden tmp file", "dry-run write instrumentation"],
+  "result": "pass",
+  "limit": "Permission denial and process interruption are declared follow-on cases, not exercised by this compact fixture."
+}

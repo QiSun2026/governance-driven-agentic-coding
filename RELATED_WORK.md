@@ -1,36 +1,43 @@
 # Related Work and Boundaries
 
-GDAC combines familiar controls. Its claim is not that any one component is
-new. The narrower contribution is a compact operating protocol for delegating
-material software work to probabilistic agents while keeping acceptance and
-authority outside the producer.
+GDAC does not invent branch protection, policy engines, evaluation runtimes,
+provenance, or repository instructions. Its narrower contribution is an
+operating protocol that binds those controls to one delegated task:
 
-| Prior work | What already exists | What GDAC adds | What GDAC does not claim |
-|---|---|---|---|
-| [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) | A voluntary, outcome-focused framework organized around Govern, Map, Measure, and Manage. | A repository-level contract, evidence gate, and handoff loop for agentic software work. | GDAC is not an AI risk-management standard and is not a substitute for NIST AI RMF. |
-| [IIA Three Lines Model](https://www.theiia.org/en/resources/statements-of-position) | Organizational accountability, oversight, and objective assurance roles. | A small producer/reviewer separation rule for a single governed object. | Context-independent review is not organizational independence, internal audit, or third-party assurance. |
-| [Federal Reserve SR 26-2](https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm) | Non-prescriptive, risk-based model guidance issued on 2026-04-17 and expected to be most relevant above $30 billion in assets. Its scope explicitly excludes generative and agentic AI. | A software-delivery pattern for bounded agent delegation outside that supervisory scope. | GDAC is not supervisory guidance. SR 26-2 is not a basis for claiming that GDAC governs generative or agentic AI in regulated banks. |
-| [EU AI Act, Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj?locale=en) | Legal obligations that include documentation and downstream transparency duties for providers of general-purpose AI models, with additional duties for systemic-risk models. | A repository-level evidence map and authority protocol for software work that uses agents. | GDAC does not determine legal role, risk classification, conformity, or compliance with the AI Act. |
-| [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) | Small, version-controlled records of context, decisions, status, and consequences. | A pre-work record that also freezes acceptance, delegated authority, budgets, and stop conditions. | An Outcome Contract does not replace ADRs or justify every implementation decision. |
-| [in-toto](https://in-toto.io/docs/getting-started/) and [SLSA provenance](https://slsa.dev/spec/v1.2/provenance) | Verifiable supply-chain steps, authorized functionaries, artifact identity, and provenance attestations. | Claim-to-evidence mapping that can include tests, reviews, unknowns, and human decisions. | A GDAC evidence record is not automatically authenticated provenance or a tamper-resistant attestation. |
-| [Center for Open Science preregistration](https://www.cos.io/) | Time-stamped plans recorded before results are known to reduce hindsight-driven changes. | A lightweight prospective re-test for candidate governance rules. | A method re-test is not a scientific study, replication, or independent validation. |
-| [Inspect](https://inspect.aisi.org.uk/) | An evaluation framework with datasets, agents, tools, scorers, logs, limits, and support for external coding agents. | An authority and acceptance wrapper around whichever evaluation system a project selects. | GDAC is not an evaluation runtime, benchmark suite, or substitute for Inspect. |
-| [AGENTS.md](https://agents.md/) | A portable Markdown format for repository instructions such as setup, tests, conventions, and security guidance for coding agents. | A task-level contract for outcome, delegated authority, evidence, stop conditions, and Owner acceptance. | GDAC does not replace repository instructions or require a proprietary agent configuration format. |
+`frozen outcome and authority -> exact candidate -> declared evals -> evidence -> aggregate gate -> accountable disposition`
+
+## Nearest engineering neighbors
+
+| Existing mechanism | What it already does well | Where GDAC sits |
+|---|---|---|
+| [GitHub protected branches and required checks](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches) | Enforce merge conditions, review counts, status checks, signed commits, and other repository rules. | The Outcome Contract states why a task exists and what authority was delegated; the Gate Record binds required-check output to the exact claim and candidate. GDAC should feed branch rules, not replace them. |
+| [GitHub CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) | Requests review from declared owners of paths and can support required code-owner approval. | GDAC records the task-level Owner, Builder, Verifier principal/context separation, and reserved decisions. A CODEOWNERS approval is evidence or a disposition only when the plan says which. |
+| [Open Policy Agent](https://www.openpolicyagent.org/docs) and its [CI/CD guidance](https://www.openpolicyagent.org/docs/cicd) | Evaluate machine-readable policy as code across services and delivery pipelines. | A GDAC validator can call or be called by policy-as-code. GDAC defines the surrounding contract, evidence binding, fail-closed state, and human disposition; it is not a competing policy language. |
+| Agent permission systems, including [Claude Code CLI permissions](https://docs.anthropic.com/en/docs/claude-code/cli-usage) | Restrict tools, commands, files, or execution modes inside a specific Agent runtime. | GDAC records portable authority and stop conditions. The runtime must enforce them. A YAML write scope alone is not a sandbox. |
+| [Inspect](https://inspect.aisi.org.uk/) and its [evaluation logs](https://inspect.aisi.org.uk/eval-logs.html) | Run evaluations with datasets, agents, tools, scorers, limits, and inspectable logs. | GDAC can use Inspect as an eval execution and logging layer. GDAC adds task authority, candidate/claim binding, aggregate gate rules, and the separate Owner disposition; it is not another benchmark runtime. |
+| [in-toto](https://in-toto.io/docs/getting-started/), [SLSA provenance](https://slsa.dev/spec/v1.2/provenance), and [GitHub artifact attestations](https://docs.github.com/en/enterprise-cloud@latest/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations) | Bind artifacts to authenticated build steps, identities, and provenance statements. | GDAC evidence may reference attestations and digests. The starter Gate Record checks identity of files by digest but does not by itself authenticate the producer or provide tamper-resistant provenance. |
+| [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) | Preserve context, decision, status, and consequences in version control. | ADRs explain architecture choices. An Outcome Contract freezes task result, authority, budgets, stop rules, and evidence before implementation. A project may use both. |
+| [AGENTS.md](https://agents.md/) | Gives coding agents portable repository instructions for setup, tests, conventions, and security. | Repository instructions describe the environment. GDAC adds a task-level contract and post-build decision chain; it should reference, not duplicate, repository guidance. |
+
+## Risk and regulated-environment overlays
+
+Broader frameworks such as the [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), the [IIA Three Lines Model](https://www.theiia.org/en/resources/statements-of-position), and the [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj?locale=en) address organizational risk, accountability, assurance, or legal obligations at a different level.
+
+GDAC may map a task's records to an organization's controls and flag missing
+evidence or unresolved legal questions. It does not determine legal role or
+risk classification, create organizational independence, perform internal
+audit, establish conformity, or certify compliance. Review in a fresh Agent
+context is context separation; only a genuinely separate qualified party may
+be described as independent.
 
 ## Design stance
 
-GDAC deliberately reuses these ideas instead of inventing a parallel vocabulary.
-Terms are introduced only where they change a permitted state, an authority
-boundary, or the evidence required for a claim.
+GDAC introduces a term only when it changes authority, object identity,
+evidence sufficiency, or a permitted state transition. Its practical test is
+integration: can a team connect an issue, contract, checked-in Eval Plan,
+commit SHA, CI or eval output, Gate Record, and maintainer disposition without
+building a second project-management system?
 
-The construction is domain-agnostic in the limited sense that the core schema
-does not require one business domain. Current evidence is not domain-neutral:
-it comes from two author-run private projects that external readers cannot
-inspect, and it has not been independently replicated.
-
-## Evidence independence statement
-
-Unless a specific record says otherwise, current GDAC artifacts, examples,
-tests, reviews, and conclusions were produced, recorded, and evaluated by the
-author with AI assistance. No independent third party has replicated the method
-or validated improved delivery, safety, cost, or governance outcomes.
+The repository currently demonstrates the structure and deterministic rules on
+included cases. External adoption and production-outcome evidence remain open
+questions rather than design claims.

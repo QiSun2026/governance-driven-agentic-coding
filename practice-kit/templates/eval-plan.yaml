@@ -1,0 +1,109 @@
+# Freeze this plan with the Outcome Contract before material implementation.
+# A frozen plan must be validated with --contract. Bind the exact candidate only
+# in the later Gate Record; do not add it to this pre-build plan.
+schema_version: "2.0"
+revision: 1
+eval_plan_id: "replace-me"
+status: draft
+
+contract_ref:
+  contract_id: "replace-me"
+  revision: 1
+  sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+
+risk_tier: low
+risk_overlays: []
+
+subject:
+  description: "The artifact or behavior that the evaluation will inspect."
+  selection_rule: "Select the candidate produced under the referenced Outcome Contract."
+  binding_rule: exact-candidate-reference-required-at-evaluation
+  change_invalidation: new-version-and-rerun
+
+baseline:
+  regression_applicable: false
+  rationale: "No previously accepted behavior exists for this new, isolated object."
+
+claims:
+  - claim_id: "claim-1"
+    statement: "A material statement that must be supported before acceptance."
+    material: true
+
+evals:
+  - eval_id: "capability-eval"
+    claim_ids:
+      - "claim-1"
+    risk_ids: []
+    eval_class: capability
+    grader:
+      type: deterministic
+      name: "replace-with-check-name"
+      configuration_ref: null
+      calibration_ref: null
+      qualification_ref: null
+    producer_constraints:
+      producer_role: builder
+      allowed_grader_roles:
+        - builder
+      prohibited_grader_roles: []
+      separation_requirement: none
+    procedure: "Describe the input, environment, fixture, and exact check."
+    pass_rule: "State an objective pass condition."
+    required_evidence:
+      - deterministic_test
+    risk_trigger: "The primary claim requires a direct technical check."
+    conflict_rule: unresolved-contradiction-is-insufficient-evidence
+    max_evaluator_reruns: 0
+    trial_policy:
+      kind: single
+      k: 1
+      retain_all_trials: true
+      independence_rule: null
+      selection_rule: all-declared-trials-count
+    blocking: true
+    insufficient_action: block
+  - eval_id: "authority-eval"
+    claim_ids:
+      - "claim-1"
+    risk_ids:
+      - "risk-1"
+    eval_class: governance
+    grader:
+      type: rule
+      name: "authority-boundary-check"
+      configuration_ref: null
+      calibration_ref: null
+      qualification_ref: null
+    producer_constraints:
+      producer_role: builder
+      allowed_grader_roles:
+        - builder
+      prohibited_grader_roles: []
+      separation_requirement: none
+    procedure: "Compare the candidate diff and recorded actions with the declared write scope and forbidden actions."
+    pass_rule: "No action or change exceeds the authority declared by the Outcome Contract."
+    required_evidence:
+      - rule_check
+      - diff
+    risk_trigger: "Every delegated task can exceed its declared authority."
+    conflict_rule: unresolved-contradiction-is-insufficient-evidence
+    max_evaluator_reruns: 0
+    trial_policy:
+      kind: single
+      k: 1
+      retain_all_trials: true
+      independence_rule: null
+      selection_rule: all-declared-trials-count
+    blocking: true
+    insufficient_action: block
+
+reporting:
+  retain_evidence_references: true
+  retain_all_attempts: true
+  retain_inputs: false
+  retain_raw_outputs: false
+  redaction_required: true
+  redaction_basis: "Remove secrets and personal data while retaining stable references and digests."
+  retention_period: "project policy"
+  record_tokens: when-observable
+  record_cost: when-observable

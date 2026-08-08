@@ -4,6 +4,8 @@ import argparse
 import sys
 from pathlib import Path
 
+from jsonschema.exceptions import SchemaError
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
@@ -22,7 +24,7 @@ def main() -> int:
 
     try:
         errors = validate_contract(load_document(args.contract), load_document(args.schema))
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, SchemaError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
     if errors:

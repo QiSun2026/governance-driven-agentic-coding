@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Evaluation Rules | GDAC Harness</title>
+<meta name="description" content="How GDAC freezes claims, binds evidence to an exact candidate, separates grader authority, and derives a decision-ready or blocked Harness state.">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/eval-rules.html">
+<link rel="stylesheet" href="site.css?v=20260808">
+</head>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="index.html">GDAC<span> / Eval Rules</span></a>
+<nav class="nav" aria-label="Main navigation">
+<a href="index.html">Overview</a>
+<a href="harness.html">Harness</a>
+<a class="on" href="eval-rules.html" aria-current="page">Eval Rules</a>
+<a href="practice-kit/">Practice Kit</a>
+<a href="related-work.html">Related Work</a>
+<a href="zh.html" hreflang="zh-Hans">中文</a>
+</nav>
+</div>
+</header>
+
+<main id="content" class="wrap subpage">
+
+<article class="page-hero">
+<div class="col">
+<p class="label page-kicker">Evaluation protocol · GDAC v2.0</p>
+<h1>Define the evidence before the result exists</h1>
+<p class="page-summary">Freeze claims, material risks, graders, budgets, and evidence before implementation. Then bind every result to one exact candidate and aggregate it without changing the Owner's authority.</p>
+<div class="page-actions">
+<a class="text-cta" href="#results">Follow the result path</a>
+<a class="source-link" href="EVAL_RULES.md">Source specification (Markdown)</a>
+</div>
+</div>
+</article>
+
+<nav class="row sub-toc" data-noprint aria-label="Page contents">
+<p class="rail label">On this page</p>
+<ol>
+<li><a href="#results"><span>Three result layers</span></a></li>
+<li><a href="#plan"><span>Eval Plan fields</span></a></li>
+<li><a href="#evaluations"><span>Eval classes and graders</span></a></li>
+<li><a href="#evidence"><span>Evidence and gate checks</span></a></li>
+<li><a href="#binding"><span>Binding, tiers, and overlays</span></a></li>
+<li><a href="#attempts"><span>Retries, trials, retention</span></a></li>
+<li><a href="#dry-run"><span>Strict dry-run example</span></a></li>
+<li><a href="#limits"><span>Reports and boundaries</span></a></li>
+</ol>
+</nav>
+
+<section class="row sec" id="results">
+<p class="rail">Result path</p>
+<div class="col">
+<h2>Three layers that must not collapse</h2>
+<p class="section-intro">An evaluation can support or block a decision. It cannot turn technical evidence into acceptance, release authority, or a compliance claim.</p>
+
+<div class="comparison-list">
+<article class="comparison-item">
+<header class="comparison-head">
+<h3>One path, three different questions</h3>
+</header>
+<div class="comparison-body">
+<div class="comparison-cell">
+<span class="label">Technical eval</span>
+<p>Does the frozen claim pass its declared procedure and evidence rule? Result: <code>pass</code>, <code>fail</code>, <code>insufficient_evidence</code>, or <code>not_evaluated</code>.</p>
+</div>
+<div class="comparison-cell">
+<span class="label">Harness Gate</span>
+<p>Are all blocking checks complete, passed, and free of unresolved material findings? Result: <code>blocked</code> or <code>ready</code>.</p>
+</div>
+<div class="comparison-cell limit-cell">
+<span class="label">Owner disposition</span>
+<p>What should happen for this purpose and version? The accountable Owner records <code>accept</code>, <code>accept_with_conditions</code>, <code>rework</code>, <code>pause</code>, or <code>stop</code>.</p>
+</div>
+</div>
+</article>
+</div>
+
+<div class="tbl-wrap" role="region" aria-label="Technical evaluation result truth table" tabindex="0">
+<table class="fields">
+<caption class="sr-only">Conditions for each technical evaluation result state</caption>
+<thead><tr><th scope="col">State</th><th scope="col">Use it only when</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>pass</code></th><td>The declared procedure is valid, every required evidence item is valid and bound to the candidate, and the frozen pass rule is met.</td></tr>
+<tr><th scope="row"><code>fail</code></th><td>The procedure and required evidence are valid and bound, but the frozen pass rule is not met.</td></tr>
+<tr><th scope="row"><code>insufficient_evidence</code></th><td>Missing, invalid, stale, unbound, or unadjudicated contradictory evidence prevents a decision under the pass rule.</td></tr>
+<tr><th scope="row"><code>not_evaluated</code></th><td>The declared evaluation did not run.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="after">A valid result that disproves the pass rule is a failure. Conflicting records that have not been adjudicated are insufficient evidence; the evaluator may not choose the favorable record.</p>
+
+<div class="statement">
+<span class="label">Authority boundary</span>
+<p>Owner acceptance is not an eval claim and receives no pass score. A technically complete package is ready for a decision, not already accepted.</p>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="plan">
+<p class="rail">Pre-build plan</p>
+<div class="col">
+<h2>The Eval Plan is frozen before implementation</h2>
+<p class="section-intro">The plan says what will be tested and how the future candidate will be selected. It does not invent a <code>candidate_ref</code> before that candidate exists.</p>
+
+<h3>Plan-level machine fields</h3>
+<div class="tbl-wrap" role="region" aria-label="Eval Plan top-level machine fields" tabindex="0">
+<table class="fields">
+<caption class="sr-only">Top-level fields in Eval Plan 2.0</caption>
+<thead>
+<tr><th scope="col">Field</th><th scope="col">Purpose</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row"><code>schema_version</code> and <code>revision</code></th><td>Select the portable field contract and this immutable plan revision.</td></tr>
+<tr><th scope="row"><code>eval_plan_id</code> and <code>status</code></th><td>Give the plan a stable identity and mark it draft, frozen, or retired.</td></tr>
+<tr><th scope="row"><code>contract_ref</code></th><td>Binds a frozen plan to the canonical Outcome Contract ID, revision, and SHA-256 digest.</td></tr>
+<tr><th scope="row"><code>risk_tier</code> and <code>risk_overlays</code></th><td>Select one base intensity and separate security, privacy, or regulated triggers.</td></tr>
+<tr><th scope="row"><code>subject</code></th><td>Records the pre-build selection rule, exact-binding rule, and invalidation rule.</td></tr>
+<tr><th scope="row"><code>baseline</code></th><td>Declares whether protected prior behavior exists and why regression is or is not applicable.</td></tr>
+<tr><th scope="row"><code>claims</code></th><td>Lists exact statements and identifies which claims are material.</td></tr>
+<tr><th scope="row"><code>reporting</code></th><td>Retains evidence references and all attempts, then sets redaction, retention, token, and cost rules.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Fields in each eval entry</h3>
+<div class="tbl-wrap" role="region" aria-label="Fields required in each Eval Plan evaluation entry" tabindex="0">
+<table class="fields">
+<caption class="sr-only">Required fields for each Eval Plan evaluation</caption>
+<thead>
+<tr><th scope="col">Field</th><th scope="col">What it freezes</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row"><code>eval_id</code>, <code>claim_ids</code>, <code>risk_ids</code></th><td>A stable check and the exact material claims or risks it evaluates.</td></tr>
+<tr><th scope="row"><code>eval_class</code></th><td>The question class: contract, capability, regression, adversarial, security, privacy, or governance.</td></tr>
+<tr><th scope="row"><code>grader</code></th><td>Type, name, configuration, plus calibration for a model or qualification for a human.</td></tr>
+<tr><th scope="row"><code>producer_constraints</code></th><td>Producer and grader roles plus required principal, context, and read-only separation.</td></tr>
+<tr><th scope="row"><code>procedure</code> and <code>pass_rule</code></th><td>The inputs, environment, fixtures, steps, threshold, and decision rule.</td></tr>
+<tr><th scope="row"><code>required_evidence</code></th><td>Every evidence type that must be present; grader type and eval class impose minimum types.</td></tr>
+<tr><th scope="row"><code>risk_trigger</code> and <code>conflict_rule</code></th><td>Why the eval exists and how unresolved contradictory evidence fails closed.</td></tr>
+<tr><th scope="row"><code>max_evaluator_reruns</code></th><td>Bounded reruns of the same procedure and candidate after a recorded infrastructure error.</td></tr>
+<tr><th scope="row"><code>trial_policy</code></th><td>Kind, <code>k</code>, independence, all-trial retention, and selection rule fixed before results.</td></tr>
+<tr><th scope="row"><code>blocking</code> and <code>insufficient_action</code></th><td>Whether failure blocks the aggregate gate. Required technical evidence uses <code>block</code>.</td></tr>
+</tbody>
+</table>
+</div>
+
+<details class="quick-check">
+<summary><span><strong>Validate a plan with its contract</strong><small>Structural and cross-document checks</small></span></summary>
+<div class="check-body">
+<p>A frozen plan is valid only with its Contract. The validator checks the canonical digest, risk and claim binding, principal/context separation, grader evidence, and total rerun and trial budgets.</p>
+<pre class="code">python practice-kit/tools/validate_eval_plan.py \
+  path/to/eval-plan.yaml \
+  --contract path/to/outcome-contract.yaml</pre>
+</div>
+</details>
+</div>
+</section>
+
+<section class="row sec" id="evaluations">
+<p class="rail">Class / grader</p>
+<div class="col">
+<h2>Eval class and grader type answer different questions</h2>
+<p class="section-intro"><code>eval_class</code> describes what is being tested. <code>grader.type</code> describes how the evidence is judged. Model and human are grader types, not evaluation classes.</p>
+
+<h3>Evaluation classes</h3>
+<div class="tbl-wrap" role="region" aria-label="GDAC evaluation classes" tabindex="0">
+<table class="fields">
+<caption class="sr-only">Evaluation classes and failure consequences</caption>
+<thead>
+<tr><th scope="col">Class</th><th scope="col">Question</th><th scope="col">Typical consequence</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">Contract</th><td>Are the outcome, non-goals, authority, budget, stops, and material claims testable and frozen?</td><td>Block before execution.</td></tr>
+<tr><th scope="row">Capability</th><td>Does the claimed new behavior occur on the declared path and environment?</td><td>Fail the claim or mark evidence insufficient.</td></tr>
+<tr><th scope="row">Regression</th><td>Does previously accepted behavior still work on the new candidate?</td><td>Block the candidate when required behavior breaks.</td></tr>
+<tr><th scope="row">Adversarial</th><td>Can abnormal input, permission misuse, hidden paths, unsafe fallback, or evidence substitution defeat the claim?</td><td>Preserve findings and block unresolved material cases.</td></tr>
+<tr><th scope="row">Security</th><td>Do applicable threat and control checks support the declared security claim?</td><td>Escalate specialist findings and block missing required evidence.</td></tr>
+<tr><th scope="row">Privacy</th><td>Does data handling stay within the declared collection, use, retention, and disclosure boundary?</td><td>Block or require accountable specialist review.</td></tr>
+<tr><th scope="row">Governance</th><td>Were authority, separation, evidence binding, stop rules, and handoff controls actually followed?</td><td>Block a package with a broken control path.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Grader types</h3>
+<dl class="defs">
+<div class="def"><dt>Deterministic code</dt><dd>Use executable checks when they directly answer the claim. Preserve the environment, fixture, output, and failure record.</dd></div>
+<div class="def"><dt>Deterministic rule</dt><dd>Use an explicit rule when the evidence can be judged mechanically without model interpretation.</dd></div>
+<div class="def"><dt>Model grader</dt><dd>Use only when the claim cannot be reduced reliably. Freeze its configuration and rubric, retain a calibration reference for the declared claim distribution, and never use it as the sole blocking grader for a material claim.</dd></div>
+<div class="def"><dt>Qualified human</dt><dd>Use for ambiguous material judgment or specialist interpretation. Record the review configuration and a qualification reference; human grading still remains separate from Owner acceptance.</dd></div>
+</dl>
+
+<div class="statement">
+<span class="label">Not a grader</span>
+<p>The Owner is not a fallback for missing technical evidence. Owner authority resolves reserved decisions after the evidence package is assembled.</p>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="evidence">
+<p class="rail">Record and gate</p>
+<div class="col">
+<h2>Evidence remains attached to the claim and candidate</h2>
+<p class="section-intro">Every record identifies what it supports, where it came from, how it was produced, and what it cannot establish. Evidence from another version or environment is not silently reused.</p>
+
+<div class="claims" aria-label="Required evidence record content">
+<div><h3>Claim</h3><p>The exact claim supported or contradicted.</p></div>
+<div><h3>Candidate Binding</h3><p>The immutable artifact, digest, source revision, attempt, and relevant environment.</p></div>
+<div><h3>Producer identity</h3><p>The evidence type, role, principal, context, and required separation.</p></div>
+<div><h3>Procedure</h3><p>Inputs, fixtures, steps, tools, and configuration.</p></div>
+<div><h3>Raw result</h3><p>The output or a stable reference to the retained record.</p></div>
+<div><h3>Integrity</h3><p>Digest, provenance, or other integrity information when available.</p></div>
+<div><h3>Observed state</h3><p>Pass, fail, measured value, or a clear insufficient-evidence state.</p></div>
+<div><h3>Limits</h3><p>Known limitations, contradictions, and unresolved unknowns.</p></div>
+</div>
+
+<h3>Six categories feed one Harness Gate</h3>
+<div class="tbl-wrap" role="region" aria-label="Six GDAC Harness gate checks" tabindex="0">
+<table class="roles">
+<caption class="sr-only">Six gate-check categories feeding the Harness Gate</caption>
+<thead>
+<tr><th scope="col">Gate check</th><th scope="col">Question and required material</th><th scope="col" class="deny">Failure consequence</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">Contract</th><td>Is the outcome testable and frozen? Inspect the Outcome Contract, non-goals, authority, acceptance criteria, and Eval Plan.</td><td>Block before execution.</td></tr>
+<tr><th scope="row">Authority</th><td>Is every action within permission and whole-task budget? Inspect write scope, forbidden actions, retries, and stop rules.</td><td>Stop and escalate.</td></tr>
+<tr><th scope="row">Build integrity</th><td>Is the change minimal and technically clean? Inspect the diff and applicable type, lint, security, regression, and clean-environment checks.</td><td>Rework or stop.</td></tr>
+<tr><th scope="row">Capability and regression</th><td>Does the intended path work without breaking protected behavior? Inspect frozen capability and regression evidence.</td><td>Fail or mark evidence insufficient.</td></tr>
+<tr><th scope="row">Challenge and review</th><td>Were material assumptions and failure paths tested without simply inheriting the Builder's conclusion? Inspect adversarial cases, original evidence, findings, and dispositions.</td><td>Block unresolved material findings.</td></tr>
+<tr><th scope="row">Decision readiness</th><td>Is the Gate Record complete for the Owner's declared question? Inspect results, limits, unknowns, residual risk, and handoff.</td><td>Return ready or remain blocked.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="limit">The current validator aggregates these checks from a supplied Gate Record into one <code>blocked</code> or <code>ready</code> state. Runtime identity, write-scope enforcement, and evidence production still belong to the Agent platform, repository, CI, or eval system named by the Contract.</p>
+</div>
+</section>
+
+<section class="row sec" id="binding">
+<p class="rail">Identity and risk</p>
+<div class="col">
+<h2>Select by rule, bind after building</h2>
+<p class="section-intro">The pre-build plan identifies the subject by rule. Evaluation begins only after that rule resolves to one exact candidate and the binding is recorded.</p>
+
+<ol class="stepslist">
+<li><span class="num">01</span><span><strong>Freeze the selection rule.</strong> Name the component, interface, behavior, baseline, or evidence record before implementation.</span></li>
+<li><span class="num">02</span><span><strong>Create the Candidate Binding.</strong> Resolve the rule to an immutable snapshot and record the Eval Plan version.</span></li>
+<li><span class="num">03</span><span><strong>Invalidate honestly.</strong> If the candidate, contract, plan, fixture, grader procedure, or relevant environment changes, preserve the original result and mark affected evidence invalid.</span></li>
+<li><span class="num">04</span><span><strong>Version and rerun.</strong> Create a new binding or plan version, then rerun every affected required eval. Do not continue the old review against a changed object.</span></li>
+</ol>
+
+<h3>Base tier</h3>
+<div class="tbl-wrap" role="region" aria-label="Default evaluation minimums by risk tier" tabindex="0">
+<table class="fields">
+<caption class="sr-only">Minimum evaluation profile by base risk tier</caption>
+<thead>
+<tr><th scope="col">Risk tier</th><th scope="col">Minimum evaluation profile</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">Low</th><td>Contract validation, blocking technical acceptance, and a governance eval bound to a material authority risk.</td></tr>
+<tr><th scope="row">Medium</th><td>Low tier plus a read-only Verifier with distinct review context on a material target and explicit handoff.</td></tr>
+<tr><th scope="row">High</th><td>Medium tier plus a blocking adversarial eval bound to a material risk and an Owner checkpoint before irreversible action.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Independent overlays</h3>
+<div class="tbl-wrap" role="region" aria-label="Risk overlay minimums" tabindex="0">
+<table class="fields">
+<caption class="sr-only">Additional evaluation minimums for risk overlays</caption>
+<thead><tr><th scope="col">Overlay</th><th scope="col">Added minimum</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>security</code></th><td>A blocking security eval bound to a material security risk.</td></tr>
+<tr><th scope="row"><code>privacy</code></th><td>A blocking privacy eval bound to a material data-handling risk.</td></tr>
+<tr><th scope="row"><code>regulated</code></th><td>A separated qualified-human grader, legal-role and classification unknowns, and evidence mapping. It does not certify compliance.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="after">The Owner may strengthen a profile. A weaker profile requires a recorded Owner decision and must not be represented as equivalent evidence.</p>
+</div>
+</section>
+
+<section class="row sec" id="attempts">
+<p class="rail">Bounded repetition</p>
+<div class="col">
+<h2>Retries, reruns, and trials are different events</h2>
+<p class="section-intro">Naming the event correctly prevents a changed candidate, an infrastructure rerun, and a repeated reliability sample from being merged into one convenient pass.</p>
+
+<dl class="defs">
+<div class="def"><dt>Builder retry</dt><dd>Changes implementation, configuration, or another material input. It creates a new attempt and Candidate Binding and consumes the Outcome Contract budget.</dd></div>
+<div class="def"><dt>Evaluator rerun</dt><dd>Repeats the same procedure on the same candidate after a declared execution or infrastructure error. It consumes the eval's <code>max_evaluator_reruns</code> and the Contract's total rerun budget.</dd></div>
+<div class="def"><dt>Repeated trial</dt><dd>Runs one predeclared sample inside a reliability question. The plan fixes the trial policy and value of <code>k</code> before results are visible.</dd></div>
+</dl>
+
+<div class="claims">
+<div><h3>Single</h3><p>One declared trial. Do not infer a repeated-trial percentage from it.</p></div>
+<div><h3>pass@k</h3><p>Use stored policy <code>pass-at-k</code> only when at least one success across <code>k</code> genuine trials answers the claim.</p></div>
+<div><h3>pass^k</h3><p>Use stored policy <code>pass-power-k</code> only when all <code>k</code> trials must succeed.</p></div>
+</div>
+<p class="after">Repeated-trial pass selection is prohibited for blocking regression, adversarial, security, privacy, and governance checks. Every declared trial counts and remains in the record.</p>
+
+<h3>Retention is declared before execution</h3>
+<div class="plain-prose">
+<p>Keep the applicable Outcome Contract and Eval Plan versions, subject-selection rule, Candidate Bindings, stable evidence references, eval results, grader configuration, failed attempts, gate state, and Owner disposition through closeout.</p>
+<p>The plan always retains stable evidence references, digests, and all attempts. Raw sensitive inputs or outputs may be omitted or redacted under a declared basis and retention period, but evidence supporting a maintained claim must remain traceable for as long as that claim is maintained.</p>
+<p>A later pass does not delete an earlier failure, a known limitation, or the cost and reason for a material attempt. Repeated identical blockers stop the work.</p>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="dry-run">
+<p class="rail">Worked rule</p>
+<div class="col">
+<h2>A dry-run claim is only as strong as its declared boundary</h2>
+<p class="section-intro">A cleanup command must preview the exact change set without initiating a filesystem write through the inventoried write-capable APIs inside the declared candidate-process and fixture boundary.</p>
+
+<div class="resource-groups">
+<section class="resource-group">
+<header>
+<span class="label">Frozen claims</span>
+<p>What must be established before the task can be decision-ready.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item"><h3>Bounded no-write claim</h3><p>Inside the declared boundary, dry-run calls none of the candidate's inventoried write-capable APIs. The inventory must cover temporary-file, rename, deletion, and metadata paths when present.</p></article>
+<article class="resource-item"><h3>Accurate preview</h3><p>The preview matches every path that equivalent normal execution would create, change, or remove.</p></article>
+<article class="resource-item"><h3>Regression safety</h3><p>Existing behavior without the dry-run flag continues to pass the protected baseline.</p></article>
+<article class="resource-item"><h3>Failure-path safety</h3><p>Interruption, denied permissions, temporary-file paths, hidden paths, and nested boundaries do not trigger an inventoried write API or produce a misleading preview.</p></article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Suitable graders</span>
+<p>Deterministic evidence answers the claims directly.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item"><h3>Instrumented write trace</h3><p>Record every application-initiated write in the declared process tree and filesystem boundary. Claims one and four pass only when the trace records zero write calls.</p></article>
+<article class="resource-item"><h3>Preview comparison</h3><p>Compare the dry-run change set with normal execution on an equivalent clean fixture.</p></article>
+<article class="resource-item"><h3>Regression suite</h3><p>Run the accepted command suite without the dry-run flag on the bound candidate.</p></article>
+<article class="resource-item"><h3>Adversarial cases</h3><p>Exercise interruption, permissions, temporary files, hidden paths, and scope boundaries in separated review context.</p></article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Evidence rule</span>
+<p>Primary evidence and supporting evidence are not interchangeable.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item"><h3>Primary evidence</h3><p>The API inventory must have no uncovered write path and the trace must record zero calls. A model grader adds no value when instrumentation answers the claim.</p></article>
+<article class="resource-item"><h3>Supporting evidence</h3><p>A before-and-after filesystem snapshot may corroborate the result, but cannot establish the claim because a temporary write could be removed before the final snapshot.</p></article>
+<article class="resource-item"><h3>Blocking consequence</h3><p>Any recorded write, missing trace, inaccurate preview, required regression failure, or unresolved material challenge keeps the Harness Gate blocked.</p></article>
+</div>
+</section>
+</div>
+
+<div class="statement">
+<span class="label">Example boundary</span>
+<p>This worked example explains the evaluation rule. It is not evidence that GDAC improves real project outcomes, and a technical pass still does not authorize release.</p>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="limits">
+<p class="rail">Report and limits</p>
+<div class="col">
+<h2>The report is a view, not a new source of truth</h2>
+<p class="section-intro">A final report gathers the original records for review. It does not overwrite failed attempts, repair missing evidence, or add authority that the Outcome Contract did not grant.</p>
+
+<div class="claims" aria-label="Minimum evaluation report content">
+<div><h3>Versions</h3><p>Outcome Contract, Eval Plan, subject-selection rule, and Candidate Binding.</p></div>
+<div><h3>Results</h3><p>Every pass, fail, insufficient-evidence, and not-evaluated item with stable evidence references.</p></div>
+<div><h3>Usage</h3><p>Builder attempts, evaluator reruns, repeated trials, time, token, and cost usage when declared or observable.</p></div>
+<div><h3>Findings</h3><p>Verifier and Red Team findings, dispositions, limitations, contradictions, unknowns, and residual risk.</p></div>
+<div><h3>Gate state</h3><p>The derived <code>blocked</code> or <code>ready</code> state.</p></div>
+<div><h3>Owner status</h3><p>The separate disposition still required or already recorded for the exact purpose and version.</p></div>
+</div>
+
+<h3>Reject these evaluation designs</h3>
+<div class="claims">
+<div><h3>Moving target</h3><p>Tests or pass rules are changed after the result is known, or the candidate changes without invalidation.</p></div>
+<div><h3>Self-approval</h3><p>The Builder grades its own material final claim or quietly expands its authority.</p></div>
+<div><h3>Happy path only</h3><p>Material permission, interruption, fallback, security, privacy, or evidence-substitution failures remain untested.</p></div>
+<div><h3>Model for decoration</h3><p>A model grader replaces deterministic evidence that could answer the claim directly.</p></div>
+<div><h3>Failure averaging</h3><p>A required failed gate is averaged away, retried without record, or replaced with a default score.</p></div>
+<div><h3>Inflated claim</h3><p>Synthetic or author-run evidence is presented as real-world effectiveness, independent validation, deployment authority, or compliance certification.</p></div>
+</div>
+
+<div class="statement">
+<span class="label">Current implementation boundary</span>
+<p>This repository publishes the Harness and Eval specifications, three portable schemas, deterministic validators, and a digest-bound golden record chain. It does not publish a complete Agent runner, persistent evidence database, sandbox, deployment system, Owner identity service, or automatic compliance certification.</p>
+</div>
+
+<div class="page-actions">
+<a class="text-cta" href="harness.html">Read the Harness architecture</a>
+<a class="source-link" href="EVAL_RULES.md">Open the source specification</a>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div class="rail" aria-hidden="true"></div>
+<div class="col">
+<p class="foot-title">GDAC Evaluation Rules</p>
+<p>A claim-to-evidence protocol for bounded agent work. Technical verification can block or support a decision; only the accountable Owner decides what happens next.</p>
+</div>
+<nav aria-label="Footer navigation">
+<a href="index.html">Overview</a>
+<a href="harness.html">Harness</a>
+<a href="EVAL_RULES.md">Source Markdown</a>
+<a href="#top">Back to top</a>
+</nav>
+</div>
+</footer>
+
+</body>
+</html>

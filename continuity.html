@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Continuity from GDAC v1.3 | Harness and Eval</title>
+<meta name="description" content="A control-by-control map from GDAC v1.3 to the published GDAC v2.0 Harness and Eval method.">
+<link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/continuity.html">
+<link rel="stylesheet" href="site.css?v=20260808">
+</head>
+<body id="top" class="public-site">
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="top" data-noprint>
+<div class="top-in">
+<a class="brand" href="index.html">GDAC<span> / Continuity</span></a>
+<nav class="nav" aria-label="Main navigation">
+<a href="index.html">Overview</a>
+<a href="harness.html">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="practice-kit/">Practice Kit</a>
+<a href="related-work.html">Related Work</a>
+<a href="zh.html" hreflang="zh-Hans">中文</a>
+</nav>
+</div>
+</header>
+
+<main id="content" class="wrap subpage">
+
+<article class="page-hero">
+<div class="col">
+<p class="label page-kicker">Continuity · v1.3 to GDAC v2.0</p>
+<h1>What changed, and what stayed</h1>
+<p class="page-summary">v2.0 builds on v1.3 rather than replacing it: the control spine stays, evaluation becomes machine-checkable, and the AI-company metaphor becomes portable Harness functions.</p>
+<div class="page-actions">
+<a class="text-cta" href="#retained">See the retained controls</a>
+<a class="source-link" href="V1_3_CONTINUITY.md">View source Markdown</a>
+</div>
+</div>
+</article>
+
+<nav class="row sub-toc" data-noprint aria-label="Page contents">
+<p class="rail label">On this page</p>
+<ol>
+<li><a href="#retained"><span>Retained</span></a></li>
+<li><a href="#added"><span>Added</span></a></li>
+<li><a href="#reshaped"><span>Reshaped</span></a></li>
+<li><a href="#not-carried"><span>Not carried forward</span></a></li>
+</ol>
+</nav>
+
+<section class="row sec" id="retained">
+<p class="rail">Retained</p>
+<div class="col">
+<h2>Retained: the control spine</h2>
+<p class="section-intro">The names change where the old metaphor obscured the mechanism. The underlying controls have a direct home in the GDAC v2.0 Harness and Eval method.</p>
+
+<div class="tbl-wrap" role="region" aria-label="Mapping from GDAC v1.3 to the Harness and Eval method" tabindex="0">
+<table class="roles">
+<caption class="sr-only">GDAC v1.3 concepts mapped to their Harness and Eval form and preserved control purpose</caption>
+<thead>
+<tr>
+<th scope="col">GDAC v1.3</th>
+<th scope="col">Harness + Eval form</th>
+<th scope="col">Control retained</th>
+</tr>
+</thead>
+<tbody>
+<tr><th scope="row">Human-in-command</th><td>Owner authority and disposition</td><td>A person sets the limits, understands material assumptions and unknowns, and makes the final decision.</td></tr>
+<tr><th scope="row">Investor Mandate</th><td>Outcome Contract</td><td>Outcome, non-goals, resources, risk, acceptance, stop conditions, and reserved decisions are fixed before work.</td></tr>
+<tr><th scope="row">Operating Constitution</th><td>Non-negotiable Harness rules</td><td>No fabricated result, silent scope expansion, overwritten history, self-approval, or irreversible action without authority.</td></tr>
+<tr><th scope="row">Managing Director</th><td>Orchestrator, Builder, and Integrator responsibilities</td><td>Planning, bounded implementation, ordinary repair, records, and handoff remain one controlled write path.</td></tr>
+<tr><th scope="row">Specialist Agents</th><td>Temporary bounded tasks</td><td>Each responsibility has a declared purpose, scope, input, output, budget, completion condition, and escalation rule, then exits.</td></tr>
+<tr><th scope="row">Strategic Board and red teams</th><td>Verifier and risk-triggered Red Team</td><td>A separate evaluation path challenges the exact candidate and original evidence without modifying the work.</td></tr>
+<tr><th scope="row">Project Ledger</th><td>Attempt Record and task state</td><td>Current work, blockers, usage, failures, unresolved items, and the next state remain resumable.</td></tr>
+<tr><th scope="row">Decision Ledger</th><td>Versioned decision records</td><td>Context, alternatives, disagreement, evidence, authority, and later correction remain append-only.</td></tr>
+<tr><th scope="row">Raw Logs</th><td>Proportionate run and evidence records</td><td>Material commands, tests, failures, repairs, and event order remain available without requiring full chat retention.</td></tr>
+<tr><th scope="row">Executive Summary</th><td>Owner read-only view</td><td>A compressed view shows material change, risk, blockers, and decisions without replacing source records.</td></tr>
+<tr><th scope="row">Standard Operating Loop</th><td>Contract to Eval Plan to bounded work to Gate Record to Owner</td><td>Delegation, execution, challenge, aggregation, and acceptance remain one explicit path.</td></tr>
+<tr><th scope="row">Risk-tier review</th><td>Risk-based evaluation profile</td><td>More review is added only for material risk, a new evidence source, necessary expertise, or a different challenge perspective.</td></tr>
+<tr><th scope="row">Acceptance Gate</th><td>Harness Gate plus Owner disposition</td><td>Technical sufficiency and human acceptance remain separate decisions.</td></tr>
+<tr><th scope="row">Closed learning loop</th><td>Candidate to validated to active to retired</td><td>A failure may propose a rule, but no Agent may activate a cross-project rule.</td></tr>
+<tr><th scope="row">Lean discipline</th><td>Progressive context, whole-task budgets, and bounded retries</td><td>Coordination and evaluation effort stay proportionate to the task.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="row sec" id="added">
+<p class="rail">Added</p>
+<div class="col">
+<h2>Added: an explicit evaluation protocol</h2>
+<p class="section-intro">v1.3 described review and acceptance at a high level. v2.0 specifies how a frozen claim and material risk become evidence, one aggregate gate result, and a separate Owner decision.</p>
+
+<dl class="defs">
+<div class="def">
+<dt>Before implementation</dt>
+<dd>An Eval Plan is frozen to the canonical Contract digest. Each material claim or risk names its grader, evidence, pass rule, conflict rule, rerun and trial budget, and failure consequence.</dd>
+</div>
+<div class="def">
+<dt>One traceable chain</dt>
+<dd>Every material criterion follows <code>claim -&gt; eval -&gt; grader -&gt; evidence -&gt; gate</code>. Owner acceptance remains a separate disposition, not another Eval.</dd>
+</div>
+<div class="def">
+<dt>One exact candidate</dt>
+<dd>Results bind to a Candidate Binding with artifact digest, source revision, and attempt. A changed candidate or evaluation rule invalidates affected results and requires a new binding.</dd>
+</div>
+<div class="def">
+<dt>Post-build closure</dt>
+<dd>A Gate Record retains failed attempts, evidence references and digests, eval states, contradictions, findings, the derived <code>blocked</code> or <code>ready</code> state, and the separate Owner disposition.</dd>
+</div>
+<div class="def">
+<dt>Explicit result states</dt>
+<dd>Evaluations record <code>pass</code>, <code>fail</code>, <code>insufficient_evidence</code>, or <code>not_evaluated</code>. Required failures and evidence gaps keep the Harness Gate blocked.</dd>
+</div>
+<div class="def">
+<dt>Risk-matched graders</dt>
+<dd>Deterministic, regression, adversarial, security, model, and qualified-human checks are selected by the claim and material risk, not by test volume.</dd>
+</div>
+<div class="def">
+<dt>Controlled attempts</dt>
+<dd>Build attempts, evaluator reruns, and stochastic trials keep separate records and budgets. A later pass does not erase an earlier failure or known limitation.</dd>
+</div>
+<div class="def">
+<dt>Machine-checkable record chain</dt>
+<dd>The repository supplies schemas, validators, and a worked chain for the Outcome Contract, Eval Plan, Candidate Binding, evidence, Gate Result, and Owner disposition.</dd>
+</div>
+</dl>
+</div>
+</section>
+
+<section class="row sec" id="reshaped">
+<p class="rail">Reshaped</p>
+<div class="col">
+<h2>Reshaped: functions without standing offices</h2>
+<p class="section-intro">The useful functions remain. They now appear as temporary responsibilities and read-only views instead of a permanent AI organization.</p>
+
+<dl class="defs">
+<div class="def">
+<dt>Investor Office</dt>
+<dd>Becomes an Owner read-only view of current state, material change, risk, blockers, and decisions required.</dd>
+</div>
+<div class="def">
+<dt>Academy</dt>
+<dd>Becomes a controlled learning view and prospective re-test. A project may propose a lesson, but evidence and Owner authority control whether it becomes active.</dd>
+</div>
+<div class="def">
+<dt>GTM and Narrative</dt>
+<dd>Becomes an evidence-backed public view. Publication remains a separate Owner decision, and the view cannot rewrite the underlying record.</dd>
+</div>
+<div class="def">
+<dt>Managing Director</dt>
+<dd>Becomes a bounded set of Orchestrator, Builder, and Integrator responsibilities rather than a permanent executive Agent.</dd>
+</div>
+<div class="def">
+<dt>Independent challenge</dt>
+<dd>Is described as context separation unless the reviewer is a genuinely separate party with suitable authority and competence.</dd>
+</div>
+</dl>
+
+<p class="coda">A role exists only when it brings new evidence, necessary expertise, a materially different challenge, or a control that changes authority, state, or a decision.</p>
+</div>
+</section>
+
+<section class="row sec" id="not-carried">
+<p class="rail">Removed</p>
+<div class="col">
+<h2>Not carried forward: metaphor and unsupported scope</h2>
+<p class="section-intro">Not every part of the earlier presentation belongs in an executable method. GDAC v2.0 leaves out three categories.</p>
+
+<div class="resource-groups">
+<section class="resource-group">
+<header>
+<span class="label">Organization shape</span>
+<p>No mandatory company chart.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>No standing AI departments</h3>
+<p>The method does not require an AI-company organization, a fixed number of red teams, or permanent offices. Responsibilities appear only when the task needs them.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Outcome claims</span>
+<p>No automatic compounding story.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>No unmeasured benefit claims</h3>
+<p>A project does not automatically create Owner capability, market assets, adoption, lower cost, or better delivery. Uninstrumented organizational KPIs are not retained.</p>
+</article>
+</div>
+</section>
+
+<section class="resource-group">
+<header>
+<span class="label">Product boundary</span>
+<p>No hidden runtime expansion.</p>
+</header>
+<div class="resource-items">
+<article class="resource-item">
+<h3>No full Agent platform</h3>
+<p>GDAC v2.0 does not provide an Agent runner, scheduler, persistent evidence database, execution sandbox, deployment system, Owner identity service, or compliance certification layer.</p>
+</article>
+<article class="resource-item">
+<h3>No self-authorizing learning</h3>
+<p>A lesson or candidate rule cannot activate itself, expand to other projects, or rewrite the Harness without the required evidence and Owner authority.</p>
+</article>
+</div>
+</section>
+</div>
+
+<div class="page-note">
+<span class="label">The resulting method</span>
+<p>Define the outcome and authority. Lock the evidence rules. Let Agents work inside the boundary. Challenge the exact result through a separate path. Give the full record to the Owner for the final decision.</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="foot">
+<div class="foot-in">
+<div class="rail" aria-hidden="true"></div>
+<div class="foot-copy">
+<p class="foot-title">Continuity from GDAC v1.3</p>
+<p>A control-by-control map from the earlier architecture to the published GDAC v2.0 method.</p>
+</div>
+<nav aria-label="Footer navigation">
+<a href="index.html">Overview</a>
+<a href="harness.html">Harness</a>
+<a href="eval-rules.html">Eval Rules</a>
+<a href="zh.html" hreflang="zh-Hans">中文导读</a>
+<a href="#top">Back to top</a>
+</nav>
+</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+schema_version: "2.0"
+gate_record_id: "golden-dry-run-gate"
+
+contract_ref:
+  document_id: "dry-run-option"
+  revision: 1
+  sha256: "ab4810701ce87df66b2bc84c032e3759fffdfdd9f86ac39a08a5ec7af9151015"
+
+eval_plan_ref:
+  document_id: "dry-run-option-example"
+  revision: 1
+  sha256: "929a7ea02ff1027d06f3bf08916869e356c41cf711fb738ae32e0e3381f507b6"
+
+candidate_binding:
+  candidate_ref: "golden-dry-run-v1"
+  artifact_ref: "candidate.py"
+  sha256: "446f41008ca06e0b06f2f27edae9aaaba1a173607428cc764d7167ff60e0c6b1"
+  source_revision: "worked-example-revision-1"
+
+attempts:
+  - attempt_id: "build-0"
+    kind: build
+    candidate_ref: "golden-dry-run-v0"
+    outcome: rejected
+    reason: "A before-and-after snapshot alone could not establish that no temporary write occurred."
+  - attempt_id: "build-1"
+    kind: build
+    candidate_ref: "golden-dry-run-v1"
+    outcome: completed
+    reason: "The candidate added direct write-call instrumentation and retained the supporting snapshot."
+
+evidence:
+  - evidence_id: "pytest-result"
+    evidence_type: deterministic_test
+    artifact_ref: "pytest-result.txt"
+    sha256: "e4c3a31de814fc2589168467e4165b30ff729e815978b905ef14d1bbed6359da"
+    produced_by_role: verifier
+    produced_by_principal_id: "verifier-session"
+  - evidence_id: "write-trace"
+    evidence_type: log
+    artifact_ref: "write-trace.json"
+    sha256: "6b8272113a6e8b5f2a4cd55cd06a0761df0b53461f4164d20fca53fc9c9222ea"
+    produced_by_role: verifier
+    produced_by_principal_id: "verifier-session"
+  - evidence_id: "preview-rule"
+    evidence_type: rule_check
+    artifact_ref: "preview-comparison.json"
+    sha256: "9bc222870fb5ce303a23e839576abbc179d154e72d70d6cb47f2ff57240a07ac"
+    produced_by_role: verifier
+    produced_by_principal_id: "verifier-session"
+  - evidence_id: "regression-result"
+    evidence_type: regression_test
+    artifact_ref: "regression-result.json"
+    sha256: "36f74dbdb6386fa7fcf209baa0a685a3e9dd9fe3f1dab6ca90f16f8a1b2f4b6e"
+    produced_by_role: verifier
+    produced_by_principal_id: "verifier-session"
+  - evidence_id: "adversarial-result"
+    evidence_type: adversarial_result
+    artifact_ref: "adversarial-result.json"
+    sha256: "4efbcc3000f354b50d78c5ef7ed535feac69b6e8995f8d0ef2b6228f0dbc539e"
+    produced_by_role: verifier
+    produced_by_principal_id: "verifier-session"
+  - evidence_id: "authority-rule"
+    evidence_type: rule_check
+    artifact_ref: "authority-check.json"
+    sha256: "ad6a0df234353127834b78b0efbb4ad6b8b59d741175aa408e0eaf293c32a14e"
+    produced_by_role: verifier
+    produced_by_principal_id: "verifier-session"
+  - evidence_id: "candidate-diff"
+    evidence_type: diff
+    artifact_ref: "candidate-diff.txt"
+    sha256: "2ddd9341b52e9310a642ad897f26192069b1e1012c18627a94f68b161ab435b4"
+    produced_by_role: verifier
+    produced_by_principal_id: "verifier-session"
+
+eval_results:
+  - eval_id: "filesystem-comparison"
+    candidate_ref: "golden-dry-run-v1"
+    status: pass
+    invalidated: false
+    trial_count: 1
+    attempt_ids: ["build-1"]
+    evidence_ids: ["pytest-result", "write-trace"]
+    contradiction_refs: []
+    conflict_status: none
+  - eval_id: "preview-comparison"
+    candidate_ref: "golden-dry-run-v1"
+    status: pass
+    invalidated: false
+    trial_count: 1
+    attempt_ids: ["build-1"]
+    evidence_ids: ["preview-rule", "pytest-result"]
+    contradiction_refs: []
+    conflict_status: none
+  - eval_id: "existing-command-regression"
+    candidate_ref: "golden-dry-run-v1"
+    status: pass
+    invalidated: false
+    trial_count: 1
+    attempt_ids: ["build-1"]
+    evidence_ids: ["regression-result", "pytest-result"]
+    contradiction_refs: []
+    conflict_status: none
+  - eval_id: "failure-path-adversarial"
+    candidate_ref: "golden-dry-run-v1"
+    status: pass
+    invalidated: false
+    trial_count: 1
+    attempt_ids: ["build-1"]
+    evidence_ids: ["adversarial-result", "pytest-result", "write-trace"]
+    contradiction_refs: []
+    conflict_status: none
+  - eval_id: "authority-boundary"
+    candidate_ref: "golden-dry-run-v1"
+    status: pass
+    invalidated: false
+    trial_count: 1
+    attempt_ids: ["build-1"]
+    evidence_ids: ["authority-rule", "candidate-diff"]
+    contradiction_refs: []
+    conflict_status: none
+
+findings:
+  - finding_id: "fixture-scope-limit"
+    material: false
+    status: resolved
+    claim_ids: ["no-write", "failure-path-safe"]
+    description: "The example states its application-level instrumentation boundary and does not claim operating-system-wide coverage."
+
+harness_gate:
+  state: ready
+  derivation_rule: gdac-v2.0-deterministic-aggregate
+
+owner_disposition:
+  decision: pending
+  owner_id: "Repository Owner"
+  decision_ref: null
+  conditions: []

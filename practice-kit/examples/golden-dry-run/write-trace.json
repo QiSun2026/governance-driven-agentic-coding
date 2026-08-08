@@ -1,0 +1,10 @@
+{
+  "candidate_ref": "golden-dry-run-v1",
+  "declared_scope": "Application-initiated filesystem writes through inventoried APIs in the candidate process and pytest fixture boundary.",
+  "candidate_write_api_inventory": ["Path.unlink"],
+  "instrumented_operations": ["Path.unlink"],
+  "uncovered_write_apis": [],
+  "observed_write_calls_in_dry_run": 0,
+  "supporting_snapshot_equal": true,
+  "limit": "This fixture does not cover unlisted libraries, child processes, or operating-system-wide write interception."
+}

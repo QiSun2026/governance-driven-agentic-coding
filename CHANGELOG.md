@@ -3,6 +3,98 @@
 This repository records published versions of **Governance-Driven Agentic Coding**.
 Unpublished working changes and internal hypotheses are not public method versions.
 
+## GDAC v2.0 - 2026-08-08
+
+### Status
+
+- Current method version, accepted for publication by the Owner.
+- The previous v1.5 release remains available at commit `39ff3cd`.
+- v2.0 is a material method release, not a silent web-guide revision.
+
+### Architecture restored from v1.3
+
+- Restored the complete control path: Owner authority, bounded execution,
+  temporary task roles, shared records, separate challenge, risk-based review,
+  final Owner acceptance, and controlled learning.
+- Replaced the AI-company and standing-office metaphor with runtime-independent
+  Harness functions: Owner authority, implementation path, shared record and
+  evidence plane, evaluation and challenge, read-only views, and Owner
+  disposition.
+- Preserved the Project Ledger, Decision Ledger, original run records, and
+  Executive Summary functions in a smaller required record chain.
+- Retained v1.3's lean rule: a role or control must add evidence, specialist
+  capability, a materially different challenge perspective, or a state-changing
+  authority boundary.
+
+### Evaluation rules added
+
+- Added an Eval Plan that freezes claims, subject-selection rules, graders,
+  required evidence, producer constraints, retry policy, and retention before
+  implementation.
+- Separated four technical eval results from the two aggregate Harness Gate states and
+  the later Owner disposition.
+- Added capability, regression, adversarial, security, privacy, and governance
+  evaluation classes, plus separate model and qualified-human grader rules.
+- Required evidence to bind to an exact post-build candidate, with invalidation
+  and rerun when the candidate or evaluation rule changes.
+- Added risk tiers plus independent overlays, separately bounded build retries,
+  evaluator reruns and trials, and controlled learning states.
+
+### Red-team hardening
+
+- Removed Owner acceptance from technical criteria and grader enums.
+- Bound frozen Eval Plans to canonical Contract IDs, revisions, and digests.
+- Bound separated review to declared principals, contexts, and read-only grader
+  scope instead of role labels alone.
+- Required governance and specialist evals to attach to material declared
+  risks; required regression when a baseline exists.
+- Required grader-type evidence, model calibration, human qualification, full
+  trial retention, and fail-closed contradiction handling.
+- Added a machine-checkable Gate Record and deterministic truth table for
+  candidate binding, evidence, results, findings, gate aggregation, and the
+  separate Owner disposition.
+- Added a golden dry-run record chain with a retained rejected attempt and
+  digest-verified evidence artifacts.
+
+### Repository implementation boundary
+
+- Added Harness and Eval specifications, a bilingual reader guide, three
+  portable schemas, templates, validators, tests, and a complete dry-run record
+  chain.
+- The repository does not implement an Agent runner, persistent attempt or
+  evidence database, online gate service, sandbox, deployment system, or Owner
+  identity system.
+- Repository checks demonstrate only the declared schema and validator
+  behavior. They do not establish adoption, production effectiveness,
+  independent assurance, improved outcomes, or compliance.
+
+## v1.5 web guide revision - 2026-08-08
+
+### Status
+
+- The method version remains v1.5. This revision changes the reader-facing web
+  presentation and does not add an adoption, effectiveness, compliance, or
+  external-validation claim.
+- English is now the default `index.html`; Chinese is available at `zh.html`.
+- The previous English path, `en.html`, remains as a compatibility redirect.
+- The original v1.5 release is preserved in Git history at commit `39ff3cd`.
+  The two v1.5 PDF release artifacts remain unchanged.
+
+### Presentation and accessibility
+
+- Rewrote the web guide in plain language while retaining Owner authority,
+  evidence limits, fail-closed states, and the distinction between context
+  separation and independent third-party review.
+- Replaced the previous page styling with a static editorial layout using only
+  local HTML, CSS, and system fonts. No JavaScript or third-party font request
+  is required.
+- Added a full contents list, skip links, table captions and keyboard-focusable
+  table regions, responsive layouts, and print rules.
+- Added designed reading pages for the Practice Kit and related-work boundaries,
+  while retaining their Markdown files as auditable source material.
+- Moved terminal commands on the public guide into a native, collapsed details
+  section so they remain available without interrupting the main explanation.
+
 ## v1.5 - 2026-08-07
 
 ### Status

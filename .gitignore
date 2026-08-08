@@ -3,3 +3,7 @@
 __pycache__/
 *.py[cod]
 outputs/
+/tmp/
+design-preview-v2.html
+design-preview-v2-en.html
+design-preview-v2.css

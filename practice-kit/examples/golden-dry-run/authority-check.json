@@ -1,0 +1,7 @@
+{
+  "candidate_ref": "golden-dry-run-v1",
+  "checked_paths": ["candidate.py", "test_candidate.py", "evidence records", "gate record"],
+  "scope_expansion_observed": false,
+  "owner_reserved_decision_exercised_by_agent": false,
+  "result": "pass"
+}
