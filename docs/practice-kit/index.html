@@ -6,8 +6,35 @@
 <meta name="color-scheme" content="light">
 <title>GDAC Practice Kit | Start with one governed task</title>
 <meta name="description" content="Machine-checkable Outcome Contract and Eval Plan starters for one bounded Agent task.">
+<meta name="author" content="Qi Sun">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <link rel="canonical" href="https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Governance-Driven Agentic Coding">
+<meta property="og:title" content="GDAC Practice Kit | Start with One Governed Task">
+<meta property="og:description" content="Schemas, templates, validators, and a complete record chain for one bounded AI coding agent task.">
+<meta property="og:url" content="https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GDAC Practice Kit | Start with One Governed Task">
+<meta name="twitter:description" content="Machine-checkable starters for one bounded, evidence-driven AI coding agent task.">
 <link rel="stylesheet" href="../site.css?v=20260808">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "GDAC Practice Kit",
+  "description": "Schemas, templates, validators, and a complete record chain for one bounded AI coding agent task.",
+  "url": "https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/",
+  "inLanguage": "en",
+  "version": "2.0",
+  "datePublished": "2026-08-08",
+  "dateModified": "2026-08-08",
+  "author": {"@type": "Person", "name": "Qi Sun", "url": "https://github.com/QiSun2026"},
+  "isPartOf": {"@type": "WebSite", "name": "Governance-Driven Agentic Coding", "url": "https://qisun2026.github.io/governance-driven-agentic-coding/"},
+  "license": "https://creativecommons.org/licenses/by/4.0/"
+}
+</script>
 </head>
 <body id="top" class="public-site">
 <a class="skip-link" href="#content">Skip to content</a>
@@ -35,7 +62,7 @@
 <p class="page-summary">Copyable schemas, examples, and validators for freezing one task, binding one candidate, checking its evidence, deriving the Harness Gate, and keeping the Owner decision separate.</p>
 <div class="page-actions">
 <a class="text-cta" href="#start">Follow the smallest workflow</a>
-<a class="source-link" href="README.md">View source Markdown</a>
+<a class="source-link" href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/README.md">View source Markdown</a>
 </div>
 </div>
 </article>
@@ -96,12 +123,12 @@ python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-d
 <article class="resource-item">
 <h3>Outcome Contract template</h3>
 <p>Use it when a delegated task needs a measurable result, explicit authority, a budget, stop conditions, and evidence requirements.</p>
-<p class="file-row"><a href="templates/outcome-contract.yaml">Open template</a><code>templates/outcome-contract.yaml</code></p>
+<p class="file-row"><a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/templates/outcome-contract.yaml">Open template</a><code>templates/outcome-contract.yaml</code></p>
 </article>
 <article class="resource-item">
 <h3>Paired dry-run contract</h3>
 <p>The Outcome Contract used by the end-to-end dry-run Eval example. It freezes a bounded no-write claim, four technical claims, authority, budget, and stop rules.</p>
-<p class="file-row"><a href="examples/dry-run-outcome-contract.example.yaml">Open example</a><code>examples/dry-run-outcome-contract.example.yaml</code></p>
+<p class="file-row"><a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/examples/dry-run-outcome-contract.example.yaml">Open example</a><code>examples/dry-run-outcome-contract.example.yaml</code></p>
 </article>
 </div>
 </section>
@@ -115,12 +142,12 @@ python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-d
 <article class="resource-item">
 <h3>Eval Plan template</h3>
 <p>Define the pre-build subject selection, claim-to-grader mapping, mandatory evidence, producer separation, evaluator retries, trials, and retention.</p>
-<p class="file-row"><a href="templates/eval-plan.yaml">Open template</a><code>templates/eval-plan.yaml</code></p>
+<p class="file-row"><a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/templates/eval-plan.yaml">Open template</a><code>templates/eval-plan.yaml</code></p>
 </article>
 <article class="resource-item">
 <h3>Strict dry-run Eval example</h3>
 <p>A medium-risk plan covering inventoried write APIs, preview accuracy, regression, and adversarial failure paths.</p>
-<p class="file-row"><a href="examples/eval-plan.example.yaml">Open example</a><code>examples/eval-plan.example.yaml</code></p>
+<p class="file-row"><a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/examples/eval-plan.example.yaml">Open example</a><code>examples/eval-plan.example.yaml</code></p>
 </article>
 </div>
 </section>
@@ -134,22 +161,22 @@ python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-d
 <article class="resource-item">
 <h3>Machine-readable schema</h3>
 <p>The formal structure for Outcome Contract version 2.0, including risks, principals, contexts, and separate build, rerun, and trial budgets.</p>
-<p class="file-row"><a href="schemas/outcome-contract.schema.json" download>Download schema</a><code>schemas/outcome-contract.schema.json</code></p>
+<p class="file-row"><a href="https://raw.githubusercontent.com/QiSun2026/governance-driven-agentic-coding/main/practice-kit/schemas/outcome-contract.schema.json">Download schema</a><code>schemas/outcome-contract.schema.json</code></p>
 </article>
 <article class="resource-item">
 <h3>Contract validator</h3>
 <p>A small checker for YAML or JSON. It exits with a failure when a contract does not meet the schema.</p>
-<p class="file-row"><a href="tools/validate_contract.py">Open validator</a><code>tools/validate_contract.py</code></p>
+<p class="file-row"><a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/tools/validate_contract.py">Open validator</a><code>tools/validate_contract.py</code></p>
 </article>
 <article class="resource-item">
 <h3>Eval Plan schema and validator</h3>
 <p>The Plan schema plus a checker for canonical Contract binding, material claim/risk coverage, grader evidence, separation, and budgets.</p>
-<p class="file-row"><a href="schemas/eval-plan.schema.json" download>Download schema</a><a href="tools/validate_eval_plan.py" download>Download validator</a></p>
+<p class="file-row"><a href="https://raw.githubusercontent.com/QiSun2026/governance-driven-agentic-coding/main/practice-kit/schemas/eval-plan.schema.json">Download schema</a><a href="https://raw.githubusercontent.com/QiSun2026/governance-driven-agentic-coding/main/practice-kit/tools/validate_eval_plan.py">Download validator</a></p>
 </article>
 <article class="resource-item">
 <h3>Gate Record schema, validator, and golden case</h3>
 <p>The post-build record binds one candidate to attempts, evidence digests, eval results, findings, the deterministic Harness Gate, and the separate Owner disposition.</p>
-<p class="file-row"><a href="golden-case.html">Read the worked chain</a><a href="schemas/gate-record.schema.json" download>Download schema</a><a href="tools/validate_gate_record.py" download>Download validator</a></p>
+<p class="file-row"><a href="golden-case.html">Read the worked chain</a><a href="https://raw.githubusercontent.com/QiSun2026/governance-driven-agentic-coding/main/practice-kit/schemas/gate-record.schema.json">Download schema</a><a href="https://raw.githubusercontent.com/QiSun2026/governance-driven-agentic-coding/main/practice-kit/tools/validate_gate_record.py">Download validator</a></p>
 </article>
 </div>
 </section>
@@ -207,7 +234,7 @@ python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-d
 </div>
 <div class="statement">
 <span class="label">Integrity</span>
-<p>The current GDAC v2.0 release is governed by the repository-root <a href="../SHA256SUMS.txt">checksum manifest</a>. The previous v1.5 release remains available at commit <code>39ff3cd</code>, and the Practice Kit has its own <a href="SHA256SUMS.txt">directory-level manifest</a>. Matching checksums establish file identity, not correctness or effectiveness.</p>
+<p>The current GDAC v2.0 release is governed by the repository-root <a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/SHA256SUMS.txt">checksum manifest</a>. The previous v1.5 release remains available at commit <code>39ff3cd</code>, and the Practice Kit has its own <a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/SHA256SUMS.txt">directory-level manifest</a>. Matching checksums establish file identity, not correctness or effectiveness.</p>
 </div>
 </div>
 </section>
@@ -226,7 +253,7 @@ python practice-kit/tools/validate_gate_record.py practice-kit/examples/golden-d
 <a href="../harness.html">Harness</a>
 <a href="../eval-rules.html">Eval Rules</a>
 <a href="../related-work.html">Related work</a>
-<a href="README.md">Source Markdown</a>
+<a href="https://github.com/QiSun2026/governance-driven-agentic-coding/blob/main/practice-kit/README.md">Source Markdown</a>
 <a href="#top">Back to top</a>
 </nav>
 </div>

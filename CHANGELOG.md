@@ -3,6 +3,35 @@
 This repository records published versions of **Governance-Driven Agentic Coding**.
 Unpublished working changes and internal hypotheses are not public method versions.
 
+## Repository organization revision - 2026-08-08
+
+### Status
+
+- Repository-only maintenance; the published method remains GDAC v2.0.
+- Normative rules, schemas, validator behavior, historical artifact bytes, and
+  evidence boundaries are unchanged.
+
+### Repository structure
+
+- Moved the static GitHub Pages source into `docs/` so the public reading site is
+  separated from method sources and runtime files.
+- Moved normative specifications into `method/`, deterministic validation logic
+  into `gdac/`, and the legacy freeze-review example into the Practice Kit.
+- Moved pre-v2.0 PDFs, the v1.4 site snapshot, and its original checksum
+  manifest into `archive/releases/v1-series/`. Their bytes and internal manifest
+  layout are unchanged; the current Pages source now contains only v2.0 reader pages.
+- Replaced the long release-oriented README with a shorter product entry point and
+  explicit repository map.
+
+### Discoverability
+
+- Added unique titles, descriptions, canonical URLs, Open Graph metadata,
+  non-executable JSON-LD, reciprocal English/Chinese `hreflang`, `robots.txt`,
+  and a canonical-only XML sitemap.
+- Added `CITATION.cff` for versioned repository citation.
+- Kept claims factual and evidence-bounded; no adoption, effectiveness,
+  compliance, or search-ranking claim was introduced.
+
 ## GDAC v2.0 - 2026-08-08
 
 ### Status

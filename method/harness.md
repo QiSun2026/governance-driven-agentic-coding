@@ -289,7 +289,7 @@ Use the smallest control set that covers the material risk. The Outcome
 Contract selects one base tier (`low`, `medium`, or `high`) and zero or more
 independent overlays such as `security`, `privacy`, or `regulated`. The tier
 sets review intensity; an overlay adds specialist evidence without relabelling
-the base tier. [EVAL_RULES.md](./EVAL_RULES.md) defines the minimum profile. A
+the base tier. [Evaluation Rules](./evaluation-rules.md) define the minimum profile. A
 project may strengthen it. A weaker profile requires a recorded Owner rationale
 and is not equivalent evidence. A regulated overlay maps evidence and flags
 legal questions; it cannot certify compliance.

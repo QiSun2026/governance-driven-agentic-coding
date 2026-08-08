@@ -383,7 +383,7 @@ Reject or rework an evaluation design that:
 
 ## Relation to the Harness
 
-These rules supply the evaluation layer described in [HARNESS.md](./HARNESS.md).
+These rules supply the evaluation layer described in the [Harness specification](./harness.md).
 The Outcome Contract defines what matters and who has authority. The Eval Plan
 defines how material claims will be judged. The Evidence Bundle records what
 happened. The Harness Gate derives blocked or ready for Owner decision. The

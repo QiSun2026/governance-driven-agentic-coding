@@ -23,10 +23,10 @@ repository under [CC BY 4.0](../NOTICE.md).
 | [`examples/eval-plan.example.yaml`](examples/eval-plan.example.yaml) | You want a filled medium-risk plan for a dry-run claim bounded to inventoried application write APIs. |
 | [`tools/validate_eval_plan.py`](tools/validate_eval_plan.py) | You need to validate an Eval Plan alone or cross-check it against its Outcome Contract. |
 | [`schemas/gate-record.schema.json`](schemas/gate-record.schema.json) | Another tool needs the post-build Candidate Binding, evidence, result, finding, gate, and Owner-disposition structure. |
-| [`golden-case.html`](golden-case.html) | A reader wants the designed walkthrough before opening the source YAML and evidence files. |
+| [Golden dry run](https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/golden-case.html) | A reader wants the designed walkthrough before opening the source YAML and evidence files. |
 | [`examples/golden-dry-run/gate-record.example.yaml`](examples/golden-dry-run/gate-record.example.yaml) | You want one complete, digest-bound record chain with a retained failed attempt. |
 | [`tools/validate_gate_record.py`](tools/validate_gate_record.py) | You need to verify artifacts and evidence by digest, derive the Harness Gate, and reject an invalid accepting disposition. |
-| [`closeout.html`](closeout.html) | You want the designed reading guide for project closeout, method-change re-testing, and the worked negative case. |
+| [Closeout and controlled learning](https://qisun2026.github.io/governance-driven-agentic-coding/practice-kit/closeout.html) | You want the designed reading guide for project closeout, method-change re-testing, and the worked negative case. |
 | [`templates/project-closeout.md`](templates/project-closeout.md) | A task or project should stop, pause, or narrow without losing retained evidence. |
 | [`templates/method-change-retest.md`](templates/method-change-retest.md) | A project lesson may improve the shared method but must be tested prospectively before activation. |
 | [`cases/harness-closeout.md`](cases/harness-closeout.md) | You want the negative-result case that led to this smaller architecture and rule set. |
@@ -119,6 +119,6 @@ effectiveness, improved delivery, independent assurance, or compliance.
 
 The current GDAC v2.0 release is governed by the repository-root
 `SHA256SUMS.txt`. The previous v1.5 release remains available at commit
-`39ff3cd`, and historical v1.4 artifacts remain governed by
-`SHA256SUMS-v1.4.txt`. Practice Kit files also have a directory-level
+`39ff3cd`, and archived v1.4 artifacts remain governed by the original
+[`SHA256SUMS-v1.4.txt`](../archive/releases/v1-series/SHA256SUMS-v1.4.txt). Practice Kit files also have a directory-level
 [`SHA256SUMS.txt`](SHA256SUMS.txt), regenerated for the v2.0 release source set.

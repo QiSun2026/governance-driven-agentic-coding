@@ -9,7 +9,7 @@ from jsonschema.exceptions import SchemaError
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from practice_kit_validator import (  # noqa: E402
+from gdac.validation import (  # noqa: E402
     load_document,
     validate_contract,
     validate_eval_plan,

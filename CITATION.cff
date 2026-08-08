@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use GDAC, cite this repository and the version you evaluated."
+title: "Governance-Driven Agentic Coding"
+type: software
+authors:
+  - family-names: Sun
+    given-names: Qi
+version: "2.0"
+date-released: 2026-08-08
+repository-code: "https://github.com/QiSun2026/governance-driven-agentic-coding"
+url: "https://qisun2026.github.io/governance-driven-agentic-coding/"
+license: CC-BY-4.0
+keywords:
+  - AI agent governance
+  - agentic coding
+  - coding agent evaluation
+  - human-in-the-loop
+  - evidence-based software delivery
+abstract: >-
+  Governance-Driven Agentic Coding is a governance harness and evaluation
+  protocol for bounded software work delegated to AI coding agents. It defines
+  outcomes and authority before execution, binds evaluation evidence to an
+  exact candidate, and reserves final acceptance for an accountable human
+  Owner.

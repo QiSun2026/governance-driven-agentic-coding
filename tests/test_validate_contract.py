@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from practice_kit_validator import load_document, validate_contract
+from gdac.validation import load_document, validate_contract
 
 
 ROOT = Path(__file__).resolve().parents[1]

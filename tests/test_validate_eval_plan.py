@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from practice_kit_validator import canonical_digest, load_document, validate_eval_plan
+from gdac.validation import canonical_digest, load_document, validate_eval_plan
 
 
 ROOT = Path(__file__).resolve().parents[1]

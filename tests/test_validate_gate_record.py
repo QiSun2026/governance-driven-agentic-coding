@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from practice_kit_validator import derive_harness_gate, load_document, validate_gate_record
+from gdac.validation import derive_harness_gate, load_document, validate_gate_record
 
 
 ROOT = Path(__file__).resolve().parents[1]
